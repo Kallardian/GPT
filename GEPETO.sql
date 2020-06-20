@@ -1,0 +1,392 @@
+USE MASTER
+GO
+DROP DATABASE IF EXISTS GEPETO
+GO
+CREATE DATABASE GEPETO
+GO
+USE GEPETO
+GO
+CREATE TABLE [TB_USER]
+(	
+	[RA] CHAR(6) PRIMARY KEY,
+	[FULL_NAME] VARCHAR(50) NOT NULL,
+	[PASSWORD] VARBINARY(100) NOT NULL,
+	[ACCESS] TINYINT NOT NULL,
+	[STATUS] BIT NOT NULL
+);
+GO
+CREATE TABLE [TB_CLASSROOM]
+(
+	[ID_CLASSROOM] SMALLINT PRIMARY KEY IDENTITY,
+	[NAME_CLASSROOM] CHAR(6) NOT NULL,
+	[YEAR] DATE NOT NULL
+);
+GO
+CREATE TABLE [TB_GROUP]
+(
+	[ID_GROUP] SMALLINT PRIMARY KEY IDENTITY,
+	[NAME_GROUP] VARCHAR(50) NOT NULL,
+	[GROUP_DESCRIPTION] VARCHAR(300) NULL,
+	[ID_CLASSROOM] SMALLINT NOT NULL,
+	CONSTRAINT [ID_CLASSROOM_FK2] FOREIGN KEY ([ID_CLASSROOM]) REFERENCES [TB_CLASSROOM]([ID_CLASSROOM])
+);
+GO
+CREATE TABLE [TB_STUDENT]
+(
+	[RM] CHAR(6) PRIMARY KEY,
+	[FULL_NAME] VARCHAR(50) NOT NULL,
+	[GRADUATE_TCC] BIT DEFAULT 0
+);
+GO
+CREATE TABLE [TB_GROUP_STUDENT]
+(
+	[ID_GROUP_STUDENT] INT PRIMARY KEY IDENTITY,
+	[RM] CHAR(6) NOT NULL,
+	[ID_GROUP] SMALLINT NOT NULL,
+	CONSTRAINT [RM_FK2] FOREIGN KEY ([RM]) REFERENCES TB_STUDENT([RM]),
+	CONSTRAINT [ID_GROUP_FK] FOREIGN KEY ([ID_GROUP]) REFERENCES [TB_GROUP]([ID_GROUP]),
+);
+GO
+CREATE TABLE [TB_BIG_CRITERIA]
+(
+	[ID_BIG] SMALLINT PRIMARY KEY IDENTITY,
+	[RA] CHAR(6) NOT NULL,
+	[YEAR] DATE NOT NULL,
+	CONSTRAINT [RA_FK] FOREIGN KEY (RA) REFERENCES [TB_USER]([RA])
+);
+GO
+CREATE TABLE [TB_MEDIUM_CRITERIA]
+(
+	[ID_MEDIUM] SMALLINT PRIMARY KEY IDENTITY,
+	[ID_BIG] SMALLINT NOT NULL,
+	[NAME_MEDIUM] VARCHAR(30) NOT NULL,
+	[DESCRIPTION] VARCHAR(100) NULL, -- QUICK NOTES
+	[TOTAL_VALUE] DECIMAL,
+	CONSTRAINT [ID_BIG_FK] FOREIGN KEY ([ID_BIG]) REFERENCES [TB_BIG_CRITERIA]([ID_BIG])
+);
+GO
+CREATE TABLE [TB_SMALL_CRITERIA]
+(
+	[ID_LITTLE] INT PRIMARY KEY IDENTITY,
+	[ID_MEDIUM] SMALLINT NOT NULL,
+	[NAME_SMALL] VARCHAR(30) NOT NULL,
+	[TOTAL_VALUE] DECIMAL NOT NULL,
+	CONSTRAINT [ID_MEDIUM] FOREIGN KEY ([ID_MEDIUM]) REFERENCES [TB_MEDIUM_CRITERIA]([ID_MEDIUM])
+);
+GO
+/*-------------FUNCTIONS-------------*/
+--TODO function for amount of groups/classroom
+CREATE FUNCTION funcEncrypt(@pwd1 VARCHAR(20))
+RETURNS VARBINARY(100)
+	BEGIN
+		DECLARE
+		@pwd2 VARBINARY(100)
+		SET @pwd2 = CONVERT(VARBINARY(100), @pwd1, 0)
+		SET @pwd2 = hashbytes('md4', @pwd2)
+		RETURN @pwd2
+	END 
+GO
+CREATE FUNCTION checkUserExists(@ra char(6))
+RETURNS bit
+BEGIN
+	DECLARE
+	@status bit
+	IF EXISTS (SELECT * FROM TB_USER WHERE RA = @ra)
+		BEGIN
+			SET @status = 1
+		END
+	ELSE
+		BEGIN
+			SET @status = 0
+		END
+	RETURN @status
+END
+GO
+CREATE FUNCTION checkLogin(@RA CHAR(6), @pwd VARCHAR(20)) 
+RETURNS TINYINT
+	BEGIN
+		DECLARE
+		@access_level tinyint,
+		@pwdHash VARBINARY(100)
+		SET @pwdHash = dbo.funcEncrypt(@pwd)
+		IF EXISTS (SELECT * FROM TB_USER WHERE [RA] = @RA and [PASSWORD] = @pwdHash)
+			Begin
+				SELECT @access_level = ACCESS FROM TB_USER WHERE RA = @RA;
+			END
+		ELSE
+			BEGIN
+				SET @access_level = 0;
+			END
+		RETURN @access_level
+	END
+GO
+CREATE FUNCTION checkClassroomNameExists(@clasroom_name char(6))
+RETURNS bit
+	BEGIN
+		DECLARE
+		@status bit
+		IF EXISTS (SELECT * FROM [TB_CLASSROOM]
+		WHERE [NAME_CLASSROOM] = @clasroom_name AND YEAR([YEAR]) = YEAR(GETDATE()))
+			BEGIN
+				SET @status = 1;
+			END
+		ELSE
+			BEGIN 
+				SET @status = 0;
+			END
+		RETURN @status
+	END 
+GO
+CREATE FUNCTION checkStudentExists(@rm char(6))
+RETURNS char(4)
+	BEGIN
+		DECLARE
+		@insertionDate char(4)
+		IF EXISTS (SELECT * FROM [TB_GROUP_STUDENT] WHERE [RM] = @rm)
+			BEGIN
+				SELECT @insertionDate = MIN(YEAR(C.YEAR)) FROM TB_STUDENT S INNER JOIN TB_GROUP_STUDENT GS 
+				ON S.RM = GS.RM 
+				INNER JOIN TB_GROUP G
+				ON G.ID_GROUP = GS.ID_GROUP
+				INNER JOIN TB_CLASSROOM C
+				ON C.ID_CLASSROOM = G.ID_CLASSROOM
+				WHERE GS.RM = @rm
+			END
+		ELSE
+			BEGIN 
+				SET @insertionDate = '0'
+			END
+		RETURN @insertionDate
+	END  --Returns the insertion date, or 0
+GO
+CREATE FUNCTION returnAmountOfClassrooms()
+RETURNS TINYINT
+	BEGIN
+		DECLARE
+		@total_classroom tinyint
+		SELECT @total_classroom = COUNT(*) FROM [TB_CLASSROOM] WHERE YEAR([YEAR]) = YEAR(GETDATE())
+		RETURN @total_classroom
+	END
+GO
+CREATE FUNCTION clasroomNameToClaroomId(@classroom_name char(6))
+RETURNS SMALLINT
+	BEGIN
+		DECLARE 
+		@classroom_id SMALLINT
+		SELECT @classroom_id = ID_CLASSROOM FROM TB_CLASSROOM 
+		WHERE [NAME_CLASSROOM] = @classroom_name AND YEAR([YEAR]) = YEAR(GETDATE());
+		RETURN @classroom_id
+	END
+GO
+/*-------------STORED PROCEDURES-------------*/
+GO
+CREATE PROCEDURE SP_INSERT_USER 
+(
+	@user_login char(6),
+	@user_name varchar(50),
+	@user_pwd varchar(30),
+	@access tinyint,
+	@status binary
+)
+AS
+	BEGIN
+		DECLARE
+		@final_pwd varbinary(100)
+		set @final_pwd = dbo.funcEncrypt(@user_pwd)
+		INSERT INTO TB_USER ([RA], [FULL_NAME], [PASSWORD], [ACCESS], [STATUS])
+		VALUES(@user_login, @user_name, @final_pwd, @access, @status)
+	END
+GO
+CREATE PROCEDURE SP_INSERT_CLASSROOM
+(
+	@amount_clasroom tinyint
+)
+AS
+	BEGIN
+		DECLARE 
+		@i tinyint,
+		@letter tinyint,
+		@status bit
+		SET @i = 0
+		SET @letter = Ascii('A')
+		WHILE @i < @amount_clasroom
+		BEGIN
+		SELECT @status = dbo.checkClassroomNameExists('INF3' + CHAR(@letter) + 'M')
+		IF @status = 0
+			BEGIN
+				INSERT INTO TB_CLASSROOM ([NAME_CLASSROOM], [YEAR])
+				VALUES ('INF3' + CHAR(@letter) + 'M', GETDATE())
+				SET @i += 1;
+				SET @letter += 1;
+			END
+		ELSE
+		BEGIN
+			SET @i += 1;
+			SET @letter += 1;
+		END
+		END
+	END 
+GO
+CREATE PROCEDURE SP_INSERT_GROUP
+(
+	@group_name varchar(50),
+	@description varchar(300),
+	@classroom_name char(6)
+)
+AS
+	BEGIN
+		DECLARE
+		@classroom_id smallint
+		SELECT @classroom_id =  dbo.clasroomNameToClaroomId(@classroom_name)
+		IF @description IS NULL
+		BEGIN
+			INSERT INTO TB_GROUP ([NAME_GROUP], [ID_CLASSROOM])
+			VALUES (@group_name, @classroom_id)
+
+		END
+		ELSE
+		BEGIN
+			INSERT INTO TB_GROUP ([NAME_GROUP], [GROUP_DESCRIPTION], [ID_CLASSROOM])
+			VALUES (@group_name, @description, @classroom_id)
+
+		END
+
+	END
+GO
+CREATE PROCEDURE SP_INSERT_STUDENT
+(
+	@student_rm varchar(16),
+	@student_name varchar(50),
+	@class_name CHAR(6)
+)
+AS
+	BEGIN
+		INSERT INTO [TB_STUDENT] ([RM], [FULL_NAME])
+		VALUES(@student_rm, @student_name)
+	END
+GO
+CREATE PROCEDURE SP_UPDATE_USER
+(
+	@ra char(6),
+	@name varchar(50),
+	@pwd varbinary(100),
+	@access tinyint,
+	@status bit
+)
+AS
+	BEGIN
+		UPDATE [TB_USER] SET [FULL_NAME] = @name, [PASSWORD] = @pwd,
+		[ACCESS] = @access, [STATUS] = @status WHERE [RA] = @ra
+	END
+GO
+CREATE PROCEDURE SP_DELETE_USER
+(
+	@ra CHAR(6)
+)
+AS
+	BEGIN
+		DELETE FROM TB_USER WHERE RA = @ra
+	END
+GO
+CREATE PROCEDURE SP_DELETE_CLASSROOM
+(
+	@classroom_name char(6)
+)
+AS
+	BEGIN
+		DECLARE
+		@classroom_id tinyint
+		SELECT @classroom_id =  dbo.clasroomNameToClaroomId(@classroom_name)
+		DELETE FROM TB_CLASSROOM WHERE [ID_CLASSROOM] = @classroom_id
+	END
+GO
+CREATE PROCEDURE SP_FIND_USER
+(
+	@ra CHAR(6)
+)
+AS
+	BEGIN
+		SELECT * FROM TB_USER WHERE [RA] = @ra
+	END
+GO
+CREATE PROCEDURE SP_STUDENTS_PER_CLASSROOM -- This could be a function that returns a table
+AS                                         
+	BEGIN
+		SELECT C.NAME_CLASSROOM, COUNT(S.RM) FROM TB_CLASSROOM C INNER JOIN TB_GROUP G
+		ON C.ID_CLASSROOM = G.ID_CLASSROOM INNER JOIN TB_GROUP_STUDENT GS
+		ON G.ID_GROUP = GS.ID_GROUP INNER JOIN TB_STUDENT S
+		ON GS.RM = S.RM WHERE YEAR(C.YEAR) = YEAR(GETDATE())
+		GROUP BY C.NAME_CLASSROOM
+	END 
+GO
+/*-------------SP_INSERTS-------------*/
+/*---SP_INSERT_USER---*/
+EXEC SP_INSERT_USER '000000', 'TEC', 'PASSWORD', 1, 1;
+EXEC SP_INSERT_USER '123456', 'MARCELLO LALLO', 'SENHA123', 2, 1;
+EXEC SP_INSERT_USER '654321', 'GUSMÃO', 'SENHA321', 3, 1;
+EXEC SP_INSERT_USER '246810', 'LEANDRO CRUZ', 'SENHA248', 4, 1;
+GO
+
+/*---SP_INSERT_CLASSROOM---*/
+EXEC SP_INSERT_CLASSROOM 9;
+GO
+/*-----SP_INSERT_GROUP-----*/
+EXEC SP_INSERT_GROUP 'Churras Carnes', NULL,'INF3AM';
+EXEC SP_INSERT_GROUP 'Asessoria Carros', NULL,'INF3BM';
+EXEC SP_INSERT_GROUP 'Disco Store', 'Será um projeto basico para vender discos','INF3CM';
+EXEC SP_INSERT_GROUP 'GEPETO', 'O projeto terá como objetivo avaliar TCCs','INF3DM';
+EXEC SP_INSERT_GROUP 'CORASSAUM', NULL,'INF3EM';
+EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', NULL,'INF3EM';
+EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','INF3DM';
+GO
+/*---SP_INSERT_STUDENT---*/
+EXEC SP_INSERT_STUDENT '64244', 'Paulo Bertanha','INF3DM'; 
+EXEC SP_INSERT_STUDENT  '64245', 'MARIA ISABELA','INF3DM';
+EXEC SP_INSERT_STUDENT  '64246', 'LUIS SANTANA','INF3DM';
+EXEC SP_INSERT_STUDENT  '64247', 'JULLIA AVELAR','INF3DM';
+EXEC SP_INSERT_STUDENT  '64248', 'GUSTAVO PEIXE','INF3AM';
+EXEC SP_INSERT_STUDENT  '64249', 'CARLOS ABERTO','INF3BM';
+GO
+/*---SP_STUDENTS_PER_CLASSROOM---*/
+EXEC SP_STUDENTS_PER_CLASSROOM
+
+GO
+/*-------------SP_UPDATES-------------*/
+/*-------SP_UPDATE_USER------*/
+DECLARE
+@pwd_varbinary VARBINARY(100)
+SET @pwd_varbinary = dbo.funcEncrypt('eu te amo')
+EXEC SP_UPDATE_USER '123456', 'MARCELLO LALLO LY', @pwd_varbinary, 2, 0
+
+/*-------------SP_UPDATES-------------*/
+/*-------SP_DELETE_USER-----*/
+EXEC SP_DELETE_USER '654321'
+
+SELECT * FROM TB_USER;
+SELECT * FROM TB_CLASSROOM;
+SELECT * FROM TB_GROUP;
+SELECT * FROM TB_STUDENT;
+SELECT * FROM TB_GROUP_STUDENT;
+
+/*-------------SP_FIND-------------*/
+EXEC SP_FIND_USER '246810'
+
+
+
+
+/*-------------INSERTS-------------*/
+INSERT INTO TB_STUDENT VALUES ('111111', 'ANTIGO', 0)
+INSERT INTO TB_CLASSROOM (NAME_CLASSROOM, YEAR) VALUES ('INF3XM', '2019')
+INSERT INTO TB_GROUP (NAME_GROUP, ID_CLASSROOM) VALUES ('Test', 10)
+INSERT INTO TB_GROUP_STUDENT(RM, ID_GROUP) VALUES ('111111', 8)
+INSERT INTO TB_GROUP_STUDENT(RM, ID_GROUP) VALUES ('64244', 4)
+INSERT INTO TB_GROUP_STUDENT(RM, ID_GROUP) VALUES ('64245', 4)
+INSERT INTO TB_GROUP_STUDENT(RM, ID_GROUP) VALUES ('64246', 4)
+INSERT INTO TB_GROUP_STUDENT(RM, ID_GROUP) VALUES ('64247', 4)
+INSERT INTO TB_GROUP_STUDENT(RM, ID_GROUP) VALUES ('64248', 3)
+INSERT INTO TB_GROUP_STUDENT(RM, ID_GROUP) VALUES ('64249', 3)
+
+GO
+
+
+SELECT DBO.checkStudentExists('111111')

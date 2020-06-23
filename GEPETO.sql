@@ -192,23 +192,23 @@ AS
 		ELSE
 			BEGIN
 				DECLARE
-				@final_pwd varbinary(100)
-				set @final_pwd = dbo.funcEncrypt(@user_pwd)
-				INSERT INTO TB_USER ([RA], [FULL_NAME], [PASSWORD], [ACCESS])
+				@final_pwd VARBINARY(100)
+				SET @final_pwd = dbo.funcEncrypt(@user_pwd)
+				INSERT INTO [TB_USER] ([RA], [FULL_NAME], [PASSWORD], [ACCESS])
 				VALUES(@user_login, @user_name, @final_pwd, @access)
 			END
 	END
 GO
 CREATE PROCEDURE SP_INSERT_CLASSROOM
 (
-	@amount_clasroom tinyint
+	@amount_clasroom TINYINT
 )
 AS
 	BEGIN
 		DECLARE 
-		@i tinyint,
-		@letter tinyint,
-		@status bit
+		@i TINYINT,
+		@letter TINYINT,
+		@status BIT
 		SET @i = 0
 		SET @letter = Ascii('A')
 		WHILE @i < @amount_clasroom
@@ -231,9 +231,9 @@ AS
 GO
 CREATE PROCEDURE SP_INSERT_GROUP
 (
-	@group_name varchar(50),
-	@description varchar(300),
-	@classroom_name char(6)
+	@group_name VARCHAR(50),
+	@description VARCHAR(300),
+	@classroom_name CHAR(6)
 )
 AS
 	BEGIN
@@ -241,24 +241,22 @@ AS
 		@classroom_id int
 		SELECT @classroom_id =  dbo.clasroomNameToClaroomId(@classroom_name)
 		IF @description IS NULL
-		BEGIN
-			INSERT INTO TB_GROUP ([NAME_GROUP], [ID_CLASSROOM])
-			VALUES (@group_name, @classroom_id)
+			BEGIN
+				INSERT INTO TB_GROUP ([NAME_GROUP], [ID_CLASSROOM])
+				VALUES (@group_name, @classroom_id)
 
-		END
+			END
 		ELSE
-		BEGIN
-			INSERT INTO TB_GROUP ([NAME_GROUP], [GROUP_DESCRIPTION], [ID_CLASSROOM])
-			VALUES (@group_name, @description, @classroom_id)
-
-		END
-
+			BEGIN
+				INSERT INTO TB_GROUP ([NAME_GROUP], [GROUP_DESCRIPTION], [ID_CLASSROOM])
+				VALUES (@group_name, @description, @classroom_id)
+			END
 	END
 GO
 CREATE PROCEDURE SP_INSERT_STUDENT
 (
 	@student_rm CHAR(6),
-	@student_name varchar(50),
+	@student_name VARCHAR(50),
 	@class_name CHAR(6)
 )
 AS
@@ -269,12 +267,12 @@ AS
 GO
 CREATE PROCEDURE SP_INSERT_GROUP_STUDENT
 (
-	@rm char(6),
-	@group_id int
+	@rm CHAR(6),
+	@group_id INT
 )
 AS
 	BEGIN
-		INSERT INTO TB_GROUP_STUDENT(RM, ID_GROUP) VALUES (@rm, @group_id)
+		INSERT INTO [TB_GROUP_STUDENT]([RM], [ID_GROUP]) VALUES (@rm, @group_id)
 	END
 GO
 CREATE PROCEDURE SP_INSERT_BIG_CRITERION
@@ -283,10 +281,43 @@ CREATE PROCEDURE SP_INSERT_BIG_CRITERION
 )
 AS
 	BEGIN
-		INSERT INTO TB_BIG_CRITERION ([RA], [YEAR]) VALUES (@ra, GETDATE())
+		INSERT INTO [TB_BIG_CRITERION] ([RA], [YEAR]) VALUES (@ra, GETDATE())
 	END
 GO
+CREATE PROCEDURE SP_INSERT_MEDIUM_CRITERION
+(
+	@id_big INT,
+	@name_medium VARCHAR(30),
+	@description VARCHAR(300) = NULL,
+	@value DECIMAL
+)
+AS
+	BEGIN
+		IF @description IS NULL
+			BEGIN
+				INSERT INTO [TB_MEDIUM_CRITERION] ([ID_BIG], [NAME_MEDIUM], [TOTAL_VALUE])
+				VALUES (@id_big, @name_medium, @value)
+			END
+		ELSE
+			BEGIN
+				INSERT INTO [TB_MEDIUM_CRITERION] ([ID_BIG], [NAME_MEDIUM], [DESCRIPTION], [TOTAL_VALUE])
+				VALUES (@id_big, @name_medium, @description, @value)
+			END
+	END
+GO
+CREATE PROCEDURE SP_INSERT_SMALL_CRITERION
+(
+	@id_medium INT,
+	@name_small VARCHAR(30), 
+	@value DECIMAL
+)
+AS
+	BEGIN
+		INSERT INTO [TB_SMALL_CRITERION] ([ID_MEDIUM], [NAME_SMALL], [TOTAL_VALUE]) 
+		VALUES (@id_medium, @name_small, @value)
+	END
 
+GO
 CREATE PROCEDURE SP_UPDATE_USER
 (
 	@ra char(6),
@@ -383,9 +414,24 @@ EXEC SP_INSERT_GROUP_STUDENT '64247', 4;
 EXEC SP_INSERT_GROUP_STUDENT '64248', 3;
 EXEC SP_INSERT_GROUP_STUDENT '64249', 3;
 GO
+
 /*SP_INSERT_BIG_CRITERION*/
 EXEC SP_INSERT_BIG_CRITERION '123456'
+GO
 
+/*SP_INSERT_MEDIUM_CRITERION*/
+EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Mobile', @VALUE = 2
+EXEC SP_INSERT_MEDIUM_CRITERION 1, 'WEB', NULL, 4
+EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Desktop', 'Já tem WEB pra não ter que ter desktop, mas né?!', 4
+GO
+
+/*SP_INSERT_SMALL_CRITERION*/
+EXEC SP_INSERT_SMALL_CRITERION 1, 'Conexão com o Banco', '4'
+EXEC SP_INSERT_SMALL_CRITERION 1, 'UX', '4'
+EXEC SP_INSERT_SMALL_CRITERION 1, 'Beleza', '2'
+EXEC SP_INSERT_SMALL_CRITERION 2, 'Conexão com o Banco', '5'
+EXEC SP_INSERT_SMALL_CRITERION 2, 'Responsividade', '5'
+EXEC SP_INSERT_SMALL_CRITERION 3, 'Eficiência', '10'
 /*---SP_STUDENTS_PER_CLASSROOM---*/
 EXEC SP_STUDENTS_PER_CLASSROOM
 
@@ -423,3 +469,8 @@ SELECT * FROM TB_CLASSROOM;
 SELECT * FROM TB_GROUP;
 SELECT * FROM TB_STUDENT;
 SELECT * FROM TB_GROUP_STUDENT;
+SELECT * FROM TB_BIG_CRITERION;
+SELECT * FROM TB_MEDIUM_CRITERION;
+SELECT * FROM TB_SMALL_CRITERION
+
+

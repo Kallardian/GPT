@@ -18,14 +18,14 @@ environment:
 
 dependencies:
   vibration: ^1.2.4
-  provider: ^2.0.1
+  provider: ^2.0.1+1
   flutter:
     sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^0.1.3
 
 dev_dependencies:
   flutter_test:
@@ -39,7 +39,10 @@ flutter:
   fonts:
     - family: ShareTechMono
       fonts:
-        - asset: fonts/ShareTechMono-Regular.ttf
+        - asset: assets/ShareTechMono-Regular.ttf
+    - family: MajorMonoDisplay
+      fonts:
+        - asset: assets/MajorMonoDisplay-Regular.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

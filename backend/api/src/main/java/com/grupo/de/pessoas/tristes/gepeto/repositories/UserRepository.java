@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -46,18 +45,18 @@ public class UserRepository {
         deleteUserStoredProcedureQuery.execute();
     }
 
-    @Transactional
-    public List<User> getUsers() {
-        entityManager = getEntityManager();
-        StoredProcedureQuery getUsersStoredProcedureQuery = entityManager
-                .createNamedStoredProcedureQuery("");
-
-        getUsersStoredProcedureQuery.execute();
-
-        List<User> users = getUsersStoredProcedureQuery.getResultList();
-
-        return users;
-    }
+//    @Transactional
+//    public List<User> getUsers() {
+//        entityManager = getEntityManager();
+//        StoredProcedureQuery getUsersStoredProcedureQuery = entityManager
+//                .createNamedStoredProcedureQuery("");
+//
+//        getUsersStoredProcedureQuery.execute();
+//
+//        List<User> users = getUsersStoredProcedureQuery.getResultList();
+//
+//        return users;
+//    }
 
     @Transactional
     public User getUserById(User user) {
@@ -69,10 +68,6 @@ public class UserRepository {
                 .setParameter("ra", user.getRa());
 
         getUserByIdStoredProcedureQuery.execute();
-
-//        List list = getUserByIdStoredProcedureQuery.getResultList();
-
-        Object abstractUser = getUserByIdStoredProcedureQuery.getSingleResult();
 
         return user;
     }

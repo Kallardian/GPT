@@ -124,14 +124,25 @@ class LoginFragment extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 70.0),
             margin: EdgeInsets.only(bottom: 10),
             child: Center(
-              child: TextField(
+              child: TextFormField(
                 maxLength: 6,
                 keyboardType: TextInputType.numberWithOptions(),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: ' Entre com seu RA',
+                  hintText: 'Entre com seu RA'
                 ),
+                validator: (String value) {
+                  return value.isEmpty ? 'Preencha o campo com seu RA.' : null;
+                },
               ),
+              // child: TextField(
+              //   maxLength: 6,
+              //   keyboardType: TextInputType.numberWithOptions(),
+              //   decoration: InputDecoration(
+              //     border: OutlineInputBorder(),
+              //     hintText: ' Entre com seu RA',
+              //   ),
+              // ),
             ),
           ),
           Container(

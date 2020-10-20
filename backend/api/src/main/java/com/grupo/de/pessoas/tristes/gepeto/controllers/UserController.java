@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserRepository userRepository = new UserRepository();;
+    private UserRepository userRepository = new UserRepository();
 
     @GetMapping
     public ResponseEntity getUsers() {

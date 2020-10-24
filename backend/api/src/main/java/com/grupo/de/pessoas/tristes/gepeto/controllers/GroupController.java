@@ -1,10 +1,15 @@
 package com.grupo.de.pessoas.tristes.gepeto.controllers;
 
+import com.grupo.de.pessoas.tristes.gepeto.dtos.Group;
+import com.grupo.de.pessoas.tristes.gepeto.repositories.GroupRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/classrooms/{id_classrooms}/groups")
+@RequestMapping("/groups")
 public class GroupController {
+
+    private GroupRepository groupRepository = new GroupRepository();
 
     @GetMapping
     public String showGroups(@PathVariable() int id_classrooms) {
@@ -12,9 +17,26 @@ public class GroupController {
     }
 
     @GetMapping("/{id_group}")
-    public String findGroup(@PathVariable() long id_group) {
-        return "group";
+    public ResponseEntity findGroupById(@PathVariable() long id_group) {
+
+        Group group = new Group();
+        group.setIdGroup(id_group);
+
+        group = groupRepository.getGroupById(group);
+
+        return ResponseEntity.ok().body(group);
     }
+
+//    @GetMapping("/{ra}")
+//    public ResponseEntity getUserById(@PathVariable() String ra) {
+//
+//        User user = new User();
+//        user.setRa(ra);
+//
+//        user = userRepository.getUserById(user);
+//
+//        return ResponseEntity.ok().body(user);
+//    }
 
     @PostMapping
     public String createGroup() {

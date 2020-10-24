@@ -4,6 +4,14 @@ package com.grupo.de.pessoas.tristes.gepeto.dtos;
 import lombok.Data;
 
 import javax.persistence.*;
+//
+//@NamedStoredProcedureQuery(
+//        name = "",
+//        procedureName = "",
+//        parameters = {
+//
+//        }
+//)
 
 @Entity
 @Table(name = "TB_BIG_CRITERIA")
@@ -12,7 +20,7 @@ public class BigCriterion {
 
     @Id
     @Column(name = "ID_BIG")
-    private Long id_big;
+    private Long idBig;
     @Column(name = "RA")
     private Long ra;
     @Column(name = "YEAR")

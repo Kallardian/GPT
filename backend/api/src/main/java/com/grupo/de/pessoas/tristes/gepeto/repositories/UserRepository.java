@@ -45,18 +45,18 @@ public class UserRepository {
         deleteUserStoredProcedureQuery.execute();
     }
 
-//    @Transactional
-//    public List<User> getUsers() {
-//        entityManager = getEntityManager();
-//        StoredProcedureQuery getUsersStoredProcedureQuery = entityManager
-//                .createNamedStoredProcedureQuery("");
-//
-//        getUsersStoredProcedureQuery.execute();
-//
-//        List<User> users = getUsersStoredProcedureQuery.getResultList();
-//
-//        return users;
-//    }
+    @Transactional
+    public List<User> getUsers() {
+        entityManager = getEntityManager();
+        StoredProcedureQuery getUsersStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("");
+
+        getUsersStoredProcedureQuery.execute();
+
+        List<User> users = getUsersStoredProcedureQuery.getResultList();
+
+        return users;
+    }
 
     @Transactional
     public User getUserById(User user) {
@@ -68,6 +68,7 @@ public class UserRepository {
                 .setParameter("ra", user.getRa());
 
         getUserByIdStoredProcedureQuery.execute();
+        user = (User) getUserByIdStoredProcedureQuery.getSingleResult();
 
         return user;
     }

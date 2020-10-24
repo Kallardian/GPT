@@ -18,7 +18,7 @@ CREATE TABLE [TB_CLASSROOM]
 (
 	[ID_CLASSROOM] INT PRIMARY KEY IDENTITY,
 	[NAME_CLASSROOM] CHAR(6) NOT NULL,
-	[YEAR] DATE NOT NULL
+	[YEAR] CHAR(4) NOT NULL
 );
 GO
 CREATE TABLE [TB_GROUP]
@@ -39,7 +39,7 @@ CREATE TABLE [TB_BIG_CRITERION]
 	CONSTRAINT [RA_FK_0] 
 		FOREIGN KEY (RA) 
 		REFERENCES [TB_USER]([RA]),
-	[YEAR] DATE NOT NULL
+	[YEAR] CHAR(4) NOT NULL
 );
 GO
 CREATE TABLE [TB_MEDIUM_CRITERION]
@@ -141,7 +141,7 @@ returns BIT
       IF EXISTS (SELECT * 
                  FROM   [TB_CLASSROOM] 
                  WHERE  [NAME_CLASSROOM] = @clasroom_name 
-                        AND Year([YEAR]) = Year(Getdate())) 
+                        AND [YEAR] = Year(Getdate())) 
         SET @status = 1; 
       ELSE 
         SET @status = 0; 
@@ -158,7 +158,7 @@ returns TINYINT
 
       SELECT @total_classroom = Count(*) 
       FROM   [TB_CLASSROOM] 
-      WHERE  Year([YEAR]) = Year(Getdate()) 
+      WHERE  [YEAR] = Year(Getdate()) 
 
       RETURN @total_classroom 
   END 
@@ -173,7 +173,7 @@ returns INT
       SELECT @classroom_id = [ID_CLASSROOM] 
       FROM   [TB_CLASSROOM] 
       WHERE  [NAME_CLASSROOM] = @classroom_name 
-             AND Year([YEAR]) = Year(Getdate()); 
+             AND [YEAR] = Year(Getdate()); 
 
       RETURN @classroom_id 
   END 
@@ -189,7 +189,7 @@ returns INT
       FROM   [TB_GROUP] G 
              INNER JOIN [TB_CLASSROOM] C 
                      ON G.[ID_CLASSROOM] = C.[ID_CLASSROOM] 
-      WHERE  Year(C.YEAR) = Year(Getdate()) 
+      WHERE  C.YEAR = Year(Getdate()) 
              AND [GROUP_THEME] = @group_theme 
 
       RETURN @group_id 
@@ -296,7 +296,7 @@ AS
                               ([NAME_CLASSROOM], 
                                [YEAR]) 
                   VALUES      ('INF3' + Char(@letter) + 'M', 
-                               Getdate()) 
+                               YEAR(Getdate())) 
 
                   SET @i += 1; 
                   SET @letter += 1; 
@@ -336,7 +336,7 @@ AS
   BEGIN 
       SELECT * 
       FROM   TB_CLASSROOM C 
-      WHERE  Year(C.YEAR) = Year(Getdate()) 
+      WHERE  C.YEAR = Year(Getdate()) 
   END 
 
 GO
@@ -448,7 +448,7 @@ AS
                   ([RA], 
                    [YEAR]) 
       VALUES      (@ra, 
-                   Getdate()) 
+                   YEAR(Getdate())) 
   END 
 GO 
 CREATE PROCEDURE SP_UPDATE_BIG_CRITERION (@id_big INT, 
@@ -559,7 +559,7 @@ AS
       FROM   [TB_MEDIUM_CRITERION] MC 
              INNER JOIN [TB_BIG_CRITERION] BC 
                      ON MC.ID_BIG = BC.ID_BIG 
-      WHERE  Year(BC.YEAR) = Year(Getdate()) 
+      WHERE  BC.YEAR = Year(Getdate()) 
   END 
 
 GO 
@@ -618,7 +618,7 @@ AS
                      ON MG.ID_MEDIUM = MC.ID_MEDIUM 
              INNER JOIN TB_BIG_CRITERION BC 
                      ON MC.ID_BIG = BC.ID_BIG 
-      WHERE  Year(BC.YEAR) = Year(Getdate()) 
+      WHERE  BC.YEAR = Year(Getdate()) 
   END 
 
 GO 

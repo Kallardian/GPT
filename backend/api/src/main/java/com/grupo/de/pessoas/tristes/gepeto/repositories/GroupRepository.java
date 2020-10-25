@@ -31,8 +31,6 @@ public class GroupRepository {
         getGroupByIdStoredProcedureQuery.execute();
         List<Group> groupList = getGroupByIdStoredProcedureQuery.getResultList();
 
-        Object abstractGroup = groupList.get(0);
-
         Iterator iterator = groupList.iterator();
 
         while (iterator.hasNext()) {

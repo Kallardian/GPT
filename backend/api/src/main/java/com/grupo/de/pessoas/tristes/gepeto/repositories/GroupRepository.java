@@ -19,6 +19,8 @@ public class GroupRepository {
     @PersistenceContext
     EntityManager entityManager;
 
+    //TODO getGroupsByClassroomId();
+
     @Transactional
     public Group getGroupById(Group group) {
         entityManager = getEntityManager();

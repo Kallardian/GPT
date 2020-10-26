@@ -27,29 +27,18 @@ public class GroupController {
         return ResponseEntity.ok().body(group);
     }
 
-//    @GetMapping("/{ra}")
-//    public ResponseEntity getUserById(@PathVariable() String ra) {
-//
-//        User user = new User();
-//        user.setRa(ra);
-//
-//        user = userRepository.getUserById(user);
-//
-//        return ResponseEntity.ok().body(user);
+//    @PostMapping
+//    public String createGroup() {
+//        return "group created";
 //    }
-
-    @PostMapping
-    public String createGroup() {
-        return "group created";
-    }
-
-    @PutMapping("/{id_group}")
-    public String updateGroup(@PathVariable() long id_group) {
-        return "updated group " + id_group;
-    }
-
-    @DeleteMapping("/{id_group}")
-    public String deleteGroup(@PathVariable() long id_group) {
-        return "group " + id_group + "deleted";
-    }
+//
+//    @PutMapping("/{id_group}")
+//    public String updateGroup(@PathVariable() long id_group) {
+//        return "updated group " + id_group;
+//    }
+//
+//    @DeleteMapping("/{id_group}")
+//    public String deleteGroup(@PathVariable() long id_group) {
+//        return "group " + id_group + "deleted";
+//    }
 }

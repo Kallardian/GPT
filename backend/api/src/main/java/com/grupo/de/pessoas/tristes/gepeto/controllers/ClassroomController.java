@@ -11,23 +11,23 @@ public class ClassroomController {
         return "all classrooms";
     }
 
-    @GetMapping("/{id_classroom}")
-    public String findClassroom(@PathVariable() int id_classroom) {
-        return "classroom";
-    }
-
-    @PostMapping
-    public String createClassroom() {
-        return "classroom created";
-    }
-
-    @PutMapping("/{id_classroom}")
-    public String updateClassroom(@PathVariable() int id_classroom) {
-        return "update classroom";
-    }
-
-    @DeleteMapping("/{id_classroom}")
-    public String deleteClassroom(@PathVariable() int id_classroom) {
-        return "classroom deleted";
-    }
+//    @GetMapping("/{id_classroom}")
+//    public String findClassroom(@PathVariable() int id_classroom) {
+//        return "classroom";
+//    }
+//
+//    @PostMapping
+//    public String createClassroom() {
+//        return "classroom created";
+//    }
+//
+//    @PutMapping("/{id_classroom}")
+//    public String updateClassroom(@PathVariable() int id_classroom) {
+//        return "update classroom";
+//    }
+//
+//    @DeleteMapping("/{id_classroom}")
+//    public String deleteClassroom(@PathVariable() int id_classroom) {
+//        return "classroom deleted";
+//    }
 }

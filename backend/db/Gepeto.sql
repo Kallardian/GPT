@@ -11,7 +11,7 @@ CREATE TABLE [TB_USER]
 	[RA] CHAR(6) PRIMARY KEY,
 	[FULL_NAME] VARCHAR(50) NOT NULL,
 	[PASSWORD] VARCHAR(MAX) NOT NULL,
-	[ACCESS] TINYINT NOT NULL
+	[ACCESS] TINYINT NOT NULL  -- 0 Inativo, 1 Coordenação, 2 Coordenador Curso, 3 Projetos, 4 Avaliador
 ); 
 GO
 CREATE TABLE [TB_CLASSROOM]
@@ -29,16 +29,16 @@ CREATE TABLE [TB_GROUP]
 	[ID_CLASSROOM] INT NOT NULL,
 	CONSTRAINT [ID_CLASSROOM_FK_0] 
 		FOREIGN KEY ([ID_CLASSROOM]) 
-		REFERENCES [TB_CLASSROOM]([ID_CLASSROOM])
+		REFERENCES [TB_CLASSROOM]([ID_CLASSROOM]),
+	[RA] CHAR(6) NOT NULL,
+		CONSTRAINT [RA_FK_0] 
+		FOREIGN KEY (RA) 
+		REFERENCES [TB_USER]([RA]),
 );
 GO
 CREATE TABLE [TB_BIG_CRITERION]
 (
 	[ID_BIG] INT PRIMARY KEY IDENTITY,
-	[RA] CHAR(6) NOT NULL,
-	CONSTRAINT [RA_FK_0] 
-		FOREIGN KEY (RA) 
-		REFERENCES [TB_USER]([RA]),
 	[YEAR] CHAR(4) NOT NULL
 );
 GO
@@ -49,6 +49,10 @@ CREATE TABLE [TB_MEDIUM_CRITERION]
 	CONSTRAINT [ID_BIG_FK_0] 
 		FOREIGN KEY ([ID_BIG]) 
 		REFERENCES [TB_BIG_CRITERION]([ID_BIG]),
+	[RA] CHAR(6) NOT NULL,
+		CONSTRAINT [RA_FK_1] 
+		FOREIGN KEY (RA) 
+		REFERENCES [TB_USER]([RA]),
 	[NAME_MEDIUM] VARCHAR(30) NOT NULL,
 	[DESCRIPTION] VARCHAR(100) NULL, -- QUICK NOTES
 	[TOTAL_VALUE] DECIMAL(4,2)
@@ -58,7 +62,7 @@ CREATE TABLE [TB_MEDIUM_GRADE]
 (
 	[ID_MEDIUM_GRADE] INT PRIMARY KEY IDENTITY,
 	[RA] CHAR(6) NOT NULL,
-	CONSTRAINT [RA_FK_1]
+	CONSTRAINT [RA_FK_2]
 		FOREIGN KEY ([RA])
 		REFERENCES [TB_USER]([RA]),
 	[ID_MEDIUM] INT NOT NULL,
@@ -223,7 +227,7 @@ CREATE PROCEDURE SP_INSERT_USER (@user_login CHAR(6),
                                  @access     TINYINT) 
 AS 
   BEGIN 
-      IF( @access = 0 ) 
+      IF(@access = 0) 
         PRINT 'Você não pode adicionar um usuário inativo' 
       ELSE 
         BEGIN 
@@ -265,10 +269,37 @@ GO
 CREATE PROCEDURE SP_DELETE_USER (@ra CHAR(6)) 
 AS 
   BEGIN 
-      DELETE FROM TB_USER 
-      WHERE  RA = @ra 
-  END 
+	  DECLARE 
+	  @access TINYINT
+	  SELECT @access = [ACCESS] FROM TB_USER WHERE [RA] = @ra
 
+	  IF ( @access = 1)
+		PRINT('VOCÊ NÃO PODE DELETAR ALGUEM DA COORDENAÇÃO')
+	  ELSE IF (@access = 2)
+		BEGIN
+			IF EXISTS (SELECT * 
+			           FROM   [TB_MEDIUM_CRITERION]
+					   WHERE  [RA] = @ra)
+				PRINT('VOCÊ NÃO PODE DELETAR ESTE COORDENADOR')
+		END
+	  ELSE IF (@access = 3)
+		BEGIN
+			IF EXISTS(SELECT * 
+					  FROM    [TB_GROUP]
+					  WHERE   [RA] = @ra)
+				PRINT('VOCÊ NÃO PODE DELETAR ESTE PROFESSOR')
+		END
+      ELSE IF (@access = 4)
+		BEGIN
+			IF EXISTS(SELECT * 
+					  FROM    [TB_MEDIUM_GRADE]
+					  WHERE   [RA] = @ra)
+				PRINT('VOCÊ NÃO PODE DELETAR ESTE PROFESSOR')
+		END
+	   ELSE
+		DELETE FROM TB_USER -- Chechar se já fez alguma modificação no banco de dados
+		WHERE  RA = @ra 
+  END 
 GO 
 CREATE PROCEDURE SP_FIND_USER (@ra CHAR(6)) 
 AS 
@@ -360,7 +391,8 @@ GO
 --| GROUP |-- 
 CREATE PROCEDURE SP_INSERT_GROUP (@group_theme    VARCHAR(50), 
                                   @description    VARCHAR(300), 
-                                  @classroom_name CHAR(6)) 
+                                  @classroom_name CHAR(6),
+								  @ra CHAR(6)) 
 AS 
   BEGIN 
       DECLARE @classroom_id INT 
@@ -371,19 +403,23 @@ AS
         BEGIN 
             INSERT INTO TB_GROUP 
                         ([GROUP_THEME], 
-                         [ID_CLASSROOM]) 
+                         [ID_CLASSROOM],
+						 [RA]) 
             VALUES      (@group_theme, 
-                         @classroom_id) 
+                         @classroom_id,
+						 @ra) 
         END 
       ELSE 
         BEGIN 
             INSERT INTO TB_GROUP 
                         ([GROUP_THEME], 
                          [GROUP_DESCRIPTION], 
-                         [ID_CLASSROOM]) 
+                         [ID_CLASSROOM],
+						 [RA]) 
             VALUES      (@group_theme, 
                          @description, 
-                         @classroom_id) 
+                         @classroom_id,
+						 @ra) 
         END 
   END 
 
@@ -457,32 +493,13 @@ AS
 GO 
 
 --| BIG_CRETERION |--  
-CREATE PROCEDURE SP_INSERT_BIG_CRITERION (@ra CHAR(6)) 
+CREATE PROCEDURE SP_INSERT_BIG_CRITERION 
 AS 
   BEGIN 
       INSERT INTO [TB_BIG_CRITERION] 
-                  ([RA], 
-                   [YEAR]) 
-      VALUES      (@ra, 
-                   YEAR(Getdate())) 
+                  ([YEAR]) 
+      VALUES      (YEAR(Getdate())) 
   END 
-GO 
-CREATE PROCEDURE SP_UPDATE_BIG_CRITERION (@id_big INT, 
-                                          @new_ra CHAR(6)) 
-AS 
-  BEGIN 
-      IF (SELECT [ACCESS] 
-          FROM   [TB_USER] 
-          WHERE  [RA] = @new_ra) != 2 
-        BEGIN 
-            PRINT( 'O RA DEVE PERTENCER A UM COODENADOR' ) 
-        END 
-      ELSE 
-        UPDATE TB_BIG_CRITERION 
-        SET    [RA] = @new_ra 
-        WHERE  [ID_BIG] = @id_big 
-  END 
-
 GO 
 CREATE PROCEDURE SP_FIND_BIG_CRITERION (@id_big INT) 
 AS 
@@ -505,33 +522,24 @@ GO
 
 --| MEDIUM_CRETERION |--  
 CREATE PROCEDURE SP_INSERT_MEDIUM_CRITERION (@id_big      INT, 
-                                             @name_medium VARCHAR(30 ), 
-                                             @description VARCHAR(300) = NULL, 
+                                             @name_medium VARCHAR(30 ),
+											 @ra CHAR(6),
+                                             @description VARCHAR(300), 
                                              @value       DECIMAL(4, 2)) 
 AS 
   BEGIN 
-      IF @description IS NULL 
-        BEGIN 
-            INSERT INTO [TB_MEDIUM_CRITERION] 
-                        ([ID_BIG], 
-                         [NAME_MEDIUM], 
-                         [TOTAL_VALUE]) 
-            VALUES      (@id_big, 
-                         @name_medium, 
-                         @value) 
-        END 
-      ELSE 
-        BEGIN 
-            INSERT INTO [TB_MEDIUM_CRITERION] 
-                        ([ID_BIG], 
-                         [NAME_MEDIUM], 
-                         [DESCRIPTION], 
-                         [TOTAL_VALUE]) 
-            VALUES      (@id_big, 
-                         @name_medium, 
-                         @description, 
-                         @value) 
-        END 
+	 INSERT INTO [TB_MEDIUM_CRITERION] 
+				 ([ID_BIG], 
+				  [RA],
+                  [NAME_MEDIUM], 
+                  [DESCRIPTION], 
+                  [TOTAL_VALUE]) 
+     VALUES      (@id_big,
+				  @ra,
+                  @name_medium, 
+                  @description, 
+                  @value) 
+
   END 
 
 GO 
@@ -654,23 +662,23 @@ EXEC SP_INSERT_CLASSROOM 9;
 GO
 
 /*-----SP_INSERT_GROUP-----*/
-EXEC SP_INSERT_GROUP 'Churras Carnes', NULL,'INF3AM';
-EXEC SP_INSERT_GROUP 'Asessoria Carros', NULL,'INF3BM';
-EXEC SP_INSERT_GROUP 'Disco Store', 'Será um projeto basico para vender discos','INF3CM';
-EXEC SP_INSERT_GROUP 'GEPETO', 'O projeto terá como objetivo avaliar TCCs','INF3DM';
-EXEC SP_INSERT_GROUP 'CORASSAUM', NULL,'INF3EM';
-EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', NULL,'INF3EM';
-EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','INF3DM';
+EXEC SP_INSERT_GROUP 'Churras Carnes', NULL,'INF3AM', '654321'; 
+EXEC SP_INSERT_GROUP 'Asessoria Carros', NULL,'INF3BM', '654321';
+EXEC SP_INSERT_GROUP 'Disco Store', 'Será um projeto basico para vender discos','INF3CM', '654321';
+EXEC SP_INSERT_GROUP 'GEPETO', 'O projeto terá como objetivo avaliar TCCs','INF3DM','654321';
+EXEC SP_INSERT_GROUP 'CORASSAUM', NULL,'INF3EM', '654321';
+EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', NULL,'INF3EM', '654321';
+EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','INF3DM', '654321';
 GO
 
 /*SP_INSERT_BIG_CRITERION*/
-EXEC SP_INSERT_BIG_CRITERION '123456'
+EXEC SP_INSERT_BIG_CRITERION
 GO
 
 /*SP_INSERT_MEDIUM_CRITERION*/
-EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Mobile', @VALUE = 2
-EXEC SP_INSERT_MEDIUM_CRITERION 1, 'WEB', NULL, 4
-EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Desktop', 'Já tem WEB pra não ter que ter desktop, mas né?!', 4
+EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Mobile', '123456','Olha só, de novo', @VALUE = 2
+EXEC SP_INSERT_MEDIUM_CRITERION 1, 'WEB', '123456', 'Qualquer coisa', 4
+EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Desktop', '123456', 'Já tem WEB pra não ter que ter desktop, mas né?!', 4
 GO
 /*SP_INSERT_MEDIUM_GRADE*/
 EXEC SP_INSERT_MEDIUM_GRADE 1, '246810', 2, 10, 1
@@ -683,15 +691,12 @@ GO
 EXEC SP_UPDATE_USER '854950', 'SAIU ESCOLA', 'EU TAMBÉM', 0
 GO
 
-/*-------SP_DELETE_USER-----*/
-EXEC SP_DELETE_USER '654321'
-GO
 /*-------------SP_FIND-------------*/
 EXEC SP_FIND_USER '246810'
 GO
 /*-------------INSERTS-------------*/
 INSERT INTO TB_CLASSROOM (NAME_CLASSROOM, YEAR) VALUES ('INF3XM', '2019')
-INSERT INTO TB_GROUP (GROUP_THEME, ID_CLASSROOM) VALUES ('Test', 10)
+INSERT INTO TB_GROUP (GROUP_THEME, ID_CLASSROOM, RA)VALUES ('Test', 10, '654321' )
 GO
 
 SELECT * FROM TB_USER;
@@ -702,5 +707,6 @@ SELECT * FROM TB_MEDIUM_CRITERION;
 SELECT * FROM TB_MEDIUM_GRADE
 EXEC SP_UPDATE_GROUP  'Churras Carnes', 'INF3AM', 'Uma churrascaria bem bacana', 'ChurrasquinhoS'
 EXEC SP_UPDATE_GROUP  'Disco Store', 'INF3CM', NULL, 'Loja de Disco'
+GO
 
 

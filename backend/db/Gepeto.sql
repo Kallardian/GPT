@@ -109,7 +109,7 @@ returns BIT
 
 GO
 
-CREATE FUNCTION Checklogin(@RA  CHAR(6), 
+CREATE FUNCTION Checklogin(@ra  CHAR(6), 
                            @pwd VARCHAR(20)) 
 returns TINYINT 
   BEGIN 
@@ -119,12 +119,12 @@ returns TINYINT
       SET @pwdHash = dbo.FuncEncrypt(@pwd) 
 
       IF EXISTS (SELECT * 
-                 FROM   tb_user 
-                 WHERE  [RA] = @RA 
+                 FROM   [TB_USER] 
+                 WHERE  [RA] = @ra 
                         AND [PASSWORD] = @pwdHash) 
         SELECT @access_level = ACCESS 
-        FROM   tb_user 
-        WHERE  RA = @RA; 
+        FROM   [TB_USER] 
+        WHERE  RA = @ra; 
       ELSE 
         SET @access_level = 0; 
 
@@ -132,6 +132,7 @@ returns TINYINT
   END 
 
 GO
+
 
 CREATE FUNCTION Checkclassroomnameexists(@clasroom_name CHAR(6)) 
 returns BIT 
@@ -194,11 +195,26 @@ returns INT
 
       RETURN @group_id 
   END 
-go
+GO
 
 /*--------------------------------| STORED PROCEDURES |--------------------------------------*/ 
 --TODO INSERT_MEDIUM FINISH 
-go 
+GO
+
+CREATE PROCEDURE SP_LOGIN_USER(@RA  CHAR(6), 
+                           @pwd VARCHAR(20)) 
+AS
+	BEGIN
+		SELECT DBO.Checklogin(@ra, @pwd) 
+	END
+GO
+
+CREATE PROCEDURE SP_AMOUNT_CLASSROOMS
+AS
+	BEGIN
+		SELECT DBO.Returnamountofclassrooms()
+	END
+GO
 
 --| USER |-- 
 CREATE PROCEDURE SP_INSERT_USER (@user_login CHAR(6), 

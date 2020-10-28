@@ -271,7 +271,7 @@ AS
   BEGIN 
 	  DECLARE 
 	  @access TINYINT
-	  SELECT @access = [ACCESS] FROM TB_USER WHERE [RA] = @ra
+	  SELECT @access = [ACCESS] FROM [TB_USER] WHERE [RA] = @ra
 
 	  IF ( @access = 1)
 		PRINT('VOCÊ NÃO PODE DELETAR ALGUEM DA COORDENAÇÃO')

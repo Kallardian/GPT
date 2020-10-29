@@ -312,11 +312,10 @@ AS
 GO 
 CREATE PROCEDURE SP_SHOW_USERS 
 AS 
-  BEGIN 
+  BEGIN
       SELECT * 
-      FROM   TB_USER 
-  END 
-
+      FROM   TB_USER
+  END
 GO 
 
 

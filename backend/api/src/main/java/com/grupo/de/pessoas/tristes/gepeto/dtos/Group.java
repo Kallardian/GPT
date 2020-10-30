@@ -2,11 +2,40 @@ package com.grupo.de.pessoas.tristes.gepeto.dtos;
 
 import javax.persistence.*;
 
-@NamedStoredProcedureQuery(
-        name = "SP_FIND_GROUP",
-        procedureName = "SP_FIND_GROUP",
+//GET
+@NamedStoredProcedureQuery(name = "SP_FIND_GROUP", procedureName = "SP_FIND_GROUP",
         parameters = {
                 @StoredProcedureParameter(name = "group_id", type = Long.class, mode = ParameterMode.IN)
+        }
+)
+
+@NamedStoredProcedureQuery(name = "SP_SHOW_GROUPS", procedureName = "SP_SHOW_GROUPS")
+
+//POST
+@NamedStoredProcedureQuery( name = "SP_INSERT_GROUP", procedureName = "SP_INSERT_GROUP",
+        parameters = {
+                @StoredProcedureParameter(name = "group_theme", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "description", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "classroom_name", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "ra", type = String.class, mode = ParameterMode.IN)
+        }
+)
+
+//PUT
+@NamedStoredProcedureQuery(name = "SP_UPDATE_GROUP", procedureName = "SP_UPDATE_GROUP",
+        parameters = {
+                @StoredProcedureParameter(name = "group_theme", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "classroom_name", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "description", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "new_theme", type = Integer.class, mode = ParameterMode.IN)
+        }
+)
+
+//DELETE
+@NamedStoredProcedureQuery(name = "SP_DELETE_GROUP", procedureName = "SP_DELETE_GROUP",
+        parameters = {
+                @StoredProcedureParameter(name = "group_theme", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "classroom_name", type = String.class, mode = ParameterMode.IN)
         }
 )
 
@@ -14,16 +43,21 @@ import javax.persistence.*;
 @Table(name = "TB_GROUP")
 public class Group {
 
+    //Attributes
     @Id
     @Column(name = "ID_GROUP")
     private Long idGroup;
     @Column(name = "GROUP_THEME")
-    private String name;
+    private String groupTheme;
     @Column(name = "GROUP_DESCRIPTION")
     private String description;
     @Column(name = "ID_CLASSROOM")
     private Long idClassroom;
+    @Column(name = "RA")
+    private String ra;
 
+
+    //Methods
     public Long getIdGroup() {
         return idGroup;
     }
@@ -32,12 +66,12 @@ public class Group {
         this.idGroup = idGroup;
     }
 
-    public String getName() {
-        return name;
+    public String getGroupTheme() {
+        return groupTheme;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGroupTheme(String groupTheme) {
+        this.groupTheme = groupTheme;
     }
 
     public String getDescription() {
@@ -54,5 +88,13 @@ public class Group {
 
     public void setIdClassroom(Long idClassroom) {
         this.idClassroom = idClassroom;
+    }
+
+    public String getRa() {
+        return ra;
+    }
+
+    public void setRa(String ra) {
+        this.ra = ra;
     }
 }

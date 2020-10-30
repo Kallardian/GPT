@@ -138,14 +138,14 @@ returns TINYINT
 GO
 
 
-CREATE FUNCTION Checkclassroomnameexists(@clasroom_name CHAR(6)) 
+CREATE FUNCTION Checkclassroomnameexists(@classroom_name CHAR(6)) 
 returns BIT 
   BEGIN 
       DECLARE @status BIT 
 
       IF EXISTS (SELECT * 
                  FROM   [TB_CLASSROOM] 
-                 WHERE  [NAME_CLASSROOM] = @clasroom_name 
+                 WHERE  [NAME_CLASSROOM] = @classroom_name 
                         AND [YEAR] = Year(Getdate())) 
         SET @status = 1; 
       ELSE 
@@ -320,7 +320,7 @@ GO
 
 
 --| CLASSROOM |-- 
-CREATE PROCEDURE SP_INSERT_CLASSROOM (@amount_clasroom TINYINT) 
+CREATE PROCEDURE SP_INSERT_CLASSROOM (@amount_classroom TINYINT) 
 AS 
   BEGIN 
       DECLARE @i      TINYINT, 
@@ -330,7 +330,7 @@ AS
       SET @i = 0 
       SET @letter = Ascii('A') 
 
-      WHILE @i < @amount_clasroom 
+      WHILE @i < @amount_classroom 
         BEGIN 
             SELECT @status = dbo.checkClassroomNameExists( 
                              'INF3' + Char(@letter) + 'M' 

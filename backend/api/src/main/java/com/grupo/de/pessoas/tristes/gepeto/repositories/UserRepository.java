@@ -1,6 +1,5 @@
 package com.grupo.de.pessoas.tristes.gepeto.repositories;
 
-import com.grupo.de.pessoas.tristes.gepeto.dtos.Group;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,19 +19,24 @@ public class UserRepository {
     @PersistenceContext
     EntityManager entityManager;
 
+    //Function User
     @Transactional
-    public List<User> getUsers() {
+    public int login(User user) {
         entityManager = getEntityManager();
-        StoredProcedureQuery getUsersStoredProcedureQuery = entityManager
-                .createNamedStoredProcedureQuery("");
+        StoredProcedureQuery loginStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_LOGIN_USER");
 
-        getUsersStoredProcedureQuery.execute();
+        loginStoredProcedureQuery.setParameter("RA", user.getRa());
+        loginStoredProcedureQuery.setParameter("pwd", user.getPassword());
 
-        List<User> users = getUsersStoredProcedureQuery.getResultList();
+        loginStoredProcedureQuery.execute();
 
-        return users;
+        int access = (int) loginStoredProcedureQuery.getSingleResult();
+
+        return access;
     }
 
+    //GET User
     @Transactional
     public User getUserById(User user) {
         entityManager = getEntityManager();
@@ -44,7 +48,7 @@ public class UserRepository {
 
         getUserByIdStoredProcedureQuery.execute();
 
-        List<Group> userList = getUserByIdStoredProcedureQuery.getResultList();
+        List<User> userList = getUserByIdStoredProcedureQuery.getResultList();
 
         Iterator iterator = userList.iterator();
 
@@ -66,6 +70,31 @@ public class UserRepository {
     }
 
     @Transactional
+    public List<User> showUsers() {
+        entityManager = getEntityManager();
+        StoredProcedureQuery getUsersStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_SHOW_USERS");
+
+        getUsersStoredProcedureQuery.execute();
+
+        List<User> userList = getUsersStoredProcedureQuery.getResultList();
+
+        Iterator iterator = userList.iterator();
+
+        while (iterator.hasNext()) {
+            Object[] object = (Object[]) iterator.next();
+
+            String ra = String.valueOf(object[0]);
+            String fullName = String.valueOf(object[1]);
+            String password = String.valueOf(object[2]);
+            int access = Integer.parseInt(String.valueOf(object[3]));
+        }
+
+        return userList;
+    }
+
+    //POST User
+    @Transactional
     public void postUser(User user) {
         entityManager = getEntityManager();
         StoredProcedureQuery postUserStoredProcedureQuery = entityManager
@@ -80,6 +109,23 @@ public class UserRepository {
         postUserStoredProcedureQuery.execute();
     }
 
+    //PUT User
+    @Transactional
+    public void updateUser(User user) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery updateUserStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_UPDATE_USER");
+
+        updateUserStoredProcedureQuery
+                .setParameter("user_login", user.getRa())
+                .setParameter("user_name", user.getFullName())
+                .setParameter("user_pwd", user.getPassword())
+                .setParameter("access", user.getAccess());
+
+        updateUserStoredProcedureQuery.execute();
+    }
+
+    //DELETE User
     @Transactional
     public void deleteUser(User user) {
         entityManager = getEntityManager();

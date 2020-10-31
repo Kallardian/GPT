@@ -1,8 +1,6 @@
 import 'package:Gepeto/blocs/theme.dart';
-import 'package:Gepeto/screensFragments/myAccount.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Gepeto/main.dart';
 import 'package:Gepeto/screensFragments/criteria.dart';
 import 'package:Gepeto/screensFragments/classrooms.dart';
 import 'package:Gepeto/screensFragments/groups.dart';

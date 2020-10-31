@@ -14,7 +14,7 @@ import javax.persistence.*;
 //POST
 @NamedStoredProcedureQuery( name = "SP_INSERT_MEDIUM_CRITERION", procedureName = "SP_INSERT_MEDIUM_CRITERION",
         parameters = {
-                @StoredProcedureParameter(name = "id_big", type = Long.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "id_medium", type = Long.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "name_medium", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "ra", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "description", type = String.class, mode = ParameterMode.IN),
@@ -25,7 +25,7 @@ import javax.persistence.*;
 //PUT
 @NamedStoredProcedureQuery(name = "SP_UPDATE_MEDIUM_CRITERION", procedureName = "SP_UPDATE_MEDIUM_CRITERION",
         parameters = {
-                @StoredProcedureParameter(name = "id_big", type = Long.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "id_medium", type = Long.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "name_medium", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "description", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "value", type = Double.class, mode = ParameterMode.IN)
@@ -35,7 +35,7 @@ import javax.persistence.*;
 //DELETE
 @NamedStoredProcedureQuery(name = "SP_DELETE_MEDIUM_CRITERION", procedureName = "SP_DELETE_MEDIUM_CRITERION",
         parameters = {
-                @StoredProcedureParameter(name = "id_big", type = Long.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "id_medium", type = Long.class, mode = ParameterMode.IN),
         }
 )
 

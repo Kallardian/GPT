@@ -16,7 +16,7 @@ import javax.persistence.*;
         parameters = {
                 @StoredProcedureParameter(name = "group_theme", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "description", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "classroom_name", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "classroom_id", type = Long.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "ra", type = String.class, mode = ParameterMode.IN)
         }
 )
@@ -24,10 +24,10 @@ import javax.persistence.*;
 //PUT
 @NamedStoredProcedureQuery(name = "SP_UPDATE_GROUP", procedureName = "SP_UPDATE_GROUP",
         parameters = {
-                @StoredProcedureParameter(name = "group_theme", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "classroom_name", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "group_id", type = Long.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "classroom_id", type = Long.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "description", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "new_theme", type = Integer.class, mode = ParameterMode.IN)
+                @StoredProcedureParameter(name = "group_theme", type = String.class, mode = ParameterMode.IN)
         }
 )
 
@@ -35,7 +35,7 @@ import javax.persistence.*;
 @NamedStoredProcedureQuery(name = "SP_DELETE_GROUP", procedureName = "SP_DELETE_GROUP",
         parameters = {
                 @StoredProcedureParameter(name = "group_theme", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "classroom_name", type = String.class, mode = ParameterMode.IN)
+                @StoredProcedureParameter(name = "classroom_id", type = Long.class, mode = ParameterMode.IN)
         }
 )
 

@@ -91,7 +91,7 @@ public class MediumCriterionRepository {
                 .createNamedStoredProcedureQuery("SP_INSERT_MEDIUM_CRITERION");
 
         postMediumCriterionStoredProcedureQuery
-                .setParameter("id_medium", mediumCriterion.getIdBig())
+                .setParameter("id_big", mediumCriterion.getIdBig())
                 .setParameter("name_medium", mediumCriterion.getNameMedium())
                 .setParameter("ra", mediumCriterion.getRa())
                 .setParameter("description", mediumCriterion.getDescription())
@@ -108,7 +108,7 @@ public class MediumCriterionRepository {
                 .createNamedStoredProcedureQuery("SP_UPDATE_MEDIUM_CRITERION");
 
         updateMediumCriterionStoredProcedureQuery
-                .setParameter("id_medium", mediumCriterion.getIdBig())
+                .setParameter("id_medium", mediumCriterion.getIdMedium())
                 .setParameter("name_medium", mediumCriterion.getNameMedium())
                 .setParameter("description", mediumCriterion.getDescription())
                 .setParameter("value", mediumCriterion.getTotalValue());

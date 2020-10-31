@@ -420,19 +420,13 @@ AS
   END 
 
 GO 
-CREATE PROCEDURE SP_UPDATE_GROUP (@group_theme    VARCHAR(50), 
+CREATE PROCEDURE SP_UPDATE_GROUP (@group_id    INT, 
                                   @classroom_id   INT, 
                                   @description    VARCHAR(300) = NULL, 
                                   @new_theme      VARCHAR(50) = NULL) 
 AS 
   BEGIN 
-      DECLARE @group_id INT 
-
-      SELECT @group_id = [ID_GROUP] 
-      FROM   TB_GROUP 
-      WHERE  [GROUP_THEME] = @group_theme 
-      AND [ID_CLASSROOM] = @classroom_id
-
+      
       IF @description IS NULL 
          AND @new_theme IS NOT NULL 
         UPDATE [TB_GROUP] 
@@ -699,8 +693,8 @@ SELECT * FROM TB_GROUP;
 SELECT * FROM TB_BIG_CRITERION;
 SELECT * FROM TB_MEDIUM_CRITERION;
 SELECT * FROM TB_MEDIUM_GRADE
-EXEC SP_UPDATE_GROUP  'Churras Carnes', '1', 'Uma churrascaria bem bacana', 'ChurrasquinhoS'
-EXEC SP_UPDATE_GROUP  'Disco Store', '3', NULL, 'Loja de Disco'
+EXEC SP_UPDATE_GROUP  '1', '1', 'Uma churrascaria bem bacana', 'ChurrasquinhoS'
+EXEC SP_UPDATE_GROUP  '3', '3', NULL, 'Loja de Disco'
 GO
 
 

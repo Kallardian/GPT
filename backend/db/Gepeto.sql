@@ -390,23 +390,20 @@ GO
 --| GROUP |-- 
 CREATE PROCEDURE SP_INSERT_GROUP (@group_theme    VARCHAR(50), 
                                   @description    VARCHAR(300), 
-                                  @classroom_name CHAR(6),
-								  @ra CHAR(6)) 
+                                  @classroom_id INT,
+								                  @ra CHAR(6)) 
 AS 
   BEGIN 
-      DECLARE @classroom_id INT 
-
-      SELECT @classroom_id = dbo.Classroomnametoclassroomid(@classroom_name) 
-
+      
       IF @description IS NULL 
         BEGIN 
             INSERT INTO TB_GROUP 
                         ([GROUP_THEME], 
                          [ID_CLASSROOM],
-						 [RA]) 
+						             [RA]) 
             VALUES      (@group_theme, 
                          @classroom_id,
-						 @ra) 
+						             @ra) 
         END 
       ELSE 
         BEGIN 
@@ -424,7 +421,7 @@ AS
 
 GO 
 CREATE PROCEDURE SP_UPDATE_GROUP (@group_theme    VARCHAR(50), 
-                                  @classroom_name CHAR(6), 
+                                  @classroom_id   INT, 
                                   @description    VARCHAR(300) = NULL, 
                                   @new_theme      VARCHAR(50) = NULL) 
 AS 
@@ -434,8 +431,7 @@ AS
       SELECT @group_id = [ID_GROUP] 
       FROM   TB_GROUP 
       WHERE  [GROUP_THEME] = @group_theme 
-             AND [ID_CLASSROOM] = 
-                 DBO.Classroomnametoclassroomid(@classroom_name) 
+      AND [ID_CLASSROOM] = @classroom_id
 
       IF @description IS NULL 
          AND @new_theme IS NOT NULL 
@@ -457,13 +453,12 @@ AS
 
 GO 
 CREATE PROCEDURE SP_DELETE_GROUP (@group_theme    VARCHAR(50), 
-                                  @classroom_name CHAR(6)) 
+                                  @classroom_id INT) 
 AS 
   BEGIN 
       DELETE FROM TB_GROUP 
       WHERE  [GROUP_THEME] = @group_theme 
-             AND [ID_CLASSROOM] = 
-                 DBO.Classroomnametoclassroomid(@classroom_name) 
+             AND [ID_CLASSROOM] = @classroom_id
   END 
 
 GO 
@@ -661,15 +656,15 @@ EXEC SP_INSERT_CLASSROOM 9;
 GO
 
 /*-----SP_INSERT_GROUP-----*/
-EXEC SP_INSERT_GROUP 'Churras Carnes', NULL,'INF3AM', '654321'; 
-EXEC SP_INSERT_GROUP 'Asessoria Carros', NULL,'INF3BM', '654321';
-EXEC SP_INSERT_GROUP 'Disco Store', 'Será um projeto basico para vender discos','INF3CM', '654321';
-EXEC SP_INSERT_GROUP 'GEPETO', 'O projeto terá como objetivo avaliar TCCs','INF3DM','654321';
-EXEC SP_INSERT_GROUP 'CORASSAUM', NULL,'INF3EM', '654321';
-EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', NULL,'INF3EM', '654321';
-EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','INF3DM', '654321';
+EXEC SP_INSERT_GROUP 'Churras Carnes', NULL,'1', '654321'; 
+EXEC SP_INSERT_GROUP 'Asessoria Carros', NULL,'2', '654321';
+EXEC SP_INSERT_GROUP 'Disco Store', 'Será um projeto basico para vender discos','3', '654321';
+EXEC SP_INSERT_GROUP 'GEPETO', 'O projeto terá como objetivo avaliar TCCs','4','654321';
+EXEC SP_INSERT_GROUP 'CORASSAUM', NULL,'5', '654321';
+EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', NULL,'5', '654321';
+EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','4', '654321';
 GO
-
+select * from TB_CLASSROOM
 /*SP_INSERT_BIG_CRITERION*/
 EXEC SP_INSERT_BIG_CRITERION
 GO
@@ -704,8 +699,8 @@ SELECT * FROM TB_GROUP;
 SELECT * FROM TB_BIG_CRITERION;
 SELECT * FROM TB_MEDIUM_CRITERION;
 SELECT * FROM TB_MEDIUM_GRADE
-EXEC SP_UPDATE_GROUP  'Churras Carnes', 'INF3AM', 'Uma churrascaria bem bacana', 'ChurrasquinhoS'
-EXEC SP_UPDATE_GROUP  'Disco Store', 'INF3CM', NULL, 'Loja de Disco'
+EXEC SP_UPDATE_GROUP  'Churras Carnes', '1', 'Uma churrascaria bem bacana', 'ChurrasquinhoS'
+EXEC SP_UPDATE_GROUP  'Disco Store', '3', NULL, 'Loja de Disco'
 GO
 
 

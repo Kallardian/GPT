@@ -1,0 +1,17 @@
+<img src="../../../assets/Gepeto.png" height="60">
+
+<div>
+    <h2>Bem Vindo</h2>
+    <form [formGroup]="formLogin" (ngSubmit)="sendLogin()">
+
+        <input type="text" formControlName="user" placeholder="Entre com seu RA" maxlength="6">
+
+        <input type="text" formControlName="pwd" placeholder="Entre com sua senha" maxlength="30">
+
+        <button [disabled]="!formLogin.valid">Entrar</button>
+        <br><br>
+        <div>{{ formLogin.value | json}}</div>
+        <div>{{ formLogin.valid | json }}</div>
+    </form>
+    <br><br>
+</div>

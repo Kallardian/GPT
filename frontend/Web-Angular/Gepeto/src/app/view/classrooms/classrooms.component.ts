@@ -27,7 +27,8 @@ export class ClassroomsComponent implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.min(1)
+          Validators.min(1),
+          Validators.maxLength(2)
         ])
       ],
     });
@@ -36,8 +37,11 @@ export class ClassroomsComponent implements OnInit {
   addClassroom(numberOfClassrooms: Number) { //aqui viria uma maneira de chamar a SP_INSERT_CLASSROOM
     for (let i = 0; i < numberOfClassrooms; i++) {
       this.classrooms.push(new Classroom(i + 1, 'INF3' + String.fromCharCode(65 + i) + 'M', '2020'))
-    }
-    
+    }    
+  }
+  removeClassroom(classroomRemoved: Classroom){ //aqui é a SP_DELETE_CLASSROOM
+    const index = this.classrooms.indexOf(classroomRemoved)
+    this.classrooms.splice(index, 1)
   }
 
 }

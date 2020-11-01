@@ -1,0 +1,15 @@
+<h1>{{ title }} </h1>
+<div>
+<form [formGroup]="formNumberClassrooms">
+
+    <input type="number" formControlName="numberClassroom" placeholder="número de salas" maxlength="30">
+
+    <button [disabled]="!formNumberClassrooms.valid">Adicionar</button>
+    <br><br>
+</form>
+
+<ul>
+    <li *ngFor="let classroom of classrooms">
+        <button>{{ classroom.name }}</button>
+    </li>
+</ul>

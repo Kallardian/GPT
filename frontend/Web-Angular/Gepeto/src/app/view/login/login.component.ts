@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '../../../../node_modules/@angular/forms'
-import { Login } from '../../models/login';
+
 
 
 @Component({
@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(30)
-          
         ])]
     });
   }

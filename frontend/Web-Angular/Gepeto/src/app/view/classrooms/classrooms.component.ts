@@ -7,15 +7,14 @@ import { Classroom } from 'src/models/classroom.model';
   templateUrl: './classrooms.component.html',
   styleUrls: ['./classrooms.component.css']
 })
-export class ClassroomsComponent implements OnInit{ 
+export class ClassroomsComponent implements OnInit {
   public classrooms: Classroom[] = [];
-  public title: String = 'Salas'
+  public title: String = 'Salas';
+  public givenNumberOfClassrooms: Number;
   formNumberClassrooms: FormGroup;
 
+
   constructor(private fb: FormBuilder) {
-    this.classrooms.push(new Classroom(1, 'INF3AM', '2020'));
-    this.classrooms.push(new Classroom(2, 'INF3BM', '2020'));
-    this.classrooms.push(new Classroom(3, 'INF3CM', '2020'));
   }
 
   ngOnInit(): void {
@@ -27,10 +26,18 @@ export class ClassroomsComponent implements OnInit{
       numberClassroom: [
         '',
         Validators.compose([
-          Validators.required
+          Validators.required,
+          Validators.min(1)
         ])
       ],
     });
+  }
+
+  addClassroom(numberOfClassrooms: Number) { //aqui viria uma maneira de chamar a SP_INSERT_CLASSROOM
+    for (let i = 0; i < numberOfClassrooms; i++) {
+      this.classrooms.push(new Classroom(i + 1, 'INF3' + String.fromCharCode(65 + i) + 'M', '2020'))
+    }
+    
   }
 
 }

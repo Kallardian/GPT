@@ -466,12 +466,13 @@ AS
 
 GO 
 CREATE PROCEDURE SP_SHOW_GROUPS 
-AS 
+AS  
   BEGIN 
       SELECT G.ID_GROUP, 
              G.ID_CLASSROOM, 
              G.GROUP_THEME, 
-             G.GROUP_DESCRIPTION 
+             G.GROUP_DESCRIPTION,
+             G.RA
       FROM   TB_GROUP G 
              INNER JOIN TB_CLASSROOM C 
                      ON G.ID_CLASSROOM = C.ID_CLASSROOM 

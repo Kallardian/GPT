@@ -4,12 +4,13 @@
 
     <input min="0" type="text" pattern="\d*" formControlName="numberClassroom" [(ngModel)]="givenNumberOfClassrooms" placeholder="número de salas" maxlength="2">
 
-    <button [disabled]="!formNumberClassrooms.valid" (click)="addClassroom(givenNumberOfClassrooms)">Adicionar</button>
+  <!-- <button [disabled]="!formNumberClassrooms.valid" (click)="addClassroom(givenNumberOfClassrooms)">Adicionar</button>-->
     <br><br>
 </form>
 
 <ul>
     <li *ngFor="let classroom of classrooms">
-        <button>{{ classroom.name }}</button> | <button *ngIf="classroom.id == classrooms.length" (click)="removeClassroom(classroom)">Remover</button>
+        <button>{{ classroom }}</button> | <button *ngIf="classroom.id == classrooms.length" (click)="removeClassroom(classroom)">Remover</button>
     </li>
 </ul>
+

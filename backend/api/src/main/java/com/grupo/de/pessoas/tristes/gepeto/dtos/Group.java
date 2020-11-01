@@ -27,7 +27,7 @@ import javax.persistence.*;
                 @StoredProcedureParameter(name = "group_id", type = Long.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "classroom_id", type = Long.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "description", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "group_theme", type = String.class, mode = ParameterMode.IN)
+                @StoredProcedureParameter(name = "new_theme", type = String.class, mode = ParameterMode.IN)
         }
 )
 

@@ -12,7 +12,6 @@ class DrawerFragment extends StatefulWidget {
 }
 
 class _DrawerFragmentState extends State<DrawerFragment> {
-  int indexContext = 0;
   @override
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
@@ -68,30 +67,6 @@ class _DrawerFragmentState extends State<DrawerFragment> {
 
             GestureDetector(
               onTap: () {
-                setState(() {
-                  indexContext = 1;
-                });
-                Navigator.of(context).pop();
-              },
-              child: ListTile(
-                leading: Icon(Icons.assignment, color: Colors.indigo),
-                title: Text('Critérios 2020'),
-              ), //Criteria,
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  indexContext = 0;
-                });
-                Navigator.of(context).pop();
-              },
-              child: ListTile(
-                leading: Icon(Icons.library_books, color: Colors.indigo),
-                title: Text('Salas'),
-              ), //Classes
-            ),
-            GestureDetector(
-              onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => MyAccountFragment()
@@ -102,7 +77,7 @@ class _DrawerFragmentState extends State<DrawerFragment> {
                 //edit settings build
                 title: Text('Minha Conta'),
               ), //QuickNotes
-            ),
+            ),//MyAccount
             Divider(),
 
             GestureDetector(

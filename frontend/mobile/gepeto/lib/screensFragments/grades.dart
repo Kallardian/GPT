@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../screens.dart';
 
 //Grade Screen
 class GradeFragment extends StatefulWidget {
@@ -12,9 +11,9 @@ class GradeFragment extends StatefulWidget {
 
 class _GradeFragmentState extends State<GradeFragment> {
   List<ExpansionCriteria> _gradeCriteria = <ExpansionCriteria>[
-    ExpansionCriteria(header: 'web', body: 'Responsividade'),
-    ExpansionCriteria(header: 'mobile', body: 'Identidade visual'),
-    ExpansionCriteria(header: 'desktop', body: 'Big(O)'),
+    ExpansionCriteria(header: 'web', body: ''),
+    ExpansionCriteria(header: 'mobile', body: ''),
+    ExpansionCriteria(header: 'desktop', body: ''),
   ];
 
   @override

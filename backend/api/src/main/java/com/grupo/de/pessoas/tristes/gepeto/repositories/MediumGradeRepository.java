@@ -1,7 +1,6 @@
 package com.grupo.de.pessoas.tristes.gepeto.repositories;
 
 import com.grupo.de.pessoas.tristes.gepeto.dtos.MediumGrade;
-import com.grupo.de.pessoas.tristes.gepeto.dtos.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

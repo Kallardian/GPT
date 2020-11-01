@@ -14,7 +14,7 @@ import javax.persistence.*;
 //POST
 @NamedStoredProcedureQuery( name = "SP_INSERT_MEDIUM_CRITERION", procedureName = "SP_INSERT_MEDIUM_CRITERION",
         parameters = {
-                @StoredProcedureParameter(name = "id_medium", type = Long.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "id_big", type = Long.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "name_medium", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "ra", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "description", type = String.class, mode = ParameterMode.IN),

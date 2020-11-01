@@ -27,7 +27,7 @@ public class MediumGradeRepository {
                 .createNamedStoredProcedureQuery("SP_FIND_MEDIUM_GRADE");
 
         getMediumGradeByIdStoredProcedureQuery
-                .setParameter("id_medium_grade", mediumGrade.getIdGroup());
+                .setParameter("id_medium_grade", mediumGrade.getIdMediumGrade());
 
         getMediumGradeByIdStoredProcedureQuery.execute();
 

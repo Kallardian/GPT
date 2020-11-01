@@ -564,13 +564,14 @@ CREATE PROCEDURE SP_SHOW_MEDIUM_CRITERION
 AS 
   BEGIN 
       SELECT MC.ID_MEDIUM, 
-             MC.ID_BIG, 
+             MC.ID_BIG,
+             MC.RA,   
              MC.NAME_MEDIUM, 
              MC.DESCRIPTION, 
              MC.TOTAL_VALUE 
       FROM   [TB_MEDIUM_CRITERION] MC 
-             INNER JOIN [TB_BIG_CRITERION] BC 
-                     ON MC.ID_BIG = BC.ID_BIG 
+      INNER JOIN [TB_BIG_CRITERION] BC 
+            ON         MC.ID_BIG = BC.ID_BIG 
       WHERE  BC.YEAR = Year(Getdate()) 
   END 
 

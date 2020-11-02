@@ -5,7 +5,7 @@ import { ClassroomsComponent } from './view/classrooms/classrooms.component'
 import { GroupsComponent } from './view/groups/groups.component'
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent, outlet: 'login'},
+  { path: 'login', component: LoginComponent},
   { path: 'classrooms', component: ClassroomsComponent },
   { path: 'groups', component: GroupsComponent }
 

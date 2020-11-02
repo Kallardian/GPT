@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { GroupsService } from 'src/app/services/groups-services/groups.service';
 import { ClassroomsService } from 'src/app/services/classrooms-services/classrooms.service';
 import { Classroom } from 'src/models/classroom.model';
+
 
 @Component({
   selector: 'app-classrooms',
@@ -9,16 +12,17 @@ import { Classroom } from 'src/models/classroom.model';
   styleUrls: ['./classrooms.component.css']
 })
 export class ClassroomsComponent implements OnInit {
-
- // public classrooms: Classroom[] = [];
-  classrooms: Array<any>;
   public title: String = 'Salas';
+
+  classrooms: Array<any>;
   public givenNumberOfClassrooms: Number;
   formNumberClassrooms: FormGroup;
 
+  constructor(private fb: FormBuilder, 
+              private ClassroomService: ClassroomsService,
+              private GroupService: GroupsService) { }
 
-  constructor(private fb: FormBuilder, private ClassroomService: ClassroomsService) {
-  }
+    
 
   ngOnInit(): void {
     this.createNumberClassroomForm();
@@ -66,5 +70,9 @@ export class ClassroomsComponent implements OnInit {
     this.ClassroomService.showClassrooms()
       .subscribe(data => this.classrooms = data);
   }
+  changeGroupsUrlService(classroomId: number){
+    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + 'classroom/' + classroomId
+  }
+
 
 }

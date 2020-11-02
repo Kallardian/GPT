@@ -1,1 +1,5 @@
-<p>Grupos</p>
+<ul>
+    <li *ngFor="let group of groups" >
+       <button  routerLink="/groups">{{ group[2] }}</button>
+    </li>
+</ul>

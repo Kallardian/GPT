@@ -10,7 +10,7 @@
 
 <ul>
     <li *ngFor="let classroom of classrooms">
-        <button>{{ classroom }}</button> | <button *ngIf="classroom.id == classrooms.length" (click)="removeClassroom(classroom)">Remover</button>
+       <button  routerLink="/groups" (click)="changeGroupsUrlService(classroom[0])">{{ classroom[1] }}</button> | <button *ngIf="classroom[0] == classrooms.length" (click)="removeClassroom(classroom)">Remover</button>
     </li>
 </ul>
-
+ 

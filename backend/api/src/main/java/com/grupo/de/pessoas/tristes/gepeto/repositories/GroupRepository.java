@@ -70,9 +70,9 @@ public class GroupRepository {
             Object[] object = (Object[]) iterator.next();
 
             Long idGroup = Long.parseLong(String.valueOf(object[0]));
-            String groupTheme = String.valueOf(object[1]);
-            String description = String.valueOf(object[2]);
-            Long idClassroom = Long.parseLong(String.valueOf(object[3]));
+            Long idClassroom = Long.parseLong(String.valueOf(object[1]));
+            String groupTheme = String.valueOf(object[2]);
+            String description = String.valueOf(object[3]);
             String ra = String.valueOf(object[4]);
         }
 

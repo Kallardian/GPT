@@ -31,9 +31,17 @@ public class UserRepository {
 
         loginStoredProcedureQuery.execute();
 
-        int access = (int) loginStoredProcedureQuery.getSingleResult();
+        List<User> userList = loginStoredProcedureQuery.getResultList();
 
-        return access;
+        Iterator iterator = userList.iterator();
+
+        while (iterator.hasNext()) {
+            int access = Integer.parseInt(String.valueOf(iterator.next()));
+
+            user.setAccess(access);
+        }
+
+        return user.getAccess();
     }
 
     //GET User
@@ -117,9 +125,9 @@ public class UserRepository {
                 .createNamedStoredProcedureQuery("SP_UPDATE_USER");
 
         updateUserStoredProcedureQuery
-                .setParameter("user_login", user.getRa())
-                .setParameter("user_name", user.getFullName())
-                .setParameter("user_pwd", user.getPassword())
+                .setParameter("ra", user.getRa())
+                .setParameter("name", user.getFullName())
+                .setParameter("pwd", user.getPassword())
                 .setParameter("access", user.getAccess());
 
         updateUserStoredProcedureQuery.execute();

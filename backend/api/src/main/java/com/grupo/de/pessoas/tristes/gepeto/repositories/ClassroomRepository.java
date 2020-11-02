@@ -1,6 +1,7 @@
 package com.grupo.de.pessoas.tristes.gepeto.repositories;
 
 import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
+import com.grupo.de.pessoas.tristes.gepeto.dtos.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,14 @@ public class ClassroomRepository {
 
         amountOfClassroomsStoredProcedureQuery.execute();
 
-        int amount = (int) amountOfClassroomsStoredProcedureQuery.getSingleResult();
+        List<Classroom> classroomList = amountOfClassroomsStoredProcedureQuery.getResultList();
+
+        Iterator iterator = classroomList.iterator();
+
+        int amount = 0;
+        while (iterator.hasNext()) {
+            amount = Integer.parseInt(String.valueOf(iterator.next()));
+        }
 
         return amount;
     }

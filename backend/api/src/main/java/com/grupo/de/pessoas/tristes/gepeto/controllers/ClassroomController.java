@@ -45,8 +45,8 @@ public class ClassroomController {
     }
 
     //POST
-    @PostMapping
-    public ResponseEntity<?> postClassroom(@RequestBody int amount) {
+    @PostMapping("/{amount}")
+    public ResponseEntity<?> postClassroom(@PathVariable() int amount) {
 
         classroomRepository.postClassrooms(amount);
 
@@ -54,7 +54,7 @@ public class ClassroomController {
     }
 
     //DELETE
-    @DeleteMapping("/{classroom_id}")
+    @DeleteMapping("/delete/{classroom_id}")
     public ResponseEntity deleteClassroom(@PathVariable() Long classroom_id) {
 
         Classroom classroom = new Classroom();

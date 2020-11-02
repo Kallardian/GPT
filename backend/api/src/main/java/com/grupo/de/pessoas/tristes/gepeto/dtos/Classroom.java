@@ -24,7 +24,7 @@ import javax.persistence.*;
 //DELETE
 @NamedStoredProcedureQuery(name = "SP_DELETE_CLASSROOM", procedureName = "SP_DELETE_CLASSROOM",
         parameters = {
-                @StoredProcedureParameter(name = "classroom_name", type = String.class, mode = ParameterMode.IN)
+                @StoredProcedureParameter(name = "classroom_id", type = Long.class, mode = ParameterMode.IN)
         }
 )
 

@@ -116,7 +116,7 @@ public class ClassroomRepository {
                 .createNamedStoredProcedureQuery("SP_DELETE_CLASSROOM");
 
         deleteClassroomStoredProcedureQuery
-                .setParameter("classroom_name", classroom.getNameClassroom());
+                .setParameter("classroom_id", classroom.getIdClassroom());
 
         deleteClassroomStoredProcedureQuery.execute();
     }

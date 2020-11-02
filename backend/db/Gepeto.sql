@@ -19,7 +19,7 @@ CREATE TABLE [TB_CLASSROOM]
 	[ID_CLASSROOM] INT PRIMARY KEY IDENTITY,
 	[NAME_CLASSROOM] CHAR(6) NOT NULL,
 	[YEAR] CHAR(4) NOT NULL
-);
+); 
 GO
 CREATE TABLE [TB_GROUP]
 (
@@ -356,12 +356,9 @@ AS
   END 
 
 GO
-CREATE PROCEDURE SP_DELETE_CLASSROOM (@classroom_name CHAR(6)) 
+CREATE PROCEDURE SP_DELETE_CLASSROOM (@classroom_id INT) 
 AS 
   BEGIN 
-      DECLARE @classroom_id TINYINT 
-
-      SELECT @classroom_id = dbo.Classroomnametoclassroomid(@classroom_name) 
 
       DELETE FROM TB_CLASSROOM 
       WHERE  [ID_CLASSROOM] = @classroom_id 

@@ -463,7 +463,7 @@ AS
   END 
 
 GO 
-CREATE PROCEDURE SP_SHOW_GROUPS 
+CREATE PROCEDURE SP_SHOW_GROUPS (@classroom_id INT)
 AS  
   BEGIN 
       SELECT G.ID_GROUP, 
@@ -473,8 +473,9 @@ AS
              G.RA
       FROM   TB_GROUP G 
              INNER JOIN TB_CLASSROOM C 
-                     ON G.ID_CLASSROOM = C.ID_CLASSROOM 
-      WHERE  Year(C.YEAR) = Year(Getdate()) 
+                     ON G.ID_CLASSROOM = C.ID_CLASSROOM
+            WHERE  Year(C.YEAR) = Year(Getdate()) 
+            AND    C.ID_CLASSROOM = @classroom_id
   END 
 
 GO 

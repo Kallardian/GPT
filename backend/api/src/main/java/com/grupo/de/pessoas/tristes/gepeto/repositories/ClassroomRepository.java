@@ -110,7 +110,7 @@ public class ClassroomRepository {
 
     //DELETE
     @Transactional
-    public List<Classroom> deleteClassroom(Classroom classroom) {
+    public void deleteClassroom(Classroom classroom) {
         entityManager = getEntityManager();
         StoredProcedureQuery deleteClassroomStoredProcedureQuery = entityManager
                 .createNamedStoredProcedureQuery("SP_DELETE_CLASSROOM");
@@ -120,19 +120,6 @@ public class ClassroomRepository {
 
         deleteClassroomStoredProcedureQuery.execute();
 
-        List<Classroom> classroomList = deleteClassroomStoredProcedureQuery.getResultList();
-
-        Iterator iterator = classroomList.iterator();
-
-        while (iterator.hasNext()) {
-            Object[] object = (Object[]) iterator.next();
-
-            Long idClassroom = Long.parseLong(String.valueOf(object[0]));
-            String nameClassroom = String.valueOf(object[1]);
-            int year = Integer.parseInt(String.valueOf(object[2]));
-        }
-
-        return classroomList;
     }
 
 }

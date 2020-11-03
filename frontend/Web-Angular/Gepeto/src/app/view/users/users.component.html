@@ -1,0 +1,18 @@
+<ul>
+    <li>Nome:</li>
+    <li *ngFor="let user of users">{{ user[0] }} - {{ user[1] }} - {{ user[3] }}  </li>
+</ul>
+
+<table border="1">
+    <tr>
+        <th><b>RA</b></th>
+        <th><b>NOME</b></th>
+        <th><b>ACESSO</b></th>
+
+    </tr>
+    <tr *ngFor="let user of users">
+        <td> {{ user[0] }} </td> 
+        <td> {{ user[1] }} </td>
+        <td> {{ user[3] }} </td> <button (click)="removeUser()">Remover</button> | <button>Alterar</button>
+    </tr> 
+</table>

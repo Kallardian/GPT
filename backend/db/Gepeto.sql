@@ -246,9 +246,6 @@ AS
                         @access) 
         END
   END 
-exec SP_INSERT_USER '123456', 'lallo', 'eu te amo', 2
-exec SP_INSERT_USER '654321', 'lallo2', 'eu te amo', 2
-exec SP_INSERT_USER '142536', 'Gusmão da Silva Reis de Avelar', 'eu te amo', 3
 GO 
 CREATE PROCEDURE SP_UPDATE_USER (@ra     CHAR(6), 
                                  @name   VARCHAR(50), 
@@ -659,3 +656,56 @@ AS
 
 GO 
 
+/*-------------SP_INSERTS-------------*/
+GO
+-- USER --
+EXEC SP_INSERT_USER '854950', 'SAIU ESCOLA', 'SENHA123', 4; 
+EXEC SP_INSERT_USER '000000', 'TEC', 'PASSWORD', 1;
+EXEC SP_INSERT_USER '123456', 'MARCELLO LALLO', 'SENHA123', 2;
+EXEC SP_INSERT_USER '654321', 'GUSMÃO', 'SENHA321', 3;
+EXEC SP_INSERT_USER '246810', 'LEANDRO CRUZ', 'SENHA248', 4;
+GO
+/*---SP_INSERT_CLASSROOM---*/
+EXEC SP_INSERT_CLASSROOM 9;
+GO
+/*-----SP_INSERT_GROUP-----*/
+EXEC SP_INSERT_GROUP 'Churras Carnes', NULL,'1', '654321'; 
+EXEC SP_INSERT_GROUP 'Asessoria Carros', NULL,'2', '654321';
+EXEC SP_INSERT_GROUP 'Disco Store', 'Será um projeto basico para vender discos','3', '654321';
+EXEC SP_INSERT_GROUP 'GEPETO', 'O projeto terá como objetivo avaliar TCCs','4','654321';
+EXEC SP_INSERT_GROUP 'CORASSAUM', NULL,'5', '654321';
+EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', NULL,'5', '654321';
+EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','4', '654321';
+GO
+select * from TB_CLASSROOM
+/*SP_INSERT_BIG_CRITERION*/
+EXEC SP_INSERT_BIG_CRITERION
+GO
+/*SP_INSERT_MEDIUM_CRITERION*/
+EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Mobile', '123456','Olha só, de novo', @VALUE = 2
+EXEC SP_INSERT_MEDIUM_CRITERION 1, 'WEB', '123456', 'Qualquer coisa', 4
+EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Desktop', '123456', 'Já tem WEB pra não ter que ter desktop, mas né?!', 4
+GO
+/*SP_INSERT_MEDIUM_GRADE*/
+EXEC SP_INSERT_MEDIUM_GRADE 1, '246810', 2, 10, 1
+GO
+/*-------------SP_UPDATES-------------*/
+/*-------SP_UPDATE_USER------*/
+EXEC SP_UPDATE_USER '123456', 'MARCELLO LALLO LY', 'EU TE AMO', 2
+GO 
+EXEC SP_UPDATE_USER '854950', 'SAIU ESCOLA', 'EU TAMBÉM', 0
+GO
+/*-------------SP_FIND-------------*/
+EXEC SP_FIND_USER '246810'
+GO
+/*-------------INSERTS-------------*/
+GO
+SELECT * FROM TB_USER;
+SELECT * FROM TB_CLASSROOM;
+SELECT * FROM TB_GROUP;
+SELECT * FROM TB_BIG_CRITERION;
+SELECT * FROM TB_MEDIUM_CRITERION;
+SELECT * FROM TB_MEDIUM_GRADE
+EXEC SP_UPDATE_GROUP  '1', '1', 'Uma churrascaria bem bacana', 'ChurrasquinhoS'
+EXEC SP_UPDATE_GROUP  '3', '3', NULL, 'Loja de Disco'
+GO

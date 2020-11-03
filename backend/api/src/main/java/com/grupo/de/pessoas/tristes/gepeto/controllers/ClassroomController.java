@@ -60,8 +60,8 @@ public class ClassroomController {
         Classroom classroom = new Classroom();
         classroom.setIdClassroom(classroom_id);
 
-        List<Classroom> classroomList = classroomRepository.deleteClassroom(classroom);
+        classroomRepository.deleteClassroom(classroom);
 
-        return ResponseEntity.ok().body(classroomList);
+        return ResponseEntity.ok().build();
     }
 }

@@ -343,7 +343,6 @@ AS
                                [YEAR]) 
                   VALUES      ('INF3' + Char(@letter) + 'M', 
                                YEAR(Getdate())) 
-
                   SET @i += 1; 
                   SET @letter += 1; 
               END 
@@ -353,15 +352,17 @@ AS
                   SET @letter += 1; 
               END 
         END 
+      SELECT * FROM TB_CLASSROOM
   END 
 
 GO
+
 CREATE PROCEDURE SP_DELETE_CLASSROOM (@classroom_id INT) 
 AS 
   BEGIN 
-
       DELETE FROM TB_CLASSROOM 
-      WHERE  [ID_CLASSROOM] = @classroom_id 
+      WHERE  [ID_CLASSROOM] = @classroom_id
+      SELECT * FROM TB_CLASSROOM
   END 
 
 GO
@@ -648,6 +649,7 @@ GO
 EXEC SP_INSERT_CLASSROOM 9;
 GO
 
+
 /*-----SP_INSERT_GROUP-----*/
 EXEC SP_INSERT_GROUP 'Churras Carnes', NULL,'1', '654321'; 
 EXEC SP_INSERT_GROUP 'Asessoria Carros', NULL,'2', '654321';
@@ -682,8 +684,6 @@ GO
 EXEC SP_FIND_USER '246810'
 GO
 /*-------------INSERTS-------------*/
-INSERT INTO TB_CLASSROOM (NAME_CLASSROOM, YEAR) VALUES ('INF3XM', '2019')
-INSERT INTO TB_GROUP (GROUP_THEME, ID_CLASSROOM, RA)VALUES ('Test', 10, '654321' )
 GO
 
 SELECT * FROM TB_USER;

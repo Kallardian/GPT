@@ -25,7 +25,7 @@ public class ClassroomController {
     }
 
     //GET
-    @GetMapping
+    @GetMapping("/show")
     public ResponseEntity getClassrooms() {
 
         List<Classroom> classrooms = classroomRepository.showClassrooms();
@@ -45,7 +45,7 @@ public class ClassroomController {
     }
 
     //POST
-    @PostMapping("/{amount}")
+    @PostMapping("/post/{amount}")
     public ResponseEntity<?> postClassroom(@PathVariable() int amount) {
 
         classroomRepository.postClassrooms(amount);
@@ -60,8 +60,8 @@ public class ClassroomController {
         Classroom classroom = new Classroom();
         classroom.setIdClassroom(classroom_id);
 
-        classroomRepository.deleteClassroom(classroom);
+        List<Classroom> classroomList = classroomRepository.deleteClassroom(classroom);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(classroomList);
     }
 }

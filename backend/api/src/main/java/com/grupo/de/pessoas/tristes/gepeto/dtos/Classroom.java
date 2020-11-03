@@ -19,7 +19,7 @@ import javax.persistence.*;
         parameters = {
                 @StoredProcedureParameter(name = "amount_classroom", type = Integer.class, mode = ParameterMode.IN),
         }
-)
+)// Current CallableStatement ou was not a ResultSet, but getResultList was called"
 
 //DELETE
 @NamedStoredProcedureQuery(name = "SP_DELETE_CLASSROOM", procedureName = "SP_DELETE_CLASSROOM",

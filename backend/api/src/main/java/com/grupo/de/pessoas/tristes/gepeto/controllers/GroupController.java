@@ -1,5 +1,6 @@
 package com.grupo.de.pessoas.tristes.gepeto.controllers;
 
+import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.Group;
 import com.grupo.de.pessoas.tristes.gepeto.repositories.GroupRepository;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,13 @@ public class GroupController {
     private GroupRepository groupRepository = new GroupRepository();
 
     //GET
-    @GetMapping
-    public ResponseEntity getGroups() {
+    @GetMapping("/show/{classroom_id}")
+    public ResponseEntity getGroups(@PathVariable() Long classroom_id) {
 
-        List<Group> groups = groupRepository.showGroups();
+        Classroom classroom = new Classroom();
+        classroom.setIdClassroom(classroom_id);
+
+        List<Group> groups = groupRepository.showGroups(classroom);
 
         return ResponseEntity.ok().body(groups);
     }

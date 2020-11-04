@@ -1,5 +1,6 @@
 package com.grupo.de.pessoas.tristes.gepeto.repositories;
 
+import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.Group;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,10 +56,13 @@ public class GroupRepository {
     }
 
     @Transactional
-    public List<Group> showGroups() {
+    public List<Group> showGroups(Classroom classroom) {
         entityManager = getEntityManager();
         StoredProcedureQuery showGroupsStoredProcedureQuery = entityManager
                 .createNamedStoredProcedureQuery("SP_SHOW_GROUPS");
+
+        showGroupsStoredProcedureQuery
+                .setParameter("classroom_id", classroom.getIdClassroom());
 
         showGroupsStoredProcedureQuery.execute();
 
@@ -119,8 +123,7 @@ public class GroupRepository {
                 .createNamedStoredProcedureQuery("SP_DELETE_GROUP");
 
         deleteGroupStoredProcedureQuery
-                .setParameter("group_theme", group.getGroupTheme())
-                .setParameter("classroom_id", group.getIdClassroom());
+                .setParameter("group_id", group.getIdGroup());
 
         deleteGroupStoredProcedureQuery.execute();
     }

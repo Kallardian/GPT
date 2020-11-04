@@ -244,7 +244,11 @@ AS
                         @user_name, 
                         @final_pwd, 
                         @access) 
+            SELECT * 
+            FROM   TB_USER
+            WHERE  RA = @user_login
         END
+      COMMIT
   END 
 GO 
 CREATE PROCEDURE SP_UPDATE_USER (@ra     CHAR(6), 
@@ -253,7 +257,6 @@ CREATE PROCEDURE SP_UPDATE_USER (@ra     CHAR(6),
                                  @access TINYINT) 
 AS 
   BEGIN
-    BEGIN TRANSACTION 
       DECLARE @finalpwd VARCHAR(MAX) 
 
       SELECT @finalpwd = DBO.funcEncrypt(@pwd) 
@@ -298,8 +301,9 @@ AS
 				PRINT('VOCÊ NÃO PODE DELETAR ESTE PROFESSOR')
 		END
 	   ELSE
-		DELETE FROM TB_USER -- Chechar se já fez alguma modificação no banco de dados
-		WHERE  RA = @ra 
+		DELETE FROM TB_USER 
+		WHERE  RA = @ra
+    COMMIT 
   END 
 GO 
 CREATE PROCEDURE SP_FIND_USER (@ra CHAR(6)) 
@@ -375,14 +379,16 @@ AS
               END 
         END 
       SELECT * FROM #temptable
+    COMMIT
   END 
 GO
 
 CREATE PROCEDURE SP_DELETE_CLASSROOM (@classroom_id INT) 
 AS 
-  BEGIN 
+  BEGIN  
       DELETE FROM TB_CLASSROOM 
       WHERE  [ID_CLASSROOM] = @classroom_id
+      COMMIT
   END 
 
 GO
@@ -435,6 +441,7 @@ AS
                          @classroom_id,
 						 @ra) 
         END 
+    COMMIT
   END 
 
 GO 
@@ -460,7 +467,8 @@ AS
         UPDATE [TB_GROUP] 
         SET    [GROUP_THEME] = @new_theme, 
                [GROUP_DESCRIPTION] = @description 
-        WHERE  ID_GROUP = @group_id 
+        WHERE  ID_GROUP = @group_id
+    COMMIT 
   END 
 
 GO 
@@ -471,6 +479,7 @@ AS
       DELETE FROM TB_GROUP 
       WHERE  [GROUP_THEME] = @group_theme 
              AND [ID_CLASSROOM] = @classroom_id
+    COMMIT
   END 
 
 GO 
@@ -506,7 +515,8 @@ AS
   BEGIN 
       INSERT INTO [TB_BIG_CRITERION] 
                   ([YEAR]) 
-      VALUES      (YEAR(Getdate())) 
+      VALUES      (YEAR(Getdate()))
+    COMMIT 
   END 
 GO 
 CREATE PROCEDURE SP_FIND_BIG_CRITERION (@id_big INT) 
@@ -531,7 +541,7 @@ GO
 --| MEDIUM_CRETERION |--  
 CREATE PROCEDURE SP_INSERT_MEDIUM_CRITERION (@id_big      INT, 
                                              @name_medium VARCHAR(30 ),
-											 @ra CHAR(6),
+											                       @ra CHAR(6),
                                              @description VARCHAR(300), 
                                              @value       DECIMAL(4, 2)) 
 AS 
@@ -547,7 +557,7 @@ AS
                   @name_medium, 
                   @description, 
                   @value) 
-
+    COMMIT
   END 
 
 GO 
@@ -561,7 +571,8 @@ AS
       SET    [NAME_MEDIUM] = @name_medium, 
              [DESCRIPTION] = @description, 
              [TOTAL_VALUE] = @value 
-      WHERE  [ID_MEDIUM] = @id_medium 
+      WHERE  [ID_MEDIUM] = @id_medium
+    COMMIT 
   END 
 
 GO 
@@ -569,7 +580,8 @@ CREATE PROCEDURE SP_DELETE_MEDIUM_CRITERION(@id_medium INT)
 AS 
   BEGIN 
       DELETE FROM [TB_MEDIUM_CRITERION] 
-      WHERE  [ID_MEDIUM] = @id_medium 
+      WHERE  [ID_MEDIUM] = @id_medium
+    COMMIT 
   END 
 GO 
 CREATE PROCEDURE SP_FIND_MEDIUM_CRITERION(@id_medium INT) 
@@ -596,7 +608,6 @@ AS
   END 
 
 GO 
-
 --| MEDIUM_GRADES |--  
 CREATE PROCEDURE SP_INSERT_MEDIUM_GRADE (@id_medium INT, 
                                          @ra        CHAR(6), 
@@ -624,7 +635,8 @@ AS
                    @ra, 
                    @id_group, 
                    @final_grade, 
-                   @attempt) 
+                   @attempt)
+    COMMIT 
   END 
 
 GO 

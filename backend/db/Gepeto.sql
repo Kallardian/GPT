@@ -643,9 +643,9 @@ GO
 CREATE PROCEDURE SP_FIND_MEDIUM_GRADE(@id_medium_grade INT) 
 AS 
   BEGIN 
-      SELECT * 
+      SELECT *
       FROM   TB_MEDIUM_GRADE 
-      WHERE  ID_MEDIUM = @id_medium_grade 
+      WHERE  ID_MEDIUM_GRADE = @id_medium_grade 
   END 
 
 GO 

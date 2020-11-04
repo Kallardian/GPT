@@ -15,7 +15,7 @@ export class ClassroomsComponent implements OnInit {
   public title: String = 'Salas';
 
   classrooms: Array<any>;
-  public givenNumberOfClassrooms: Number;
+  givenNumberOfClassrooms: number;
   formNumberClassrooms: FormGroup;
 
   constructor(private fb: FormBuilder, 
@@ -27,6 +27,7 @@ export class ClassroomsComponent implements OnInit {
   ngOnInit(): void {
     this.createNumberClassroomForm();
     this.showClassrooms();
+    this.givenNumberOfClassrooms = 0;
   }
 
   createNumberClassroomForm() {
@@ -42,25 +43,10 @@ export class ClassroomsComponent implements OnInit {
     });
   }
 
-  // addClassroom(numberOfClassrooms: Number) { //aqui viria uma maneira de chamar a SP_INSERT_CLASSROOM e retornar as classes
-  //   let lastClassroom: number; 
-  //   lastClassroom = this.classrooms[this.classrooms.length - 1]?.id
-  //   console.log(lastClassroom)
-
-  //   if (numberOfClassrooms > lastClassroom || lastClassroom == undefined) {
-  //     if(lastClassroom == undefined){
-  //       lastClassroom = 0
-  //     }
-  //     for (let i = lastClassroom; i < numberOfClassrooms; i++) {
-  //       this.classrooms.push(new Classroom(i + 1, 'INF3' + String.fromCharCode(65 + i) + 'M', '2020'))
-  //     }
-  //   }
-  //   else{
-      
-  //   }
-  
-
-  // }
+  addClassroom(amountOfClassrooms: number) { //aqui viria uma maneira de chamar a SP_INSERT_CLASSROOM e retornar as classes
+    this.ClassroomService.addClassroms(amountOfClassrooms)
+    .subscribe()
+  }
   removeClassroom(classroomRemoved: Classroom) { //aqui é a SP_DELETE_CLASSROOM
     const index = this.classrooms.indexOf(classroomRemoved)
     this.classrooms.splice(index, 1)

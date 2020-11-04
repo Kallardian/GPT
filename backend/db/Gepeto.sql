@@ -472,13 +472,11 @@ AS
   END 
 
 GO 
-CREATE PROCEDURE SP_DELETE_GROUP (@group_theme    VARCHAR(50), 
-                                  @classroom_id INT) 
+CREATE PROCEDURE SP_DELETE_GROUP (@group_id    INT) 
 AS 
   BEGIN 
       DELETE FROM TB_GROUP 
-      WHERE  [GROUP_THEME] = @group_theme 
-             AND [ID_CLASSROOM] = @classroom_id
+      WHERE  ID_GROUP = @group_id
     COMMIT
   END 
 

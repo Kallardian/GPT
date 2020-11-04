@@ -9,7 +9,11 @@ import javax.persistence.*;
         }
 )
 
-@NamedStoredProcedureQuery(name = "SP_SHOW_GROUPS", procedureName = "SP_SHOW_GROUPS")
+@NamedStoredProcedureQuery(name = "SP_SHOW_GROUPS", procedureName = "SP_SHOW_GROUPS",
+        parameters = {
+                @StoredProcedureParameter(name = "classroom_id", type = Long.class, mode = ParameterMode.IN)
+        }
+)
 
 //POST
 @NamedStoredProcedureQuery( name = "SP_INSERT_GROUP", procedureName = "SP_INSERT_GROUP",
@@ -34,8 +38,7 @@ import javax.persistence.*;
 //DELETE
 @NamedStoredProcedureQuery(name = "SP_DELETE_GROUP", procedureName = "SP_DELETE_GROUP",
         parameters = {
-                @StoredProcedureParameter(name = "group_theme", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "classroom_id", type = Long.class, mode = ParameterMode.IN)
+                @StoredProcedureParameter(name = "group_id", type = Long.class, mode = ParameterMode.IN)
         }
 )
 

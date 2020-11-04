@@ -1,18 +1,26 @@
+<div>
+    <form [formGroup]="formUser" (ngSubmit)="saveUser()">
+
+        <input type="text" formControlName="ra" placeholder="Entre com o RA" maxlength="6">
+        <input type="text" formControlName="fullname" placeholder="Entre com o Nome" maxlength="50">
+        <input type="text" formControlName="password" placeholder="Entre com a Senha" maxlength="30">
+        <select formControlName="access">
+            <option value="1">Coordenção da Escola</option> 
+            <option value="2">Coordenador do Curso</option>
+            <option value="3">Professor de Projetos</option>
+            <option value="4">Professor Avaliador</option>
+        </select>
+
+        <button>Entrar</button>
+        <br><br>
+    </form>
+    <br><br>
+</div>
+
+
 <ul>
     <li>Nome:</li>
-    <li *ngFor="let user of users">{{ user[0] }} - {{ user[1] }} - {{ user[3] }}  </li>
+    <li *ngFor="let user of users">{{ user[0] }} - {{ user[1] }} - {{ user[3] }}   
+        <button (click)="removeUser(user[0])">Remover</button>
+    </li>
 </ul>
-
-<table border="1">
-    <tr>
-        <th><b>RA</b></th>
-        <th><b>NOME</b></th>
-        <th><b>ACESSO</b></th>
-
-    </tr>
-    <tr *ngFor="let user of users">
-        <td> {{ user[0] }} </td> 
-        <td> {{ user[1] }} </td>
-        <td> {{ user[3] }} </td> <button (click)="removeUser()">Remover</button> | <button>Alterar</button>
-    </tr> 
-</table>

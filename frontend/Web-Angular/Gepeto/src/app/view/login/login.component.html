@@ -4,7 +4,7 @@
     <h2>Bem Vindo</h2>
     <form [formGroup]="formLogin" (ngSubmit)="sendLogin()">
 
-        <input type="text" formControlName="user" placeholder="Entre com seu RA" maxlength="6">
+        <input type="text" pattern="\d*" formControlName="user" placeholder="Entre com seu RA" maxlength="6">
 
         <input type="password" formControlName="pwd" placeholder="Entre com sua senha" maxlength="30">
 

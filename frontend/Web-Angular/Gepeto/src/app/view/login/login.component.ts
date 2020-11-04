@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   createLoginForm() {
     this.formLogin = this.fb.group({
-      user: [
+      ra: [
         '',
         Validators.compose([
           Validators.required,
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
           Validators.maxLength(6)
         ])
       ],
-      pwd: [
+      name: [
         '',
         Validators.compose([
           Validators.required,

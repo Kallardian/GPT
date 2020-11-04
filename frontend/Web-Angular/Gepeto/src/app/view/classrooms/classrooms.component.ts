@@ -18,11 +18,11 @@ export class ClassroomsComponent implements OnInit {
   givenNumberOfClassrooms: number;
   formNumberClassrooms: FormGroup;
 
-  constructor(private fb: FormBuilder, 
-              private ClassroomService: ClassroomsService,
-              private GroupService: GroupsService) { }
+  constructor(private fb: FormBuilder,
+    private ClassroomService: ClassroomsService,
+    private GroupService: GroupsService) { }
 
-    
+
 
   ngOnInit(): void {
     this.createNumberClassroomForm();
@@ -43,20 +43,24 @@ export class ClassroomsComponent implements OnInit {
     });
   }
 
-  addClassroom(amountOfClassrooms: number) { //aqui viria uma maneira de chamar a SP_INSERT_CLASSROOM e retornar as classes
-    this.ClassroomService.addClassroms(amountOfClassrooms)
-    .subscribe()
+  addClassroom() { //aqui viria uma maneira de chamar a SP_INSERT_CLASSROOM e retornar as classes
+    this.ClassroomService.addClassroms(5)
+      .subscribe(
+        result => {
+          console.log(result)
+        }
+      )
   }
   removeClassroom(classroomRemoved: Classroom) { //aqui é a SP_DELETE_CLASSROOM
     const index = this.classrooms.indexOf(classroomRemoved)
     this.classrooms.splice(index, 1)
   }
 
-  showClassrooms(){
+  showClassrooms() {
     this.ClassroomService.showClassrooms()
       .subscribe(data => this.classrooms = data);
   }
-  changeGroupsUrlService(classroomId: number){
+  changeGroupsUrlService(classroomId: number) {
     this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + 'classroom/' + classroomId
   }
 

@@ -5,12 +5,18 @@ import { HttpClient } from '@angular/common/http'
   providedIn: 'root'
 })
 export class UsersService {
+  readonly apiURL: string;
+  
 
-  showUsersUrl = "http://localhost:3001/users/"
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.apiURL = 'http://localhost:3001'
+   }
 
   showUsers(){
-    return this.http.get<any[]>(`${this.showUsersUrl}`)
+    return this.http.get<any[]>(`${this.apiURL}/users`)
+  }
+  deleteUser(userId: number){
+    return this.http.delete<any[]>(`${this.apiURL}/users/` + userId)
   }
 }

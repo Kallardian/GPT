@@ -2,9 +2,10 @@
 <div>
 <form [formGroup]="formNumberClassrooms">
 
-    <input min="0" type="text" pattern="\d*" formControlName="numberClassroom" [(ngModel)]="givenNumberOfClassrooms" placeholder="número de salas" maxlength="2">
-
-  <!-- <button [disabled]="!formNumberClassrooms.valid" (click)="addClassroom(givenNumberOfClassrooms)">Adicionar</button>-->
+    <input min="0" type="text" pattern="\d*" formControlName="numberClassroom" 
+    placeholder="número de salas" maxlength="2" [(ngModel)]="givenNumberOfClassrooms"> 
+    
+    <button type="submit" (click)="addClassroom()" [disabled]="!formNumberClassrooms.valid">Adicionar</button>
     <br><br>
 </form>
 

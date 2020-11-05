@@ -1,8 +1,26 @@
 <h1 *ngIf="groups == null">
     Não há grupos ainda nesta sala
 </h1>
-<ul>
+<ul *ngIf="!inputMode">
     <li *ngFor="let group of groups" >
        <button  routerLink="/groups">{{ group[2] }} - {{ group[3] }}</button>
     </li>
 </ul>
+
+<form [formGroup]="formAddGroup" (ngSubmit)="addGroup(formAddGroup.value)">
+    <input type="text" formControlName="groupTheme" placeholder="Tema do grupos" maxlength="50">
+    <input type="text" formControlName="description" placeholder="Descrição do grupo" maxlength="300">
+    <input type="number" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom" disabled>
+    <input type="number" formControlName="ra" placeholder="RA" maxlength="6">
+
+    <button type="submit" [disabled]="!formAddGroup.valid">Adicionar Grupo</button>
+</form>
+
+<!-- <form method="POST" #frm="ngForm" (ngSubmit)="addGroup(frm)">
+    <input type="text" [(ngModel)]="group.theme" name="theme"  placeholder="Tema do grupos" maxlength="50">
+    <input type="text" [(ngModel)]="group.description" name="description" placeholder="Descrição do grupo" maxlength="300">
+    <input type="number" [(ngModel)]="group.currentClassroom" name="currentClassroom" placeholder="Id da classe" >
+    <input type="number" [(ngModel)]="group.ra" name="ra" placeholder="RA"  maxlength="6">
+
+    <button type="submit" >Adicionar Grupo</button>
+</form> -->

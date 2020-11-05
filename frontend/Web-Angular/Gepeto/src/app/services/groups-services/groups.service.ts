@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http'
 export class GroupsService {
 
   showGroupsUrl = "/api/groups/show/"
+  postGroupsUrl = "/api/groups/"
   currentClassroom: number;
 
   constructor(private http: HttpClient) { }
@@ -16,5 +17,8 @@ export class GroupsService {
   }
   changeCurrentClassroom(classroomId: number){
     this.currentClassroom = classroomId;
+  }
+  addGroup(group: any){
+    return this.http.post(this.postGroupsUrl, group);
   }
 }

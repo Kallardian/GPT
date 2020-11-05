@@ -1,15 +1,14 @@
-DECLARE @query VARCHAR(MAX) = ''
+-- DECLARE @query VARCHAR(MAX) = ''
 
-SELECT
-    @query = COALESCE(@query, ',') + 'KILL ' + CONVERT(VARCHAR, spid) + '; '
-FROM
-    master..sysprocesses
-WHERE
-    dbid = DB_ID('GEPETO') -- Nome do database
-    AND dbid > 4 -- Não eliminar sessões em databases de sistema
-    AND spid <> @@SPID -- Não eliminar a sua própria sessão
-IF (LEN(@query) > 0)
-    EXEC(@query)
+-- SELECT @query = COALESCE(@query, ',') + 'KILL ' + CONVERT(VARCHAR, spid) + '; '
+-- FROM
+--     master..sysprocesses
+-- WHERE
+--     dbid = DB_ID('GEPETO') -- Nome do database
+--     AND dbid > 4 -- Não eliminar sessões em databases de sistema
+--     AND spid <> @@SPID -- Não eliminar a sua própria sessão
+-- IF (LEN(@query) > 0)
+--     EXEC(@query)
 
 USE MASTER
 GO
@@ -432,15 +431,7 @@ CREATE PROCEDURE SP_INSERT_GROUP (@group_theme    VARCHAR(50),
 AS 
   BEGIN 
     DECLARE @id_group INT
-    CREATE TABLE #temptable
-    (
-      ID_GROUP           INT,
-      GROUP_THEME        VARCHAR(50),
-      GROUP_DESCRIPTION  VARCHAR(300),
-      ID_CLASSROOM       INT,
-      RA                 CHAR(6)
-    )
-      
+
       IF @description IS NULL 
         BEGIN 
             INSERT INTO TB_GROUP 
@@ -450,23 +441,6 @@ AS
             VALUES      (@group_theme, 
                          @classroom_id,
 						             @ra)
-
-            SELECT       @id_group = 
-                         ID_GROUP
-            FROM         TB_GROUP
-            WHERE        GROUP_THEME = @group_theme
-            AND          ID_CLASSROOM = @classroom_id
-
-            INSERT INTO  #temptable 
-                        ([ID_GROUP],
-                         [GROUP_THEME], 
-                         [ID_CLASSROOM],
-						             [RA]) 
-            VALUES      (@id_group,
-                         @group_theme, 
-                         @classroom_id,
-						             @ra)
-             
         END 
       ELSE 
         BEGIN 
@@ -478,27 +452,16 @@ AS
             VALUES      (@group_theme, 
                          @description, 
                          @classroom_id,
-						             @ra)
-                         
-            SELECT       @id_group = 
-                         ID_GROUP
-            FROM         TB_GROUP
-            WHERE        GROUP_THEME = @group_theme
-            AND          ID_CLASSROOM = @classroom_id
-
-                       INSERT INTO  #temptable 
-                        ([ID_GROUP],
-                         [GROUP_THEME],
-                         [GROUP_DESCRIPTION], 
-                         [ID_CLASSROOM],
-						             [RA]) 
-            VALUES      (@id_group,
-                         @group_theme,
-                         @description, 
-                         @classroom_id,
-						             @ra)
+						             @ra)              
         END
-        SELECT * FROM #temptable 
+    SELECT       @id_group = 
+                 ID_GROUP
+    FROM         TB_GROUP
+    WHERE        GROUP_THEME = @group_theme
+    AND          ID_CLASSROOM = @classroom_id
+         SELECT * 
+         FROM   TB_GROUP
+         WHERE  ID_GROUP = @id_group
     COMMIT
   END 
 

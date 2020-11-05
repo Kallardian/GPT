@@ -16,7 +16,7 @@ public class UserController {
     private UserRepository userRepository = new UserRepository();
 
     //Function User
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity loginUser(@RequestBody User jsonUser) {
 
         User user = new User();

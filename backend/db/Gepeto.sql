@@ -1,3 +1,16 @@
+DECLARE @query VARCHAR(MAX) = ''
+
+SELECT
+    @query = COALESCE(@query, ',') + 'KILL ' + CONVERT(VARCHAR, spid) + '; '
+FROM
+    master..sysprocesses
+WHERE
+    dbid = DB_ID('GEPETO') -- Nome do database
+    AND dbid > 4 -- Não eliminar sessões em databases de sistema
+    AND spid <> @@SPID -- Não eliminar a sua própria sessão
+IF (LEN(@query) > 0)
+    EXEC(@query)
+
 USE MASTER
 GO
 DROP DATABASE IF EXISTS GEPETO
@@ -414,10 +427,19 @@ GO
 --| GROUP |-- 
 CREATE PROCEDURE SP_INSERT_GROUP (@group_theme    VARCHAR(50), 
                                   @description    VARCHAR(300), 
-                                  @classroom_id INT,
-								                  @ra CHAR(6)) 
+                                  @classroom_id   INT,
+								                  @ra             CHAR(6)) 
 AS 
   BEGIN 
+    DECLARE @id_group INT
+    CREATE TABLE #temptable
+    (
+      ID_GROUP           INT,
+      GROUP_THEME        VARCHAR(50),
+      GROUP_DESCRIPTION  VARCHAR(300),
+      ID_CLASSROOM       INT,
+      RA                 CHAR(6)
+    )
       
       IF @description IS NULL 
         BEGIN 
@@ -427,7 +449,24 @@ AS
 						             [RA]) 
             VALUES      (@group_theme, 
                          @classroom_id,
-						             @ra) 
+						             @ra)
+
+            SELECT       @id_group = 
+                         ID_GROUP
+            FROM         TB_GROUP
+            WHERE        GROUP_THEME = @group_theme
+            AND          ID_CLASSROOM = @classroom_id
+
+            INSERT INTO  #temptable 
+                        ([ID_GROUP],
+                         [GROUP_THEME], 
+                         [ID_CLASSROOM],
+						             [RA]) 
+            VALUES      (@id_group,
+                         @group_theme, 
+                         @classroom_id,
+						             @ra)
+             
         END 
       ELSE 
         BEGIN 
@@ -435,12 +474,31 @@ AS
                         ([GROUP_THEME], 
                          [GROUP_DESCRIPTION], 
                          [ID_CLASSROOM],
-						 [RA]) 
+						             [RA]) 
             VALUES      (@group_theme, 
                          @description, 
                          @classroom_id,
-						 @ra) 
-        END 
+						             @ra)
+                         
+            SELECT       @id_group = 
+                         ID_GROUP
+            FROM         TB_GROUP
+            WHERE        GROUP_THEME = @group_theme
+            AND          ID_CLASSROOM = @classroom_id
+
+                       INSERT INTO  #temptable 
+                        ([ID_GROUP],
+                         [GROUP_THEME],
+                         [GROUP_DESCRIPTION], 
+                         [ID_CLASSROOM],
+						             [RA]) 
+            VALUES      (@id_group,
+                         @group_theme,
+                         @description, 
+                         @classroom_id,
+						             @ra)
+        END
+        SELECT * FROM #temptable 
     COMMIT
   END 
 
@@ -538,23 +596,55 @@ GO
 
 --| MEDIUM_CRETERION |--  
 CREATE PROCEDURE SP_INSERT_MEDIUM_CRITERION (@id_big      INT, 
-                                             @name_medium VARCHAR(30 ),
-											                       @ra CHAR(6),
+                                             @name_medium VARCHAR(30),
+											                       @ra          CHAR(6),
                                              @description VARCHAR(300), 
                                              @value       DECIMAL(4, 2)) 
 AS 
-  BEGIN 
+  BEGIN
+    DECLARE @id_medium INT
+    CREATE TABLE #temptable
+    (
+      ID_MEDIUM       INT,
+      ID_BIG          INT,
+      RA              CHAR(6),
+      NAME_MEDIUM     VARCHAR(30),
+      [DESCRIPTION]   VARCHAR (100),
+      TOTAL_VALUE     DECIMAL (4,2)
+    ) 
+
 	 INSERT INTO [TB_MEDIUM_CRITERION] 
-				 ([ID_BIG], 
-				  [RA],
+				         ([ID_BIG], 
+				          [RA],
                   [NAME_MEDIUM], 
                   [DESCRIPTION], 
                   [TOTAL_VALUE]) 
      VALUES      (@id_big,
-				  @ra,
+				          @ra,
                   @name_medium, 
                   @description, 
-                  @value) 
+                  @value)
+
+    SELECT      @id_medium =
+                ID_MEDIUM
+    FROM        TB_MEDIUM_CRITERION
+    WHERE       ID_BIG = @id_big
+    AND         NAME_MEDIUM = @name_medium
+
+	 INSERT INTO #temptable 
+				         ([ID_MEDIUM],
+                  [ID_BIG], 
+				          [RA],
+                  [NAME_MEDIUM], 
+                  [DESCRIPTION], 
+                  [TOTAL_VALUE]) 
+     VALUES      (@id_medium,
+                  @id_big,
+				          @ra,
+                  @name_medium, 
+                  @description, 
+                  @value)
+      SELECT * FROM #temptable
     COMMIT
   END 
 
@@ -686,8 +776,9 @@ EXEC SP_INSERT_GROUP 'GEPETO', 'O projeto terá como objetivo avaliar TCCs','4',
 EXEC SP_INSERT_GROUP 'CORASSAUM', NULL,'5', '654321';
 EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', NULL,'5', '654321';
 EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','4', '654321';
+EXEC SP_INSERT_GROUP 'Loja de Pneus', 'Aquela loja que você compra Pneus de Borracha','4', '654321';
 GO
-select * from TB_CLASSROOM
+
 /*SP_INSERT_BIG_CRITERION*/
 EXEC SP_INSERT_BIG_CRITERION
 GO

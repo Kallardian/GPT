@@ -7,17 +7,25 @@ import { take } from 'rxjs/operators'
 })
 export class ClassroomsService {
 
-  showClassroomsUrl = "http://localhost:3001/classrooms/show";
-  postClassroomUrl = "http://localhost:3001/classrooms/post/5"
-  
+  showClassroomsUrl = "/api/classrooms/show/";
+  postClassroomUrl = "/api/classrooms/post/";
+  deleteClassroomUrl = "/api/classrooms/delete/";
+
   constructor(private http: HttpClient) { }
 
-  showClassrooms(){
+  showClassrooms() {
     return this.http.get<any[]>(`${this.showClassroomsUrl}`)
   }
 
-  addClassroms(givenNumberOfClassrooms: number){
-    return this.http.post(`${ this.postClassroomUrl } `, givenNumberOfClassrooms)
+  addClassroms(givenNumberOfClassrooms: number) {
+    this.postClassroomUrl = this.postClassroomUrl + givenNumberOfClassrooms.toString();
+    return this.http.post(`${this.postClassroomUrl} `, givenNumberOfClassrooms)
   }
-  
+
+  removeClassroom(classroomId: number) {
+    this.deleteClassroomUrl = this.deleteClassroomUrl.replace(/\d+/g, '');
+    this.deleteClassroomUrl = this.deleteClassroomUrl + classroomId.toString();
+    return this.http.delete(`${this.deleteClassroomUrl}`)
+   }
+
 }

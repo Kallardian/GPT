@@ -5,13 +5,17 @@
     <input min="0" type="text" pattern="\d*" formControlName="numberClassroom" 
     placeholder="número de salas" maxlength="2" [(ngModel)]="givenNumberOfClassrooms"> 
     
-    <button type="submit" (click)="addClassroom()" [disabled]="!formNumberClassrooms.valid">Adicionar</button>
+    <button type="submit" (click)="addClassroom(givenNumberOfClassrooms)" [disabled]="!formNumberClassrooms.valid">Adicionar</button>
     <br><br>
 </form>
 
 <ul>
     <li *ngFor="let classroom of classrooms">
-       <button  routerLink="/groups" (click)="changeGroupsUrlService(classroom[0])">{{ classroom[1] }}</button> | <button *ngIf="classroom[0] == classrooms.length" (click)="removeClassroom(classroom)">Remover</button>
+       <button  routerLink="/groups" (click)="changeGroupsUrlService(classroom[0])">{{ classroom[1] }}</button> | 
+       <button *ngIf="classrooms.indexOf(classroom) == classrooms.indexOf(classrooms[classrooms.length - 1])" 
+       (click)="removeClassroom(classroom)">
+            Remover
+       </button>
     </li>
 </ul>
  

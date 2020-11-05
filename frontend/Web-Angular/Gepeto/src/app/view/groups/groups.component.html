@@ -1,5 +1,8 @@
+<h1 *ngIf="groups == null">
+    Não há grupos ainda nesta sala
+</h1>
 <ul>
     <li *ngFor="let group of groups" >
-       <button  routerLink="/groups">{{ group[2] }}</button>
+       <button  routerLink="/groups">{{ group[2] }} - {{ group[3] }}</button>
     </li>
 </ul>

@@ -19,11 +19,23 @@ export class GroupsComponent implements OnInit {
   ngOnInit(): void {
     this.showGroups();
 
+
   }
 
   showGroups(){
     this.GroupService.showGroups()
-      .subscribe(data => this.groups = data);
+      .subscribe(data => 
+        {
+          this.groups = data
+        });
   }
+  // isThereGroups(classroomId: number): boolean{
+  //   this.GroupService.showGroups()
+  //     .subscribe(data => 
+  //       {
+  //         this.groups = data
+  //       });
+      
+  // }
 
 }

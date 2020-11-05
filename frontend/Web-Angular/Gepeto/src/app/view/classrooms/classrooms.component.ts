@@ -9,7 +9,8 @@ import { Classroom } from 'src/models/classroom.model';
 @Component({
   selector: 'app-classrooms',
   templateUrl: './classrooms.component.html',
-  styleUrls: ['./classrooms.component.css']
+  styleUrls: ['./classrooms.component.css'],
+  providers: [ClassroomsService]
 })
 export class ClassroomsComponent implements OnInit {
   public title: String = 'Salas';
@@ -43,17 +44,31 @@ export class ClassroomsComponent implements OnInit {
     });
   }
 
-  addClassroom() { //aqui viria uma maneira de chamar a SP_INSERT_CLASSROOM e retornar as classes
-    this.ClassroomService.addClassroms(5)
+  addClassroom(givenNumberOfClassrooms: number) { //aqui viria uma maneira de chamar a SP_INSERT_CLASSROOM e retornar as classes
+    this.ClassroomService.addClassroms(givenNumberOfClassrooms)
       .subscribe(
         result => {
           console.log(result)
+          // this.classrooms.push(result)
         }
       )
   }
   removeClassroom(classroomRemoved: Classroom) { //aqui é a SP_DELETE_CLASSROOM
-    const index = this.classrooms.indexOf(classroomRemoved)
-    this.classrooms.splice(index, 1)
+    const idClassroomToBeRemovedString = JSON.stringify(new Number(classroomRemoved[0]))
+    const idClassroomToBeRemovedNumber: number = parseInt(idClassroomToBeRemovedString)
+    this.ClassroomService.removeClassroom(idClassroomToBeRemovedNumber)
+      .subscribe(
+        result => {
+          console.log('Sala Excluida com Sucesso')
+          const index = this.classrooms.indexOf(classroomRemoved)
+          this.classrooms.splice(index, 1)
+        },
+        error => {
+          if (error.status == 500) {
+            console.log('Essa sala não pode ser removida, pois já contem grupos.')
+          }
+        }
+      )
   }
 
   showClassrooms() {
@@ -61,8 +76,9 @@ export class ClassroomsComponent implements OnInit {
       .subscribe(data => this.classrooms = data);
   }
   changeGroupsUrlService(classroomId: number) {
-    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + 'classroom/' + classroomId
+    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.replace(/\d+/g, '')
+    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + classroomId
+    this.GroupService.changeCurrentClassroom(classroomId);
   }
-
 
 }

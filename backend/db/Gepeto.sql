@@ -740,6 +740,7 @@ EXEC SP_INSERT_GROUP 'CORASSAUM', NULL,'5', '654321';
 EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', NULL,'5', '654321';
 EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','4', '654321';
 EXEC SP_INSERT_GROUP 'Loja de Pneus', 'Aquela loja que você compra Pneus de Borracha','4', '654321';
+EXEC SP_INSERT_GROUP 'Loja de Gasolina', 'Aquela loja que você compra Gasolinas','2', '654321';
 GO
 
 /*SP_INSERT_BIG_CRITERION*/
@@ -767,6 +768,7 @@ GO
 SELECT * FROM TB_USER;
 SELECT * FROM TB_CLASSROOM;
 SELECT * FROM TB_GROUP;
+
 SELECT * FROM TB_BIG_CRITERION;
 SELECT * FROM TB_MEDIUM_CRITERION;
 SELECT * FROM TB_MEDIUM_GRADE

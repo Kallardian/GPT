@@ -26,7 +26,7 @@ export class GroupsComponent implements OnInit {
     this.showGroups();
     this.createAddGroupForm();
     this.currentClassroom = this.GroupService.currentClassroom
-    this.group = {};
+    // this.group = {};
   }
 
   showGroups() {
@@ -70,6 +70,21 @@ export class GroupsComponent implements OnInit {
         console.log(result)
         this.groups.push(result)
       });
-  
+  }
+  changeToInputMode(){
+    this.inputMode = !this.inputMode 
+  }
+  changeShowGroupsUrl(classroomId){
+    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.replace(/\d+/g, '')
+    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + classroomId
+    this.changeToInputMode()
+  }
+
+  removeGroup(groupId: number){
+    this.GroupService.removeGroup(groupId)
+      .subscribe(result => {
+        this.groups.splice(this.groups.indexOf(groupId), 1)
+        console.log('A sala foi deletada com sucesso')
+      })
   }
 }

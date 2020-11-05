@@ -38,7 +38,8 @@ export class ClassroomsComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.min(1),
-          Validators.maxLength(2)
+          Validators.maxLength(2),
+          Validators.pattern('[0-9 ]*')
         ])
       ],
     });

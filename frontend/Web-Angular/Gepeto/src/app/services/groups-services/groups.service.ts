@@ -8,6 +8,7 @@ export class GroupsService {
 
   showGroupsUrl = "/api/groups/show/"
   postGroupsUrl = "/api/groups/"
+  deleteGroupsUrl = "/api/groups/"
   currentClassroom: number;
 
   constructor(private http: HttpClient) { }
@@ -15,10 +16,18 @@ export class GroupsService {
   showGroups(){
     return this.http.get<any[]>(`${this.showGroupsUrl}`)
   }
+
   changeCurrentClassroom(classroomId: number){
     this.currentClassroom = classroomId;
   }
+
   addGroup(group: any){
     return this.http.post(this.postGroupsUrl, group);
   }
-}
+
+  removeGroup(groupId){
+    this.deleteGroupsUrl = this.deleteGroupsUrl.replace(/\d+/g, '');
+    this.deleteGroupsUrl = this.deleteGroupsUrl + groupId.toString();
+    return this.http.delete(`${this.deleteGroupsUrl}`)
+  }
+} 

@@ -1,4 +1,4 @@
-import { LoginService } from './../../services/login-services/login.service';
+import { LoginService } from '../../services/login-service/login.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '../../../../node_modules/@angular/forms'
 
@@ -17,6 +17,7 @@ export class GroupsComponent implements OnInit {
   currentClassroom: number;
   group: any;
   currentUser: number;
+
   
  
   constructor(private GroupService: GroupsService,
@@ -28,7 +29,6 @@ export class GroupsComponent implements OnInit {
     this.createAddGroupForm();
     this.currentClassroom = this.GroupService.currentClassroom
     this.showGroups()
-    // this.currentUser = this.LoginService.currentUser
   }
 
   showGroups() {
@@ -72,6 +72,7 @@ export class GroupsComponent implements OnInit {
       .subscribe(result =>{
         console.log(result)
         this.groups.push(result)
+        window.alert('Grupo Adicionado com Sucesso')
         this.formAddGroup.reset()
       });
   }
@@ -88,7 +89,7 @@ export class GroupsComponent implements OnInit {
     this.GroupService.removeGroup(group[0])
       .subscribe(result => {
         this.groups.splice(this.groups.indexOf(group), 1)
-        window.alert('A sala foi deletada com sucesso')
+        window.alert('O grupo foi deletado com sucesso')
       })
   }
 }

@@ -1,9 +1,9 @@
 import { GroupsService } from 'src/app/services/groups-services/groups.service';
 import { Component, OnInit } from '@angular/core';
-import { delay } from 'rxjs/operators';
+
 import { FormBuilder, FormGroup, Validators } from '../../../../node_modules/@angular/forms'
 
-import { LoginService } from './../../services/login-services/login.service';
+import { LoginService } from '../../services/login-service/login.service';
 
 
 
@@ -46,8 +46,6 @@ export class LoginComponent implements OnInit {
   }
 
   sendLogin(form: any) {
-    this.GroupService.changeCurrentUser(this.currentUser)
-    window.alert(this.LoginService.currentUser)
     this.LoginService.loginUser(form)
     .subscribe(result =>{
       console.log(form);

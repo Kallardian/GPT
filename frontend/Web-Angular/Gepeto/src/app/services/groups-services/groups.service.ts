@@ -1,3 +1,4 @@
+import { GroupsComponent } from './../../view/groups/groups.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 
@@ -10,7 +11,7 @@ export class GroupsService {
   postGroupsUrl = "/api/groups/"
   deleteGroupsUrl = "/api/groups/"
   currentClassroom: number;
-  currentUser: number;
+  currentUserGroupService: number;
 
   constructor(private http: HttpClient) { }
 
@@ -22,7 +23,7 @@ export class GroupsService {
     this.currentClassroom = classroomId;
   }
   changeCurrentUser(userId: number){
-    this.currentUser = userId;
+    this.currentUserGroupService = userId
   }
 
   addGroup(group: any){

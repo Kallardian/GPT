@@ -1,26 +1,38 @@
-<div *ngIf="false">
-    <form [formGroup]="formUser" (ngSubmit)="saveUser()">
+<h1 *ngIf="users == null">
+    Não há usuarios
+</h1>
 
-        <input type="text" formControlName="ra" placeholder="Entre com o RA" maxlength="6">
-        <input type="text" formControlName="fullname" placeholder="Entre com o Nome" maxlength="50">
+<div *ngIf="addMode">
+    <form [formGroup]="formUser" (ngSubmit)="saveUser(formUser)">
+
+        <input *ngIf="!editUser" type="text" formControlName="ra" placeholder="Entre com o RA" maxlength="6">
+        <input type="text" formControlName="fullName" placeholder="Entre com o Nome" maxlength="50">
         <input type="text" formControlName="password" placeholder="Entre com a Senha" maxlength="30">
         <select formControlName="access">
-            <option value="1">Coordenção da Escola</option> 
+            <option value="5" disabled>Tipo de Usuario</option>
             <option value="2">Coordenador do Curso</option>
             <option value="3">Professor de Projetos</option>
             <option value="4">Professor Avaliador</option>
+            <option *ngIf="editUser" value="0">Desabilitado</option>
         </select>
 
-        <button>Entrar</button>
+        <button *ngIf="!editUser" type="submit" [disabled]="!formUser.valid">Adicionar</button>
+        <button *ngIf="editUser" type="submit" (click)="editUser=false; sendEditUser(formUser); changeToAddMode()" [disabled]="!formUser.valid">Salvar</button>
+        <button (click)="changeToAddMode(); editUser = false">Voltar para Usuarios</button>
         <br><br>
     </form>
     <br><br>
 </div>
 
-
+<div *ngIf="!addMode">
 <ul>
-    <li>Nome:</li>
-    <li *ngFor="let user of users">{{ user[0] }} - {{ user[1] }} - {{ user[3] }}   
-        <button (click)="removeUser(user)">Remover</button>
+    <li *ngFor="let user of users">{{ user.ra }} - {{ user.fullName }} - {{ user.access }}   
+        <button *ngIf="user[3]!=1 && user[3]!=0" (click)="removeUser(user)">Remover Usuário</button>
+        <button *ngIf="user[3]!=1" (click)="editUserOpen(user)">Editar Usuário</button>
     </li>
 </ul>
+
+<button (click)="changeToAddMode()">
+    Adicionar um Novo Usuario
+</button>
+</div>

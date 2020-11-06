@@ -5,18 +5,23 @@ import { HttpClient } from '@angular/common/http'
   providedIn: 'root'
 })
 export class UsersService {
-  readonly apiURL: string;
+  readonly apiURL = "/api/users/"
   
 
 
   constructor(private http: HttpClient) {
-    this.apiURL = '/api/'
    }
 
   showUsers(){
-    return this.http.get<any[]>(`${this.apiURL}/users`)
+    return this.http.get<any[]>(`${this.apiURL}`)
   }
   deleteUser(userId: number){
-    return this.http.delete<any[]>(`${this.apiURL}/users/` + userId)
+    return this.http.delete<any[]>(`${this.apiURL}` + userId)
+  }
+  addUser(user: any){
+    return this.http.post(this.apiURL, user)
+  }
+  editUser(user){
+    return this.http.put(this.apiURL, user)
   }
 }

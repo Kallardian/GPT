@@ -328,13 +328,14 @@ AS
       FROM   TB_USER 
       WHERE  [RA] = @ra 
   END 
-
+ 
 GO 
 CREATE PROCEDURE SP_SHOW_USERS 
 AS 
   BEGIN
       SELECT * 
-      FROM   TB_USER
+      FROM     TB_USER
+      ORDER BY ACCESS
   END
 GO 
 

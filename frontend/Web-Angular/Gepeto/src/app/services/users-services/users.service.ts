@@ -10,7 +10,7 @@ export class UsersService {
 
 
   constructor(private http: HttpClient) {
-    this.apiURL = 'http://localhost:3001'
+    this.apiURL = '/api/'
    }
 
   showUsers(){

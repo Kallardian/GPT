@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="false">
     <form [formGroup]="formUser" (ngSubmit)="saveUser()">
 
         <input type="text" formControlName="ra" placeholder="Entre com o RA" maxlength="6">
@@ -21,6 +21,6 @@
 <ul>
     <li>Nome:</li>
     <li *ngFor="let user of users">{{ user[0] }} - {{ user[1] }} - {{ user[3] }}   
-        <button (click)="removeUser(user[0])">Remover</button>
+        <button (click)="removeUser(user)">Remover</button>
     </li>
 </ul>

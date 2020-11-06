@@ -2,16 +2,14 @@
 
 <div>
     <h2>Bem Vindo</h2>
-    <form [formGroup]="formLogin" (ngSubmit)="sendLogin()">
+    <form [formGroup]="formLogin" (ngSubmit)="sendLogin(formLogin.value)">
 
-        <input type="text" pattern="\d*" formControlName="user" placeholder="Entre com seu RA" maxlength="6">
+        <input type="text" pattern="\d*" formControlName="ra" placeholder="Entre com seu RA" maxlength="6" [(ngModel)]="currentUser">
 
-        <input type="password" formControlName="pwd" placeholder="Entre com sua senha" maxlength="30">
+        <input type="password" formControlName="password" placeholder="Entre com sua senha" maxlength="30">
 
-        <button [disabled]="!formLogin.valid">Entrar</button>
+        <button type="submit" [disabled]="!formLogin.valid">Entrar</button>
         <br><br>
-        <div>{{ formLogin.value | json}}</div>
-        <div>{{ formLogin.valid | json }}</div>
     </form>
     <br><br>
 </div>

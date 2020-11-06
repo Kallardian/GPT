@@ -10,6 +10,7 @@ export class GroupsService {
   postGroupsUrl = "/api/groups/"
   deleteGroupsUrl = "/api/groups/"
   currentClassroom: number;
+  currentUser: number;
 
   constructor(private http: HttpClient) { }
 
@@ -19,6 +20,9 @@ export class GroupsService {
 
   changeCurrentClassroom(classroomId: number){
     this.currentClassroom = classroomId;
+  }
+  changeCurrentUser(userId: number){
+    this.currentUser = userId;
   }
 
   addGroup(group: any){

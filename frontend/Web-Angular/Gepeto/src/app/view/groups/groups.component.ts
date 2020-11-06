@@ -1,4 +1,4 @@
-
+import { LoginService } from './../../services/login-services/login.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '../../../../node_modules/@angular/forms'
 
@@ -16,17 +16,19 @@ export class GroupsComponent implements OnInit {
   formAddGroup: FormGroup;
   currentClassroom: number;
   group: any;
-
-
-
+  currentUser: number;
+  
+ 
   constructor(private GroupService: GroupsService,
-    private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private LoginService: LoginService) { }
 
   ngOnInit(): void {
     this.showGroups();
     this.createAddGroupForm();
     this.currentClassroom = this.GroupService.currentClassroom
-    // this.group = {};
+    this.showGroups()
+    // this.currentUser = this.LoginService.currentUser
   }
 
   showGroups() {
@@ -53,6 +55,7 @@ export class GroupsComponent implements OnInit {
       ],
       idClassroom: [
         '',
+        
       ],
       ra: [
         '',
@@ -69,10 +72,11 @@ export class GroupsComponent implements OnInit {
       .subscribe(result =>{
         console.log(result)
         this.groups.push(result)
+        this.formAddGroup.reset()
       });
   }
   changeToInputMode(){
-    this.inputMode = !this.inputMode 
+    this.inputMode = !this.inputMode
   }
   changeShowGroupsUrl(classroomId){
     this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.replace(/\d+/g, '')
@@ -80,11 +84,11 @@ export class GroupsComponent implements OnInit {
     this.changeToInputMode()
   }
 
-  removeGroup(groupId: number){
-    this.GroupService.removeGroup(groupId)
+  removeGroup(group: any){
+    this.GroupService.removeGroup(group[0])
       .subscribe(result => {
-        this.groups.splice(this.groups.indexOf(groupId), 1)
-        console.log('A sala foi deletada com sucesso')
+        this.groups.splice(this.groups.indexOf(group), 1)
+        window.alert('A sala foi deletada com sucesso')
       })
   }
 }

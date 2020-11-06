@@ -4,13 +4,14 @@ import { HttpClient } from '@angular/common/http'
 @Injectable({
   providedIn: 'root'
 })
-export class CriteriaService {
+export class LoginService {
 
-  showMediumCriteriaUrl = 'api/medium-criteria/'
+  loginUserUrl = '/api/users/login'
+  currentUser: number;
 
   constructor(private http: HttpClient) { }
 
-  showMediumCriteria(){
-    return this.http.get<any[]>(`${this.showMediumCriteriaUrl}`)
+  loginUser(user: any){
+    return this.http.post(this.loginUserUrl, user);
   }
 }

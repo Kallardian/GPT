@@ -21,8 +21,15 @@ export class UsersComponent implements OnInit {
     this.UsersService.showUsers()
       .subscribe(data => this.users = data);
   }
-  removeUser(userId: number) {
-    this.UsersService.deleteUser(userId);
+  removeUser(user) {
+    this.UsersService.deleteUser(user[0])
+      .subscribe(result => {
+        this.users.splice(this.users.indexOf(user), 1)
+        window.alert('Usuário Deletado com Sucesso')
+      },
+      erro => {
+          window.alert('Este usuário não pode ser deletado')
+      })
   }
   createUserForm() {
     this.formUser = this.fb.group({

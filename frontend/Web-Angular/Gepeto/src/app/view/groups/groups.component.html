@@ -1,26 +1,32 @@
-<h1 *ngIf="groups == null">
+<h1 *ngIf="groups == null || groups.length == 0">
     Não há grupos ainda nesta sala
 </h1>
 <ul *ngIf="!inputMode">
-    <li *ngFor="let group of groups" >
-       <button  routerLink="/groups">{{ group[2] }} - {{ group[3] }}</button>
+    <li *ngFor="let group of groups">
+        <button routerLink="/groups">{{ group[2] }} - {{ group[3] }}</button> |
+        <button (click)="removeGroup(group)"> Remover Grupo</button>
     </li>
+    <br><br>
+    <button (click)="changeToInputMode()">
+        Adicionar Novo Grupo
+    </button>
+    <br>
+    <button routerLink="/classrooms">
+        Voltar para salas
+    </button>
+
 </ul>
 
-<form [formGroup]="formAddGroup" (ngSubmit)="addGroup(formAddGroup.value)">
+<form *ngIf="inputMode" [formGroup]="formAddGroup" (ngSubmit)="addGroup(formAddGroup.value)">
     <input type="text" formControlName="groupTheme" placeholder="Tema do grupos" maxlength="50">
     <input type="text" formControlName="description" placeholder="Descrição do grupo" maxlength="300">
     <input type="number" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom" disabled>
-    <input type="number" formControlName="ra" placeholder="RA" maxlength="6">
+    <input type="number" formControlName="ra" placeholder="RA" maxlength="6" [(ngModel)]="currentUser">
 
-    <button type="submit" [disabled]="!formAddGroup.valid">Adicionar Grupo</button>
+    <button type="submit" [disabled]="!formAddGroup.valid">
+        Adicionar Grupo
+    </button>
 </form>
-
-<!-- <form method="POST" #frm="ngForm" (ngSubmit)="addGroup(frm)">
-    <input type="text" [(ngModel)]="group.theme" name="theme"  placeholder="Tema do grupos" maxlength="50">
-    <input type="text" [(ngModel)]="group.description" name="description" placeholder="Descrição do grupo" maxlength="300">
-    <input type="number" [(ngModel)]="group.currentClassroom" name="currentClassroom" placeholder="Id da classe" >
-    <input type="number" [(ngModel)]="group.ra" name="ra" placeholder="RA"  maxlength="6">
-
-    <button type="submit" >Adicionar Grupo</button>
-</form> -->
+<button *ngIf="inputMode" (click)="changeShowGroupsUrl(currentClassroom)">
+    (seta apra esquerda) Voltar para sala
+</button>

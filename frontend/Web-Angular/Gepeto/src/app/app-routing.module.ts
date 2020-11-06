@@ -10,7 +10,7 @@ import { GroupsComponent } from './view/groups/groups.component'
 
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
+  { path: '', component: LoginComponent},
   { path: 'classrooms', component: ClassroomsComponent },
   { path: 'groups', component: GroupsComponent },
   { path: 'users', component: UsersComponent },

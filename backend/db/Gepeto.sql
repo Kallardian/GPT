@@ -91,7 +91,6 @@ CREATE TABLE [TB_MEDIUM_GRADE]
   [ATTEMPT] TINYINT NOT NULL
 )
 GO
-
 /*----------------------------------SYSTEM FUNCTIONS------------------------------------*/
 
 --TODO function for amount of groups/classroom
@@ -287,47 +286,6 @@ BEGIN
 END 
 
 GO
-CREATE PROCEDURE SP_DELETE_USER
-  (@ra CHAR(6))
-AS
-BEGIN
-  DECLARE 
-	  @access TINYINT
-  SELECT @access = [ACCESS]
-  FROM [TB_USER]
-  WHERE [RA] = @ra
-
-  IF ( @access = 1)
-		PRINT('VOCÊ NÃO PODE DELETAR ALGUEM DA COORDENAÇÃO')
-	  ELSE IF (@access = 2)
-		BEGIN
-    IF EXISTS (SELECT *
-    FROM [TB_MEDIUM_CRITERION]
-    WHERE  [RA] = @ra) 
-				PRINT('VOCÊ NÃO PODE DELETAR ESTE COORDENADOR')
-  END
-	  ELSE IF (@access = 3)
-		BEGIN
-    IF EXISTS(SELECT *
-    FROM [TB_GROUP]
-    WHERE   [RA] = @ra)
-				PRINT('VOCÊ NÃO PODE DELETAR ESTE PROFESSOR')
-  END
-      ELSE IF (@access = 4)
-		BEGIN
-    IF EXISTS(SELECT *
-    FROM [TB_MEDIUM_GRADE]
-    WHERE   [RA] = @ra)
-				PRINT('VOCÊ NÃO PODE DELETAR ESTE PROFESSOR')
-  END
-	  ELSE
-      BEGIN
-    DELETE FROM TB_USER 
-	  	 WHERE  RA = @ra
-  END
-  COMMIT
-END 
-GO
 CREATE PROCEDURE SP_FIND_USER
   (@ra CHAR(6))
 AS
@@ -455,6 +413,16 @@ END
 GO
 
 --| GROUP |-- 
+CREATE PROCEDURE SP_LAST_GROUP
+AS
+BEGIN 
+  SELECT *
+  FROM   TB_GROUP
+  WHERE  ID_GROUP = (SELECT MAX(ID_GROUP) FROM TB_GROUP)
+END
+GO
+
+
 CREATE PROCEDURE SP_INSERT_GROUP
   (@group_theme    VARCHAR(50),
   @description    VARCHAR(300),

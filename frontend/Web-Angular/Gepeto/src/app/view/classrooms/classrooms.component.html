@@ -11,13 +11,16 @@
 
 <ul>
     <li *ngFor="let classroom of classrooms">
-       <button  routerLink="/groups" (click)="changeGroupsUrlService(classroom[0])">{{ classroom[1] }}</button> | 
+       <button  routerLink="/groups" (click)="changeCurrentClassroom(classroom.idClassroom)">{{ classroom.nameClassroom }}</button> | 
        <button *ngIf="classrooms.indexOf(classroom) == classrooms.indexOf(classrooms[classrooms.length - 1])" 
        (click)="removeClassroom(classroom)">
             Remover
        </button>
     </li>
 </ul>
+<button routerLink="" (click)="clearLocal()">
+    Sair
+</button>
 
 
  

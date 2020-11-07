@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
       .subscribe(data => {
         
         for(let i = 0; i < data.length; i++){
-          this.users.push(new User(data[i][0], data[i][1], data[i][2], data[i][3]))
+          this.users.push(new User(data[i]["ra"], data[i]["fullName"], data[i]["password"], data[i]["access"]))
         }
       });
   }
@@ -76,6 +76,12 @@ export class UsersComponent implements OnInit {
         // this.userRA = JSON.parse(JSON.stringify(user.value))
         // console.log(this.userRA[0])
         this.users.push(new User(result["ra"], result["fullName"], result["password"], result["access"]))
+        alert('Usuário ' + result["fullName"] + ' criado com sucesso')
+      },
+      erro => {
+        if(erro.status == 500){
+          alert('O RA "' + user.value["ra"] + '" já existe!')
+        }
       }
       )
   }
@@ -103,7 +109,11 @@ export class UsersComponent implements OnInit {
     this.UsersService.editUser(user.value)
     .subscribe(result => {
       console.log(result)
-      // this.users.push(result)
+      window.location.reload();
     })
+  }
+
+  clearLocal(){
+    localStorage.clear();
   }
 }

@@ -2,7 +2,7 @@
 
 <div>
     <h2>Bem Vindo</h2>
-    <form [formGroup]="formLogin" (ngSubmit)="sendLogin(formLogin.value)">
+    <form [formGroup]="formLogin" (ngSubmit)="sendLogin(formLogin)">
 
         <input type="text" pattern="\d*" formControlName="ra" placeholder="Entre com seu RA" maxlength="6" [(ngModel)]="currentUser">
 

@@ -20,8 +20,8 @@
 <form *ngIf="inputMode" [formGroup]="formAddGroup" (ngSubmit)="addGroup(formAddGroup)">
     <input type="text" formControlName="groupTheme" placeholder="Tema do grupos" maxlength="50">
     <input type="text" formControlName="description" placeholder="Descrição do grupo" maxlength="300">
-    <input type="number" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom" disabled>
-    <input type="number" formControlName="ra" placeholder="RA" maxlength="6" [(ngModel)]="currentUser">
+    <input type="hidden" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom" disabled>
+    <input type="hidden" formControlName="ra" placeholder="RA" maxlength="6" [(ngModel)]="currentUser" disabled>
 
     <button type="submit" [disabled]="!formAddGroup.valid">
         Adicionar Grupo

@@ -77,16 +77,4 @@ public class UserController {
 
         return ResponseEntity.ok().body(user);
     }
-
-    //DELETE User
-    @DeleteMapping("/{ra}")
-    public ResponseEntity deleteUser(@PathVariable() String ra) {
-
-        User user = new User();
-        user.setRa(ra);
-
-        userRepository.deleteUser(user);
-
-        return ResponseEntity.noContent().build();
-    }
 }

@@ -132,17 +132,4 @@ public class UserRepository {
 
         updateUserStoredProcedureQuery.execute();
     }
-
-    //DELETE User
-    @Transactional
-    public void deleteUser(User user) {
-        entityManager = getEntityManager();
-        StoredProcedureQuery deleteUserStoredProcedureQuery = entityManager
-                .createNamedStoredProcedureQuery("SP_DELETE_USER");
-
-        deleteUserStoredProcedureQuery
-                .setParameter("ra", user.getRa());
-
-        deleteUserStoredProcedureQuery.execute();
-    }
 }

@@ -40,13 +40,6 @@ import javax.persistence.*;
         }
 )
 
-//DELETE
-@NamedStoredProcedureQuery(name = "SP_DELETE_USER", procedureName = "SP_DELETE_USER",
-        parameters = {
-                @StoredProcedureParameter(name = "ra", type = String.class, mode = ParameterMode.IN)
-        }
-)
-
 @Entity
 @Table(name = "TB_USER")
 public class User {

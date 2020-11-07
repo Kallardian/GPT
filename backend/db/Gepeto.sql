@@ -647,25 +647,48 @@ CREATE PROCEDURE SP_UPDATE_MEDIUM_CRITERION(@id_medium   INT,
                                             @value       DECIMAL(4, 2)) 
 AS 
   BEGIN
-     
-      UPDATE [TB_MEDIUM_CRITERION] 
-      SET    [NAME_MEDIUM] = @name_medium, 
-             [DESCRIPTION] = @description, 
-             [TOTAL_VALUE] = @value 
-      WHERE  [ID_MEDIUM] = @id_medium
+     IF EXISTS (SELECT * 
+                FROM   TB_MEDIUM_GRADE
+                WHERE  ID_MEDIUM = @id_medium
+               )
+        BEGIN
+          PRINT('VOCÊ NÃO PODE ALTERAR ESSE CRITÉRIO')
+        END
+      ELSE
+      BEGIN
+        UPDATE [TB_MEDIUM_CRITERION] 
+        SET    [NAME_MEDIUM] = @name_medium, 
+              [DESCRIPTION] = @description, 
+              [TOTAL_VALUE] = @value 
+        WHERE  [ID_MEDIUM] = @id_medium
 
-      SELECT *
-      FROM   TB_MEDIUM_CRITERION
-      WHERE  ID_MEDIUM = @id_medium
+        SELECT *
+        FROM   TB_MEDIUM_CRITERION
+        WHERE  ID_MEDIUM = @id_medium
+      END
     COMMIT 
   END 
 
 GO 
 CREATE PROCEDURE SP_DELETE_MEDIUM_CRITERION(@id_medium INT) 
 AS 
-  BEGIN 
-      DELETE FROM [TB_MEDIUM_CRITERION] 
-      WHERE  [ID_MEDIUM] = @id_medium
+  BEGIN
+    IF EXISTS (SELECT * 
+                FROM   TB_MEDIUM_GRADE
+                WHERE  ID_MEDIUM = @id_medium
+               )
+        BEGIN
+          PRINT('VOCÊ NÃO PODE DELETAR ESSE CRITÉRIO')
+        END
+      ELSE 
+        BEGIN
+          SELECT * 
+          FROM   TB_MEDIUM_CRITERION
+          WHERE  ID_MEDIUM = @id_medium
+          DELETE FROM [TB_MEDIUM_CRITERION] 
+          WHERE  [ID_MEDIUM] = @id_medium
+        END
+        
     COMMIT 
   END 
 GO 

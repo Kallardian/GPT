@@ -314,7 +314,10 @@ AS
 		END
 	   ELSE
       BEGIN
-      
+       SELECT  * 
+       FROM    TB_USER
+       WHERE   RA = @ra
+
 		   DELETE FROM TB_USER 
 	  	 WHERE  RA = @ra
       END
@@ -401,10 +404,23 @@ GO
 
 CREATE PROCEDURE SP_DELETE_CLASSROOM (@classroom_id INT) 
 AS 
-  BEGIN  
-      DELETE FROM TB_CLASSROOM 
-      WHERE  [ID_CLASSROOM] = @classroom_id
-      COMMIT
+  BEGIN
+    IF EXISTS(SELECT  *
+              FROM    TB_GROUP
+              WHERE   ID_CLASSROOM = @classroom_id)
+      BEGIN
+       PRINT('TU NÃO PODE APAGAR ESSA SALA')
+      END
+    ELSE
+      BEGIN
+       SELECT * 
+       FROM   TB_CLASSROOM
+       WHERE ID_CLASSROOM = @classroom_id
+
+       DELETE FROM TB_CLASSROOM 
+       WHERE  [ID_CLASSROOM] = @classroom_id
+      END
+    COMMIT
   END 
 
 GO
@@ -470,29 +486,38 @@ AS
   END 
 
 GO 
-CREATE PROCEDURE SP_UPDATE_GROUP (@group_id    INT, 
+CREATE PROCEDURE SP_UPDATE_GROUP (@group_id       INT, 
                                   @classroom_id   INT, 
                                   @description    VARCHAR(300) = NULL, 
                                   @new_theme      VARCHAR(50) = NULL) 
 AS 
   BEGIN 
-      
-      IF @description IS NULL 
-         AND @new_theme IS NOT NULL 
-        UPDATE [TB_GROUP] 
-        SET    [GROUP_THEME] = @new_theme 
-        WHERE  ID_GROUP = @group_id 
+      IF  @description IS NULL 
+      AND @new_theme   IS NOT NULL 
+        BEGIN
+          UPDATE [TB_GROUP] 
+          SET    [GROUP_THEME] = @new_theme 
+          WHERE  ID_GROUP = @group_id
+        END
       ELSE IF @description IS NOT NULL 
-         AND @new_theme IS NULL 
-        UPDATE [TB_GROUP] 
-        SET    [GROUP_DESCRIPTION] = @description 
-        WHERE  ID_GROUP = @group_id 
+      AND     @new_theme   IS NULL
+        BEGIN 
+          UPDATE [TB_GROUP] 
+          SET    [GROUP_DESCRIPTION] = @description 
+          WHERE  ID_GROUP = @group_id 
+        END
+
       ELSE IF @description IS NOT NULL 
-         AND @new_theme IS NOT NULL 
-        UPDATE [TB_GROUP] 
-        SET    [GROUP_THEME] = @new_theme, 
-               [GROUP_DESCRIPTION] = @description 
-        WHERE  ID_GROUP = @group_id
+      AND     @new_theme   IS NOT NULL
+        BEGIN 
+          UPDATE [TB_GROUP] 
+          SET    [GROUP_THEME] = @new_theme, 
+                 [GROUP_DESCRIPTION] = @description 
+          WHERE  ID_GROUP = @group_id
+        END
+    SELECT * 
+    FROM   TB_GROUP
+    WHERE  ID_GROUP = @group_id
     COMMIT 
   END 
 
@@ -500,8 +525,18 @@ GO
 CREATE PROCEDURE SP_DELETE_GROUP (@group_id    INT) 
 AS 
   BEGIN 
-      DELETE FROM TB_GROUP 
-      WHERE  ID_GROUP = @group_id
+    IF EXISTS (SELECT * 
+              FROM    TB_MEDIUM_GRADE
+              WHERE   ID_GROUP = @group_id)
+      BEGIN
+        SELECT 'VOCÊ NÃO PODE DELETAR ESSE GRUPO'
+      END
+    SELECT * 
+    FROM TB_GROUP
+    WHERE ID_GROUP = @group_id
+
+    DELETE FROM TB_GROUP 
+    WHERE  ID_GROUP = @group_id
     COMMIT
   END 
 
@@ -535,10 +570,20 @@ GO
 --| BIG_CRETERION |--  
 CREATE PROCEDURE SP_INSERT_BIG_CRITERION 
 AS 
-  BEGIN 
-      INSERT INTO [TB_BIG_CRITERION] 
-                  ([YEAR]) 
-      VALUES      (YEAR(Getdate()))
+  BEGIN
+    IF EXISTS(SELECT * 
+              FROM   TB_BIG_CRITERION
+              WHERE  YEAR = YEAR(GETDATE())
+              )
+      BEGIN
+        PRINT('VOCÊ NÃO PODE DELETAR ISSO AQUI')
+      END
+    ELSE
+      BEGIN
+        INSERT INTO [TB_BIG_CRITERION] 
+                    ([YEAR]) 
+        VALUES      (YEAR(Getdate()))
+      END 
     COMMIT 
   END 
 GO 
@@ -570,15 +615,6 @@ CREATE PROCEDURE SP_INSERT_MEDIUM_CRITERION (@id_big      INT,
 AS 
   BEGIN
     DECLARE @id_medium INT
-    CREATE TABLE #temptable
-    (
-      ID_MEDIUM       INT,
-      ID_BIG          INT,
-      RA              CHAR(6),
-      NAME_MEDIUM     VARCHAR(30),
-      [DESCRIPTION]   VARCHAR (100),
-      TOTAL_VALUE     DECIMAL (4,2)
-    ) 
 
 	 INSERT INTO [TB_MEDIUM_CRITERION] 
 				         ([ID_BIG], 
@@ -598,20 +634,9 @@ AS
     WHERE       ID_BIG = @id_big
     AND         NAME_MEDIUM = @name_medium
 
-	 INSERT INTO #temptable 
-				         ([ID_MEDIUM],
-                  [ID_BIG], 
-				          [RA],
-                  [NAME_MEDIUM], 
-                  [DESCRIPTION], 
-                  [TOTAL_VALUE]) 
-     VALUES      (@id_medium,
-                  @id_big,
-				          @ra,
-                  @name_medium, 
-                  @description, 
-                  @value)
-      SELECT * FROM #temptable
+      SELECT * 
+      FROM   TB_MEDIUM_CRITERION
+      WHERE  ID_MEDIUM = @id_medium
     COMMIT
   END 
 
@@ -621,12 +646,17 @@ CREATE PROCEDURE SP_UPDATE_MEDIUM_CRITERION(@id_medium   INT,
                                             @description VARCHAR(300) = NULL, 
                                             @value       DECIMAL(4, 2)) 
 AS 
-  BEGIN 
+  BEGIN
+     
       UPDATE [TB_MEDIUM_CRITERION] 
       SET    [NAME_MEDIUM] = @name_medium, 
              [DESCRIPTION] = @description, 
              [TOTAL_VALUE] = @value 
       WHERE  [ID_MEDIUM] = @id_medium
+
+      SELECT *
+      FROM   TB_MEDIUM_CRITERION
+      WHERE  ID_MEDIUM = @id_medium
     COMMIT 
   END 
 

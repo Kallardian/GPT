@@ -66,5 +66,69 @@ class Conn {
     return user;
   }
 
+  Future showMediumCriteria() async {
 
+    List mediumCriterionList = new List();
+    var url = baseUrl + criterionUrl;
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      mediumCriterionList.addAll(jsonResponse);
+    }
+
+    return mediumCriterionList;
+  }
+
+  Future showClassrooms() async {
+
+    List classrooomList = new List();
+    var url = baseUrl + classroomUrl + "show";
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      classrooomList.addAll(jsonResponse);
+    }
+
+    return classrooomList;
+  }
+
+  Future showGroups(int idGroup) async {
+
+    List groupList = new List();
+    var url = baseUrl + groupUrl + idGroup.toString();
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      groupList.addAll(jsonResponse);
+    }
+
+    return groupList;
+  }
+
+  Future postMediumGrade(MediumGrade mediumGrade) async {
+
+    var url = baseUrl + groupUrl;
+    var response = await http.post(url, body: {
+      "idMedium": mediumGrade.idMedium,
+      "ra": mediumGrade.ra,
+      "idGroup": mediumGrade.idGroup,
+      "grade": mediumGrade.grade,
+      "attempt": mediumGrade.attempt
+    });
+
+    if (response.statusCode == 201) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      mediumGrade.idMediumGrade = jsonResponse['idMediumGrade'];
+      mediumGrade.ra = jsonResponse['ra'];
+      mediumGrade.idMedium = jsonResponse['idMedium'];
+      mediumGrade.idGroup = jsonResponse['idGroup'];
+      mediumGrade.grade = jsonResponse['grade'];
+      mediumGrade.attempt = jsonResponse['attempt'];
+    }
+
+    return mediumGrade;
+  }
 }

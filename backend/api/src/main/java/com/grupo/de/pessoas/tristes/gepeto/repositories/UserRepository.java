@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -85,9 +86,11 @@ public class UserRepository {
 
         getUsersStoredProcedureQuery.execute();
 
-        List<User> userList = getUsersStoredProcedureQuery.getResultList();
+        List<User> resultList = getUsersStoredProcedureQuery.getResultList();
 
-        Iterator iterator = userList.iterator();
+        Iterator iterator = resultList.iterator();
+
+        List<User> userList = new ArrayList<>();
 
         while (iterator.hasNext()) {
             Object[] object = (Object[]) iterator.next();
@@ -96,6 +99,15 @@ public class UserRepository {
             String fullName = String.valueOf(object[1]);
             String password = String.valueOf(object[2]);
             int access = Integer.parseInt(String.valueOf(object[3]));
+
+            User user = new User();
+
+            user.setRa(ra);
+            user.setFullName(fullName);
+            user.setPassword(password);
+            user.setAccess(access);
+
+            userList.add(user);
         }
 
         return userList;

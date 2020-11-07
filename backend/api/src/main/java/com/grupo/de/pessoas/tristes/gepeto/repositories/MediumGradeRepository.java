@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,9 +65,11 @@ public class MediumGradeRepository {
 
         getMediumGradesStoredProcedureQuery.execute();
 
-        List<MediumGrade> mediumGradeList = getMediumGradesStoredProcedureQuery.getResultList();
+        List<MediumGrade> resultList = getMediumGradesStoredProcedureQuery.getResultList();
 
-        Iterator iterator = mediumGradeList.iterator();
+        Iterator iterator = resultList.iterator();
+
+        List<MediumGrade> mediumGradeList = new ArrayList<>();
 
         while (iterator.hasNext()) {
             Object[] object = (Object[]) iterator.next();
@@ -77,6 +80,17 @@ public class MediumGradeRepository {
             Long idGroup = Long.parseLong(String.valueOf(object[3]));
             Double grade = Double.parseDouble(String.valueOf(object[4]));
             int attempt = Integer.parseInt(String.valueOf(object[5]));
+
+            MediumGrade mediumGrade = new MediumGrade();
+
+            mediumGrade.setIdMediumGrade(idMediumGrade);
+            mediumGrade.setRa(ra);
+            mediumGrade.setIdMedium(idMedium);
+            mediumGrade.setIdGroup(idGroup);
+            mediumGrade.setGrade(grade);
+            mediumGrade.setAttempt(attempt);
+
+            mediumGradeList.add(mediumGrade);
         }
 
         return mediumGradeList;

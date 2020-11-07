@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -80,9 +81,11 @@ public class ClassroomRepository {
 
         showClassroomsStoredProcedureQuery.execute();
 
-        List<Classroom> classroomList = showClassroomsStoredProcedureQuery.getResultList();
+        List<Classroom> resultList = showClassroomsStoredProcedureQuery.getResultList();
 
-        Iterator iterator = classroomList.iterator();
+        Iterator iterator = resultList.iterator();
+
+        List<Classroom> classroomList = new ArrayList<>();
 
         while (iterator.hasNext()) {
             Object[] object = (Object[]) iterator.next();
@@ -90,6 +93,14 @@ public class ClassroomRepository {
             Long idClassroom = Long.parseLong(String.valueOf(object[0]));
             String nameClassroom = String.valueOf(object[1]);
             int year = Integer.parseInt(String.valueOf(object[2]));
+
+            Classroom classroom = new Classroom();
+
+            classroom.setIdClassroom(idClassroom);
+            classroom.setNameClassroom(nameClassroom);
+            classroom.setYear(year);
+
+            classroomList.add(classroom);
         }
 
         return classroomList;

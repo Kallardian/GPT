@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,9 +67,11 @@ public class GroupRepository {
 
         showGroupsStoredProcedureQuery.execute();
 
-        List<Group> groupList = showGroupsStoredProcedureQuery.getResultList();
+        List<Group> resultList = showGroupsStoredProcedureQuery.getResultList();
 
-        Iterator iterator = groupList.iterator();
+        Iterator iterator = resultList.iterator();
+
+        List<Group> groupList = new ArrayList<>();
 
         while (iterator.hasNext()) {
             Object[] object = (Object[]) iterator.next();
@@ -78,6 +81,16 @@ public class GroupRepository {
             String groupTheme = String.valueOf(object[2]);
             String description = String.valueOf(object[3]);
             String ra = String.valueOf(object[4]);
+
+            Group group = new Group();
+
+            group.setIdGroup(idGroup);
+            group.setGroupTheme(groupTheme);
+            group.setDescription(description);
+            group.setIdClassroom(idClassroom);
+            group.setRa(ra);
+
+            groupList.add(group);
         }
 
         return groupList;

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -56,18 +57,27 @@ public class BigCriterionRepository {
 
         getBigCriteriaStoredProcedureQuery.execute();
 
-        List<BigCriterion> bigCriteriaList = getBigCriteriaStoredProcedureQuery.getResultList();
+        List<BigCriterion> resultList = getBigCriteriaStoredProcedureQuery.getResultList();
 
-        Iterator iterator = bigCriteriaList.iterator();
+        Iterator iterator = resultList.iterator();
+
+        List<BigCriterion> bigCriterionList = new ArrayList<>();
 
         while (iterator.hasNext()) {
             Object[] object = (Object[]) iterator.next();
 
             Long idBig = Long.parseLong(String.valueOf(object[0]));
             int year = Integer.parseInt(String.valueOf(object[1]));
+
+            BigCriterion bigCriterion = new BigCriterion();
+
+            bigCriterion.setIdBig(idBig);
+            bigCriterion.setYear(year);
+
+            bigCriterionList.add(bigCriterion);
         }
 
-        return bigCriteriaList;
+        return bigCriterionList;
     }
 
     //POST

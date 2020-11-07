@@ -15,6 +15,8 @@ import javax.persistence.*;
         }
 )
 
+@NamedStoredProcedureQuery(name = "SP_LAST_GROUP", procedureName = "SP_LAST_GROUP")
+
 //POST
 @NamedStoredProcedureQuery( name = "SP_INSERT_GROUP", procedureName = "SP_INSERT_GROUP",
         parameters = {

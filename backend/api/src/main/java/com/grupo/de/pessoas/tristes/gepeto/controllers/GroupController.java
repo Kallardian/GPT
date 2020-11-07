@@ -51,6 +51,8 @@ public class GroupController {
 
         groupRepository.postGroup(group);
 
+        group = groupRepository.getLastGroup();
+
         URI location = new URI("/groups/" + group.getIdGroup());
         return ResponseEntity.created(location).body(group);
     }

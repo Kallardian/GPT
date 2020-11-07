@@ -83,9 +83,42 @@ public class GroupRepository {
         return groupList;
     }
 
+    @Transactional
+    public Group getLastGroup() {
+        entityManager = getEntityManager();
+        StoredProcedureQuery getLastGroupStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_LAST_GROUP");
+
+        getLastGroupStoredProcedureQuery.execute();
+
+        Group group = new Group();
+
+        List<Group> groupList = getLastGroupStoredProcedureQuery.getResultList();
+
+        Iterator iterator = groupList.iterator();
+
+        while (iterator.hasNext()) {
+            Object[] object = (Object[]) iterator.next();
+
+            Long idGroup = Long.parseLong(String.valueOf(object[0]));
+            String groupTheme = String.valueOf(object[1]);
+            String description = String.valueOf(object[2]);
+            Long idClassroom = Long.parseLong(String.valueOf(object[3]));
+            String ra = String.valueOf(object[4]);
+
+            group.setIdGroup(idGroup);
+            group.setGroupTheme(groupTheme);
+            group.setDescription(description);
+            group.setIdClassroom(idClassroom);
+            group.setRa(ra);
+        }
+
+        return group;
+    }
+
     //POST
     @Transactional
-    public void postGroup(Group group) {
+    public Group postGroup(Group group) {
         entityManager = getEntityManager();
         StoredProcedureQuery postGroupStoredProcedureQuery = entityManager
                 .createNamedStoredProcedureQuery("SP_INSERT_GROUP");
@@ -97,6 +130,10 @@ public class GroupRepository {
                 .setParameter("ra", group.getRa());
 
         postGroupStoredProcedureQuery.execute();
+
+        group =getLastGroup();
+
+        return group;
     }
 
     //PUT

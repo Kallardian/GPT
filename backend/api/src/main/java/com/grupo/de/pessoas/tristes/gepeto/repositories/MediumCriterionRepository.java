@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,9 +65,13 @@ public class MediumCriterionRepository {
 
         getMediumCriteriaStoredProcedureQuery.execute();
 
-        List<MediumCriterion> mediumCriterionList = getMediumCriteriaStoredProcedureQuery.getResultList();
+        List<MediumCriterion> resultList = getMediumCriteriaStoredProcedureQuery.getResultList();
 
-        Iterator iterator = mediumCriterionList.iterator();
+        Iterator iterator = resultList.iterator();
+
+        List<MediumCriterion> mediumCriterionList = new ArrayList<>();
+
+        int i = 0;
 
         while (iterator.hasNext()) {
             Object[] object = (Object[]) iterator.next();
@@ -77,6 +82,17 @@ public class MediumCriterionRepository {
             String nameMedium = String.valueOf(object[3]);
             String description = String.valueOf(object[4]);
             Double totalValue = Double.parseDouble(String.valueOf(object[5]));
+
+            MediumCriterion mediumCriterion = new MediumCriterion();
+
+            mediumCriterion.setIdMedium(idMedium);
+            mediumCriterion.setIdBig(idBig);
+            mediumCriterion.setRa(ra);
+            mediumCriterion.setNameMedium(nameMedium);
+            mediumCriterion.setDescription(description);
+            mediumCriterion.setTotalValue(totalValue);
+
+            mediumCriterionList.add(mediumCriterion);
         }
 
         return mediumCriterionList;

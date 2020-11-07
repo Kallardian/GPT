@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '../../../../node_modules/@angular/forms'
 
 import { GroupsService } from 'src/app/services/groups-services/groups.service';
+import { Group } from 'src/app/models/group';
 
 @Component({
   selector: 'app-groups',
@@ -11,7 +12,7 @@ import { GroupsService } from 'src/app/services/groups-services/groups.service';
 })
 export class GroupsComponent implements OnInit {
 
-  groups: Array<any>;
+  groups: Group[] = [];
   inputMode = false;
   formAddGroup: FormGroup;
   currentClassroom: number;
@@ -28,13 +29,16 @@ export class GroupsComponent implements OnInit {
     this.showGroups();
     this.createAddGroupForm();
     this.currentClassroom = this.GroupService.currentClassroom
-    this.showGroups()
+    // this.groups = []
   }
 
   showGroups() {
     this.GroupService.showGroups()
-      .subscribe(data => {
-        this.groups = data
+      .subscribe(result => {
+        console.log(result)
+        for(let i = 0; i < result.length; i++){
+          this.groups.push(new Group(result[i][0], result[i][2], result[i][3], result[i][1], result[i][4]))
+        }
       });
   }
 
@@ -67,11 +71,11 @@ export class GroupsComponent implements OnInit {
       ]
     })
   }
-  addGroup(frm: any) {
-    this.GroupService.addGroup(frm)
+  addGroup(frm: FormGroup) {
+    this.GroupService.addGroup(frm.value)
       .subscribe(result =>{
-        console.log(result)
-        this.groups.push(result)
+        console.log(result["idGroup"])
+        this.groups.push(new Group(result["idGroup"], result["groupTheme"], result["description"], result["idClassroom"], result["ra"]))
         window.alert('Grupo Adicionado com Sucesso')
         this.formAddGroup.reset()
       });
@@ -85,8 +89,8 @@ export class GroupsComponent implements OnInit {
     this.changeToInputMode()
   }
 
-  removeGroup(group: any){
-    this.GroupService.removeGroup(group[0])
+  removeGroup(group: Group){
+    this.GroupService.removeGroup(group.id)
       .subscribe(result => {
         this.groups.splice(this.groups.indexOf(group), 1)
         window.alert('O grupo foi deletado com sucesso')

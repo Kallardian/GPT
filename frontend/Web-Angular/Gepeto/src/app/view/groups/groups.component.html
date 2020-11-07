@@ -3,7 +3,7 @@
 </h1>
 <ul *ngIf="!inputMode">
     <li *ngFor="let group of groups">
-        <button routerLink="/groups">{{ group[2] }} - {{ group[3] }}</button> |
+        <button routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> |
         <button (click)="removeGroup(group)"> Remover Grupo</button>
     </li>
     <br><br>
@@ -17,7 +17,7 @@
 
 </ul>
 
-<form *ngIf="inputMode" [formGroup]="formAddGroup" (ngSubmit)="addGroup(formAddGroup.value)">
+<form *ngIf="inputMode" [formGroup]="formAddGroup" (ngSubmit)="addGroup(formAddGroup)">
     <input type="text" formControlName="groupTheme" placeholder="Tema do grupos" maxlength="50">
     <input type="text" formControlName="description" placeholder="Descrição do grupo" maxlength="300">
     <input type="number" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom" disabled>
@@ -30,3 +30,5 @@
 <button *ngIf="inputMode" (click)="changeShowGroupsUrl(currentClassroom)">
     (seta apra esquerda) Voltar para sala
 </button>
+
+

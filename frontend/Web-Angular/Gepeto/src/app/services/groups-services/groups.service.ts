@@ -16,7 +16,7 @@ export class GroupsService {
   constructor(private http: HttpClient) { }
 
   showGroups(){
-    return this.http.get<any[]>(`${this.showGroupsUrl}`)
+    return this.http.get<any[]>(`${this.showGroupsUrl}` + this.currentClassroom)
   }
 
   changeCurrentClassroom(classroomId: number){

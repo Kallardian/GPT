@@ -26,13 +26,16 @@
 
 <div *ngIf="!addMode">
 <ul>
-    <li *ngFor="let user of users">{{ user.ra }} - {{ user.fullName }} - {{ user.access }}   
-        <button *ngIf="user[3]!=1 && user[3]!=0" (click)="removeUser(user)">Remover Usuário</button>
-        <button *ngIf="user[3]!=1" (click)="editUserOpen(user)">Editar Usuário</button>
+    <li *ngFor="let user of users">{{ user.ra }} - {{ user.fullName }} - {{ user.access }}
+        <button *ngIf="user.access!=1" (click)="editUserOpen(user)">Editar Usuário</button>
     </li>
 </ul>
 
 <button (click)="changeToAddMode()">
     Adicionar um Novo Usuario
+</button>
+<br>
+<button routerLink="">
+    Sair
 </button>
 </div>

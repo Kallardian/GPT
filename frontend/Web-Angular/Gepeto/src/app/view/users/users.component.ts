@@ -32,16 +32,6 @@ export class UsersComponent implements OnInit {
         }
       });
   }
-  removeUser(user) {
-    this.UsersService.deleteUser(user[0])
-      .subscribe(result => {
-        this.users.splice(this.users.indexOf(user), 1)
-        window.alert('Usuário Deletado com Sucesso')
-      },
-        erro => {
-          window.alert('Este usuário não pode ser deletado')
-        })
-  }
   createUserForm() {
     this.formUser = this.fb.group({
       ra: [
@@ -79,16 +69,19 @@ export class UsersComponent implements OnInit {
   saveUser(user: FormGroup) {
     this.UsersService.addUser(user.value)
       .subscribe(result => {
-        console.log(result)
+        // let completeUser = result.toString()
+        
         // this.users.push(result)
         this.formUser.reset()
         // this.userRA = JSON.parse(JSON.stringify(user.value))
         // console.log(this.userRA[0])
+        this.users.push(new User(result["ra"], result["fullName"], result["password"], result["access"]))
       }
       )
   }
 
   changeToAddMode() {
+    this.formUser.reset()
     this.addMode = !this.addMode
   }
 
@@ -97,12 +90,12 @@ export class UsersComponent implements OnInit {
     this.updateForm(user)
     this.editUser = true
   }
-  updateForm(user){
+  updateForm(user: User){
     this.formUser.patchValue({
-      ra: user[0],
-      fullName: user[1],
+      ra: user.ra,
+      fullName: user.fullName,
       password: 123456,
-      access: user[3]
+      access: user.access
     })
   }
 

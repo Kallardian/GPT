@@ -50,7 +50,7 @@ export class ClassroomsComponent implements OnInit {
       .subscribe(
         result => {
           console.log(result)
-          // this.classrooms.push(result)
+          window.location.reload();
         }
       )
   }
@@ -77,8 +77,9 @@ export class ClassroomsComponent implements OnInit {
       .subscribe(data => this.classrooms = data);
   }
   changeGroupsUrlService(classroomId: number) {
-    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.replace(/\d+/g, '')
-    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + classroomId
+    // this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.replace(/\d+/g, '')
+    // this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + classroomId
+    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.substring(0,17)
     this.GroupService.changeCurrentClassroom(classroomId);
   }
 

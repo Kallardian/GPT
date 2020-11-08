@@ -15,9 +15,9 @@ export class GroupsComponent implements OnInit {
   groups: Group[] = [];
   inputMode = false;
   formAddGroup: FormGroup;
-  currentClassroom: number;
+  currentClassroom = localStorage.getItem('currentClassroom')
   group: any;
-  currentUser: number;
+  currentUser = localStorage.getItem('currentRa')
 
   
  
@@ -28,7 +28,6 @@ export class GroupsComponent implements OnInit {
   ngOnInit(): void {
     this.showGroups();
     this.createAddGroupForm();
-    this.currentClassroom = this.GroupService.currentClassroom
     // this.groups = []
   }
 
@@ -37,7 +36,8 @@ export class GroupsComponent implements OnInit {
       .subscribe(result => {
         console.log(result)
         for(let i = 0; i < result.length; i++){
-          this.groups.push(new Group(result[i][0], result[i][2], result[i][3], result[i][1], result[i][4]))
+          this.groups.push(new Group(result[i].idGroup, result[i].groupTheme, 
+                                     result[i].description, result[i].idClassroom, result[i].ra))
         }
       });
   }
@@ -72,6 +72,7 @@ export class GroupsComponent implements OnInit {
     })
   }
   addGroup(frm: FormGroup) {
+    alert(frm.value["idClassroom"])
     this.GroupService.addGroup(frm.value)
       .subscribe(result =>{
         console.log(result["idGroup"])

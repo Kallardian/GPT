@@ -76,11 +76,19 @@ export class ClassroomsComponent implements OnInit {
     this.ClassroomService.showClassrooms()
       .subscribe(data => this.classrooms = data);
   }
-  changeGroupsUrlService(classroomId: number) {
-    // this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.replace(/\d+/g, '')
-    // this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + classroomId
-    this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.substring(0,17)
-    this.GroupService.changeCurrentClassroom(classroomId);
+  // changeGroupsUrlService(classroomId: number) {
+  //   // this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.replace(/\d+/g, '')
+  //   // this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + classroomId
+  //   this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.substring(0,17)
+  //   this.GroupService.changeCurrentClassroom(classroomId);
+  // }
+  clearLocal(){
+    localStorage.clear();
+  }
+  changeCurrentClassroom(classroomId: number){
+    localStorage.removeItem('currentClassroom')
+    const classroomIdString = classroomId.toString()
+    localStorage.setItem('currentClassroom', classroomIdString)
   }
 
 }

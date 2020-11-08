@@ -11,20 +11,20 @@ export class GroupsService {
   postGroupsUrl = "/api/groups/"
   deleteGroupsUrl = "/api/groups/"
   currentClassroom: number;
-  currentUserGroupService: number;
+  currentUserGroupService: any;
 
   constructor(private http: HttpClient) { }
 
   showGroups(){
-    return this.http.get<any[]>(`${this.showGroupsUrl}` + this.currentClassroom)
+    return this.http.get<any[]>(`${this.showGroupsUrl}` + localStorage.getItem('currentClassroom'))
   }
 
-  changeCurrentClassroom(classroomId: number){
-    this.currentClassroom = classroomId;
-  }
-  changeCurrentUser(userId: number){
-    this.currentUserGroupService = userId
-  }
+  // changeCurrentClassroom(classroomId: number){
+  //   this.currentClassroom = classroomId;
+  // }
+  // changeCurrentUser(userId: number){
+  //   this.currentUserGroupService = userId
+  // }
 
   addGroup(group: any){
     return this.http.post(this.postGroupsUrl, group);

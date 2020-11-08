@@ -55,18 +55,26 @@ export class ClassroomsComponent implements OnInit {
       )
   }
   removeClassroom(classroomRemoved: Classroom) { //aqui é a SP_DELETE_CLASSROOM
-    const idClassroomToBeRemovedString = JSON.stringify(new Number(classroomRemoved[0]))
-    const idClassroomToBeRemovedNumber: number = parseInt(idClassroomToBeRemovedString)
-    this.ClassroomService.removeClassroom(idClassroomToBeRemovedNumber)
+    // const idClassroomToBeRemovedString = JSON.stringify(new Number(classroomRemoved[0]))
+    // const idClassroomToBeRemovedNumber: number = parseInt(idClassroomToBeRemovedString)
+    // const Groups = this.GroupService.showGroups(classroomRemoved["idClassroom"]);
+    // Groups.subscribe(data => {
+    //   if(data.length == 0){
+    //     alert('Esta sala não pode ser deletada')
+    //   }
+    // }
+    //                      )
+    this.ClassroomService.removeClassroom(classroomRemoved["idClassroom"])
       .subscribe(
         result => {
-          console.log('Sala Excluida com Sucesso')
+          this.GroupService.showGroups
+          alert('Sala "' + classroomRemoved["nameClassroom"] + '" Excluida com Sucesso')
           const index = this.classrooms.indexOf(classroomRemoved)
           this.classrooms.splice(index, 1)
         },
         error => {
           if (error.status == 500) {
-            console.log('Essa sala não pode ser removida, pois já contem grupos.')
+            alert('Essa sala não pode ser removida, pois já contem grupos.')
           }
         }
       )

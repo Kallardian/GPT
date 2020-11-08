@@ -8,7 +8,8 @@ import { CriteriaService } from 'src/app/services/criteria-service/criteria.serv
 })
 export class CriteriaComponent implements OnInit {
   criteria: Array<any>;
-
+  currentUser = localStorage.getItem('currentRa')
+  inputMode = false;
   constructor(private CriteriaService: CriteriaService) { }
 
   ngOnInit(): void {

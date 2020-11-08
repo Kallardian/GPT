@@ -10,10 +10,10 @@
         <input type="text" formControlName="password" placeholder="Entre com a Senha" maxlength="30">
         <select formControlName="access">
             <option value="5" disabled>Tipo de Usuario</option>
+            <option *ngIf="editUser" value="0">Desabilitado</option>
             <option value="2">Coordenador do Curso</option>
             <option value="3">Professor de Projetos</option>
-            <option value="4">Professor Avaliador</option>
-            <option *ngIf="editUser" value="0">Desabilitado</option>
+            <option value="4">Professor Avaliador</option>     
         </select>
 
         <button *ngIf="!editUser" type="submit" [disabled]="!formUser.valid">Adicionar</button>

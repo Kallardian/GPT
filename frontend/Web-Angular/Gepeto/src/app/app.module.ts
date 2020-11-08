@@ -12,7 +12,6 @@ import { GroupsComponent } from './view/groups/groups.component';
 import { ClassroomsService } from './services/classrooms-services/classrooms.service';
 import { UsersComponent } from './view/users/users.component';
 import { CriteriaComponent } from './view/criteria/criteria.component';
-import { CriteriaFormComponent } from './view/criteria/criteria-form/criteria-form.component'
 
 @NgModule({
   declarations: [
@@ -21,8 +20,7 @@ import { CriteriaFormComponent } from './view/criteria/criteria-form/criteria-fo
     ClassroomsComponent,
     GroupsComponent,
     UsersComponent,
-    CriteriaComponent,
-    CriteriaFormComponent
+    CriteriaComponent
   ],
   imports: [
     BrowserModule,

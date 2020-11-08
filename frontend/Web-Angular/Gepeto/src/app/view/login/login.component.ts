@@ -1,9 +1,9 @@
-import { GroupsService } from 'src/app/services/groups-services/groups.service';
 import { Component, OnInit } from '@angular/core';
-
 import { FormBuilder, FormGroup, Validators } from '../../../../node_modules/@angular/forms'
 
+import { GroupsService } from 'src/app/services/groups-services/groups.service';
 import { LoginService } from '../../services/login-service/login.service';
+
 
 
 
@@ -45,8 +45,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  sendLogin(form: any) {
-    this.LoginService.loginUser(form)
+  sendLogin(form: FormGroup) {
+    // window.alert(form.value["ra"])
+    // this.GroupService.currentUserGroupService = form.value["ra"]
+    localStorage.clear();
+    localStorage.setItem('currentRa', form.value["ra"]);
+    this.LoginService.loginUser(form.value)
     .subscribe(result =>{
       console.log(form);
       console.log(result);

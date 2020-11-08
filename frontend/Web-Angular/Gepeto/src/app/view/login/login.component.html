@@ -1,15 +1,61 @@
-<img src="../../../assets/Gepeto.png" height="60">
 
-<div>
-    <h2>Bem Vindo</h2>
-    <form [formGroup]="formLogin" (ngSubmit)="sendLogin(formLogin.value)">
+    <div class="d-flex justify-content-center h-100" style="background: #F8F8FF	;">
 
-        <input type="text" pattern="\d*" formControlName="ra" placeholder="Entre com seu RA" maxlength="6" [(ngModel)]="currentUser">
+        
+        <div class="card_login" >
 
-        <input type="password" formControlName="password" placeholder="Entre com sua senha" maxlength="30">
+<!--aqui acaba a imagem-->
+            <div class="d-flex justify-content-center">
 
-        <button type="submit" [disabled]="!formLogin.valid" >Entrar</button>
-        <br><br>
+                <div class="area_logo">
+
+                    <img src="../../../assets/Gepeto.png"  class="logo_circular">
+
+                </div>
+
+            </div>
+
+
+<div class= "d-flex justify-content-center form_login">
+
+
+    <form [formGroup]="formLogin" (ngSubmit)="sendLogin(formLogin)">
+
+        <!--Login-->
+        <div class="input-group mb-3">
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fas fa-user"></i> <!--Ícone do usuário-->
+                        </span>
+                    </div>
+        <input type="text" class="input_txt" pattern="\d*" formControlName="ra" placeholder="Entre com seu RA" maxlength="6" [(ngModel)]="currentUser">        
+        </div>
+    
+
+        <!--Senha-->
+        <div class="input-group mb-3">
+            <div class="input-group-append">
+                <span class="input-group-text">
+                    <i class="fas fa-unlock"></i> <!--Ícone da senha-->
+                </span>
+            </div>
+        <input type="password" class="input_txt" formControlName="password" placeholder="Entre com sua senha" maxlength="30">
+        </div>
+   
+    
+        <!--Botão salvar-->    
+        <button type="submit" class="btn_validar mt-3" [disabled]="!formLogin.valid" >Entrar</button>
+  
+  
+  
+  
     </form>
-    <br><br>
+
+
 </div>
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<link rel="stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"> <!--font awesome-->

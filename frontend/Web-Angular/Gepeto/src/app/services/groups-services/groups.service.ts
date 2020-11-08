@@ -16,7 +16,7 @@ export class GroupsService {
   constructor(private http: HttpClient) { }
 
   showGroups(idClasrrom: number = 0){
-    if(idClasrrom === -1){
+    if(idClasrrom === 0){
       return this.http.get<any[]>(`${this.showGroupsUrl}` + localStorage.getItem('currentClassroom'))
     }
     else{

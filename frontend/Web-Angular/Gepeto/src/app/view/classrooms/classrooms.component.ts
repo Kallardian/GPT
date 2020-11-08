@@ -89,7 +89,7 @@ export class ClassroomsComponent implements OnInit {
       localStorage.clear();
     }
   changeCurrentClassroom(classroomId: number) {
-      localStorage.removeItem('currentClassroom')
+    localStorage.removeItem('currentClassroom')
     const classroomIdString = classroomId.toString()
     localStorage.setItem('currentClassroom', classroomIdString)
     }

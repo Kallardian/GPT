@@ -50,7 +50,7 @@ public class ClassroomController {
 
         classroomRepository.postClassrooms(amount);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     //DELETE
@@ -62,6 +62,6 @@ public class ClassroomController {
 
         classroomRepository.deleteClassroom(classroom);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

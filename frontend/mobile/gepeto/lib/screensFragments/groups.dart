@@ -2,98 +2,73 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import '../screens.dart';
+import 'package:Gepeto/api/dtos.dart';
+import 'dart:convert' as convert;
 
 //Groups Screen
 class GroupsFragment extends StatelessWidget {
-  GroupsFragment({Key key}) : super(key: key);
+  final List<Group> groups;
+
+  GroupsFragment({Key key, this.groups}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: ListView(
+        child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            for (int i = 0; i < 7; i++) GroupsMain()
-          ],
+          itemCount: groups.length,
+          itemBuilder: (context, index) {
+            return GroupsMain(group: groups[index]);
+          },
         )
     );
   }
 }
 
-class GroupsMain extends StatefulWidget {
-  GroupsMain({Key key}) : super(key: key);
+class GroupsMain extends StatelessWidget {
+  final Group group;
 
-  @override
-  _GroupsMainState createState() => _GroupsMainState();
-}
+  GroupsMain({Key key, this.group}) : super(key: key);
 
-class _GroupsMainState extends State<GroupsMain> {
-  int changeWidget = 0;
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 10 / 16,
-      child: GestureDetector(
-        onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => ThirdScreen()));},
-        onLongPress: () {
-          setState(() {
-            Vibration.vibrate(duration: 200);
-            changeWidget += 1;
-            if (changeWidget > 1) {
-              changeWidget = 0;
-            }
-          });
-        },
-        child: Container(
-          margin: EdgeInsets.only(top: 60.0, bottom: 40.0, left: 40, right: 40),
-          decoration: BoxDecoration(
-            color: Colors.indigo,
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          child: Column(
-            children: <Widget>[
-              Center(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 20, bottom: 10),
-                    child: Text(
-                      'GRUPO XX',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'ShareTechMono',
-                        fontSize: 32,
-                      ),
-                    ),
-                  )
-              ),
-              IndexedStack(
-                index: changeWidget,
-                children: <Widget>[
-                  GroupsStudents(),
-                  GroupsDescription(),
-                ],
-              ),
-            ],
-          ),
+      child: Container(
+        margin: EdgeInsets.only(top: 60.0, bottom: 40.0, left: 40, right: 40),
+        decoration: BoxDecoration(
+          color: Colors.indigo,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 20, bottom: 10),
+                child: Text(
+                  convert.utf8.decode(convert.latin1.encode(group.groupTheme)),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'ShareTechMono',
+                    fontSize: 32,
+                  ),
+                ),
+              )
+            ),
+            GroupsDescription(description: group.description)
+          ],
         ),
       ),
     );
   }
 }
 
-class GroupsStudents extends StatelessWidget {
-  GroupsStudents({Key key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        for(int i = 0; i < 6; i++) GroupsTile(),
-      ],
-    );
-  }
-}
-
 class GroupsDescription extends StatelessWidget{
-  GroupsDescription({Key key}) : super(key: key);
+  final String description;
+
+  GroupsDescription({Key key, this.description}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -118,40 +93,15 @@ class GroupsDescription extends StatelessWidget{
               ),
             ),
             Text(
-              'Percebemos, cada vez mais, que a competitividade nas transações comerciais desafia a capacidade de equalização dos níveis de motivação departamental. Por isso criamos o uma solução digital integrada.',
+              convert.utf8.decode(convert.latin1.encode(description)),
               textAlign: TextAlign.justify,
               style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'ShareTechMono',
-                  color: Colors.black
+                fontSize: 16,
+                fontFamily: 'ShareTechMono',
+                color: Colors.black
               ),
             ),
           ],
-        )
-    );
-  }
-}
-
-class GroupsTile extends StatelessWidget {
-  GroupsTile({Key key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
-            topLeft: Radius.circular(5),
-            bottomRight: Radius.circular(5),
-          ),
-        ),
-        margin: EdgeInsets.only(left: 20, right: 20, bottom: 5),
-        child: ListTile(
-          leading: Icon(Icons.account_circle, color: Colors.indigo,),
-          title: Text('XXXXX_XXXXXXXX_XXXXX', style: TextStyle(color: Colors.indigoAccent, fontWeight: FontWeight.bold)),
-          subtitle: Text('RM: 000000', style: TextStyle(color: Colors.indigoAccent)),
-          dense: true,
         )
     );
   }

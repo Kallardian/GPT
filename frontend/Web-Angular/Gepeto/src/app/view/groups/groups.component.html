@@ -2,20 +2,26 @@
     Não há grupos ainda nesta sala
 </h1>
 <ul class="grupos_lista" *ngIf="!inputMode">
+    
+    <h1 style="text-align: center;">Grupos</h1>
     <li *ngFor="let group of groups">
-        <button class="tittle_grupo" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> |
-        <button (click)="removeGroup(group)"> Remover Grupo</button>
-    </li>
-    <br><br>
-    <div class="col-md-6" style="text-align:center;">
-        <button class="add_grupo" (click)="changeToInputMode()">
-            Adicionar Novo Grupo
-        </button>
+       <div class="col-md-6" style="text-align:center;">
+        <button class="btn_salas" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> 
+        <button class="remove_btn"  (click)="removeGroup(group)"><i class="fas fa-trash"></i></button>
     </div>
+    </li>
+  
+    <br><br>
+
+    <div class= "col-md-12 plus_btn" style="padding-top: 50px; text-align: center;">
+        <button type="button" class="add_grupo" (click)="changeToInputMode()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
     <br>
-    <div class="col-md-6" style="text-align:center;">
-        <button class="btn_grupo" routerLink="/classrooms">
-            Voltar para salas
+    <div class="btn_flutuante" >
+        <button class="btn_voltar" routerLink="/classrooms">
+            <i class="fas fa-reply"></i>
         </button>
     </div>
 

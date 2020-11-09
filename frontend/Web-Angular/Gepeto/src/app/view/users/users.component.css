@@ -1,0 +1,92 @@
+.btn_flutuante{
+    position: fixed;
+    bottom:10px;
+    right:10px;
+  }
+  
+  .btn_flutuante button{
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    border-radius: 30px;
+    background-color: #cb60b3;
+    border: none;
+    box-shadow: 0 1px 5px rgba(0,0,0,.4);
+    font-size: 24px;
+    color: white;
+      
+    -webkit-transition: .2s ease-out;
+    -moz-transition: .2s ease-out;
+    transition: .2s ease-out;
+  }
+  .btn_flutuante button:focus{
+    outline: none;
+  }
+  
+  .btn_flutuante button.btn_voltar{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #1E90FF    ;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+  }
+
+  .btn_flutuante button.btn_voltar:before{
+    content: '      ⎗    ';
+}
+
+.users_list{
+    list-style: none;
+}
+
+.users_description{
+    background: #6495ED	;
+    border:0;
+    border-radius:5px;
+    width:40%;
+    height:40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19 );   /*  margem esquerda, margem inferior, margem superior, margem direita */ 
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
+    text-align: center;
+}
+
+.edit_user{
+    background: #a4b3e7; /*cor do fundo do ícone*/
+    color: #060d72; /*cor do icone*/
+    margin-left: 4px;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+}
+
+.add_user{
+    background: #a4b3e7; /*cor do fundo do ícone*/
+    color: #060d72; /*cor do icone*/
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: auto;
+    width:50px;
+    height:40px;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19 );   /*  margem esquerda, margem inferior, margem superior, margem direita */ 
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 18px;
+
+}
+
+.edit_user{
+    
+}

@@ -64,13 +64,14 @@ CREATE TABLE [TB_MEDIUM_CRITERION]
 		REFERENCES [TB_BIG_CRITERION]([ID_BIG]),
   [RA] CHAR(6) NOT NULL,
   CONSTRAINT [RA_FK_1] 
+  
 		FOREIGN KEY (RA) 
 		REFERENCES [TB_USER]([RA]),
   [NAME_MEDIUM] VARCHAR(30) NOT NULL,
   [DESCRIPTION] VARCHAR(100) NULL,
   -- QUICK NOTES
   [TOTAL_VALUE] DECIMAL(4,2)
-);
+); 
 GO
 CREATE TABLE [TB_MEDIUM_GRADE]
 (
@@ -627,9 +628,11 @@ END
 
 GO
 CREATE PROCEDURE SP_UPDATE_MEDIUM_CRITERION(@id_medium   INT,
-  @name_medium VARCHAR(30 ),
-  @description VARCHAR(300) = NULL,
-  @value       DECIMAL(4, 2))
+                                            @id_big INT,
+                                            @ra CHAR(6),
+                                            @name_medium VARCHAR(30 ),
+                                            @description VARCHAR(300) = NULL,
+                                            @value       DECIMAL(4, 2))
 AS
 BEGIN
   IF EXISTS (SELECT *

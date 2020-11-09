@@ -33,8 +33,9 @@
     <div class="card_add_gp">
         <h1 style="text-align: center; padding-bottom: 10%;">Adicione o grupo</h1>
         <input class="input_txt" type="text" formControlName="groupTheme" placeholder="Tema do grupos" maxlength="50">
-        <input class="input_txt" type="text" formControlName="description" placeholder="Descrição do grupo"
-            maxlength="300">
+        <textarea class="input_txt" type="text" formControlName="description" placeholder="Descrição do grupo"
+            maxlength="300" cols="40" rows="40">
+        </textarea>
         <input type="hidden" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom"
             disabled>
         <input type="hidden" formControlName="ra" placeholder="RA" maxlength="6" [(ngModel)]="currentUser" disabled>

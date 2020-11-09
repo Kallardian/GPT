@@ -8,13 +8,14 @@
         <button (click)="removeGroup(group)"> Remover Grupo</button>
         <button (click)="editMode = true; updateEditForm(group)"> Editar Grupo</button>
 =======
-<ul class="grupos_lista" *ngIf="!inputMode">
+<ul class="grupos_lista" *ngIf="!inputMode && !editMode">
     
     <h1 style="text-align: center;">Grupos</h1>
     <li *ngFor="let group of groups">
        <div class="col-md-6" style="text-align:center;">
         <button class="btn_salas" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> 
         <button class="remove_btn"  (click)="removeGroup(group)"><i class="fas fa-trash"></i></button>
+        <button (click)="editMode = true; updateEditForm(group)"> Editar Grupo</button>
     </div>
 >>>>>>> 9fe7affc4b9b77ff1d346c46e111411c6a05ff05
     </li>

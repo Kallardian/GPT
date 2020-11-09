@@ -73,6 +73,7 @@ CREATE TABLE [TB_MEDIUM_CRITERION]
   [TOTAL_VALUE] DECIMAL(4,2)
 ); 
 GO
+
 CREATE TABLE [TB_MEDIUM_GRADE]
 (
   [ID_MEDIUM_GRADE] INT PRIMARY KEY IDENTITY,
@@ -421,7 +422,7 @@ END
 GO
 
 CREATE PROCEDURE SP_INSERT_GROUP
-  (@group_theme    VARCHAR(50),
+  (@group_theme   VARCHAR(50),
   @description    VARCHAR(300),
   @classroom_id   INT,
   @ra             CHAR(6))
@@ -628,8 +629,6 @@ END
 
 GO
 CREATE PROCEDURE SP_UPDATE_MEDIUM_CRITERION(@id_medium   INT,
-                                            @id_big INT,
-                                            @ra CHAR(6),
                                             @name_medium VARCHAR(30 ),
                                             @description VARCHAR(300) = NULL,
                                             @value       DECIMAL(4, 2))

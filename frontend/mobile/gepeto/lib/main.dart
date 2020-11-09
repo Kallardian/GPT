@@ -135,14 +135,6 @@ class LoginFragment extends StatelessWidget {
                   return value.isEmpty ? 'Preencha o campo com seu RA.' : null;
                 },
               ),
-              // child: TextField(
-              //   maxLength: 6,
-              //   keyboardType: TextInputType.numberWithOptions(),
-              //   decoration: InputDecoration(
-              //     border: OutlineInputBorder(),
-              //     hintText: ' Entre com seu RA',
-              //   ),
-              // ),
             ),
           ),
           Container(

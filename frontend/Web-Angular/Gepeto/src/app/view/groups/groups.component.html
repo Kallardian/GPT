@@ -1,4 +1,4 @@
-<h1 *ngIf="groups == null || groups.length == 0">
+<h1 class="txt_slogan" *ngIf="groups == null || groups.length == 0">
     Não há grupos ainda nesta sala
 </h1>
 <ul *ngIf="!inputMode">
@@ -7,13 +7,17 @@
         <button (click)="removeGroup(group)"> Remover Grupo</button>
     </li>
     <br><br>
-    <button (click)="changeToInputMode()">
+    <div class="col-md-6" style="text-align: center;">
+    <button class="add_grupo" (click)="changeToInputMode()">
         Adicionar Novo Grupo
     </button>
+    </div>
     <br>
-    <button routerLink="/classrooms">
+    <div class="col-md-6" style="text-align: center;">
+    <button class="btn_grupo" routerLink="/classrooms">
         Voltar para salas
     </button>
+    </div>
 
 </ul>
 

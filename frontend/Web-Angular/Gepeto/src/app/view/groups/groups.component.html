@@ -8,7 +8,7 @@
         <div class="col-md-6" style="text-align:center;">
             <button class="btn_salas" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button>
             <button class="remove_btn" (click)="removeGroup(group)"><i class="fas fa-trash"></i></button>
-            <button (click)="editMode = true; updateEditForm(group)"> Editar Grupo</button>
+            <button (click)="canEdit(group); updateEditForm(group)"> Editar Grupo</button>
         </div>
     </li>
 
@@ -46,8 +46,8 @@
 </form>
 <div *ngIf="editMode">
     <form [formGroup]="formEditGroup"  (ngSubmit)="editGroup(formEditGroup)">
-        <input type="number" formControlName="idGroup" placeholder="idGroup">
-        <input type="text" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom">
+        <input type="hidden" formControlName="idGroup" placeholder="idGroup">
+        <input type="hidden" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom">
         <input type="text" formControlName="groupTheme" placeholder="Tema do grupo">
         <textarea formControlName="description" placeholder="Descrição"></textarea>
 

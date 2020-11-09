@@ -42,8 +42,12 @@ export class GroupsService {
     this.GroupsUrl = this.GroupsUrl + groupId.toString();
     return this.http.delete(`${this.GroupsUrl}`)
   }
+  editGroup(group: any){
+    return this.http.put(this.GroupsUrl, group)
+  }
 
   showMediumGrades(){
     return this.http.get<any>(`${this.mediumGradesUrl}`)
   }
+
 } 

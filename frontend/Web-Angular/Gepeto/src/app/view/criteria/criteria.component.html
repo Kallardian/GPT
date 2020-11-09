@@ -1,34 +1,56 @@
-<ul *ngIf="!inputMode">
-    <li *ngFor="let c of criteria">Nome: {{ c.nameMedium }}  <br> Descrição: {{ c.description }} <br> Valor:{{ c.totalValue }}
-        <br>
-        <button (click)="updateForm(c)">Editar</button>
-        <button (click)="removeCriterion(c)">Remove</button>
+<ul *ngIf="!inputMode && !editMode">
+    <li *ngFor="let c of criteria">
+        <button>Nome: {{ c.nameMedium }}  <br> Descrição: {{ c.description }} <br> Valor:{{ c.totalValue }}
+            <br>
+            <button (click)="updateFormEdit(c)">Editar</button>
+            <button (click)="removeCriterion(c)">Remove</button>
+        </button>
         <br><br>
     </li>
 </ul>
-<button *ngIf="!inputMode" (click)="inputMode = true; addBigCriterion()">
+<button *ngIf="!inputMode && !editMode" (click)="inputMode = true; addBigCriterion()">
     Adicionar Critério
 </button>
+<!-- Form Insert -->
 <form *ngIf="inputMode" [formGroup]="formAddCriterion">
-    <input type="text" formControlName="idBig" placeholder="idBig" [(ngModel)]="idBig">
+    <input type="hidden" formControlName="idBig" placeholder="idBig" [(ngModel)]="idBig">
     <input type="text" formControlName="nameMedium" placeholder="Nome do Critério">
-    <input type="text" formControlName="ra"  maxlength="6" [(ngModel)]="currentUser" placeholder="Ra">
+    <input type="hidden" formControlName="ra"  maxlength="6" [(ngModel)]="currentUser" placeholder="Ra">
     <!-- <input type="text" formControlName="description" placeholder="Descrição"> -->
-    <textarea formControlName="description" cols="33" rows="5" placeholder="Descrição">
+    <textarea formControlName="description" cols="33" rows="5" placeholder="Descrição" maxlength="100">
     </textarea>
-    <input type="number" formControlName="totalValue" placeholder="Valor Total">
+    <input type="number" formControlName="totalValue" placeholder="Valor Total" >
 
     <button *ngIf="!editMode" type="submit" (click)="addCriteria(formAddCriterion)" [disabled]="!formAddCriterion.valid">
         Adicionar Critério
     </button>
-    <button *ngIf="editMode" type="submit" (click)="updateCriterion(formAddCriterion)" [disabled]="!formAddCriterion.valid">
+    <!-- <button *ngIf="editMode" type="submit" (click)="updateCriterion(formAddCriterion)" [disabled]="!formAddCriterion.valid">
         Salvar
-    </button>
+    </button>  -->
     <button (click)="inputMode=false; editMode = false">
         Voltar para Critérios
     </button>
 </form>
-<button *ngIf="!inputMode" routerLink="">
+
+
+<!-- Form Edit -->
+<form *ngIf="editMode" [formGroup]="formEditCriterion">
+    <input type="hidden" formControlName="idMedium" placeholder="idMedium">
+    
+    <input type="text" formControlName="nameMedium" placeholder="Nome do Critério">
+    <textarea formControlName="description" cols="33" rows="5" placeholder="Descrição" maxlength="100">
+    </textarea>
+    <input type="number" formControlName="totalValue" placeholder="Valor Total">
+
+    <button type="submit" (click)="updateCriterion(formEditCriterion)" [disabled]="!formEditCriterion.valid">
+        Salvar
+    </button>  
+    <button (click)="inputMode=false; editMode = false">
+        Voltar para Critérios
+    </button>
+</form>
+
+<button *ngIf="!inputMode && !editMode" routerLink="">
     Sair
 </button>
 

@@ -1,34 +1,26 @@
 <h1 class="txt_slogan" *ngIf="groups == null || groups.length == 0">
     Não há grupos ainda nesta sala
 </h1>
-<<<<<<< HEAD
 <ul class="grupos_lista" *ngIf="!inputMode && !editMode">
-    <li *ngFor="let group of groups">
-        <button class="tittle_grupo" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> |
-        <button (click)="removeGroup(group)"> Remover Grupo</button>
-        <button (click)="editMode = true; updateEditForm(group)"> Editar Grupo</button>
-=======
-<ul class="grupos_lista" *ngIf="!inputMode && !editMode">
-    
+
     <h1 style="text-align: center;">Grupos</h1>
     <li *ngFor="let group of groups">
-       <div class="col-md-6" style="text-align:center;">
-        <button class="btn_salas" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> 
-        <button class="remove_btn"  (click)="removeGroup(group)"><i class="fas fa-trash"></i></button>
-        <button (click)="editMode = true; updateEditForm(group)"> Editar Grupo</button>
-    </div>
->>>>>>> 9fe7affc4b9b77ff1d346c46e111411c6a05ff05
+        <div class="col-md-6" style="text-align:center;">
+            <button class="btn_salas" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button>
+            <button class="remove_btn" (click)="removeGroup(group)"><i class="fas fa-trash"></i></button>
+            <button (click)="editMode = true; updateEditForm(group)"> Editar Grupo</button>
+        </div>
     </li>
-  
+
     <br><br>
 
-    <div class= "col-md-12 plus_btn" style="padding-top: 50px; text-align: center;">
+    <div class="col-md-12 plus_btn" style="padding-top: 50px; text-align: center;">
         <button type="button" class="add_grupo" (click)="changeToInputMode()">
-          <i class="fas fa-plus"></i>
+            <i class="fas fa-plus"></i>
         </button>
-      </div>
+    </div>
     <br>
-    <div class="btn_flutuante" >
+    <div class="btn_flutuante">
         <button class="btn_voltar" routerLink="/classrooms">
             <i class="fas fa-reply"></i>
         </button>
@@ -52,17 +44,20 @@
         </button>
     </div>
 </form>
+<div *ngIf="editMode">
+    <form [formGroup]="formEditGroup"  (ngSubmit)="editGroup(formEditGroup)">
+        <input type="number" formControlName="idGroup" placeholder="idGroup">
+        <input type="text" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom">
+        <input type="text" formControlName="groupTheme" placeholder="Tema do grupo">
+        <textarea formControlName="description" placeholder="Descrição"></textarea>
 
-<form [formGroup]="formEditGroup" *ngIf="editMode" (ngSubmit)="editGroup(formEditGroup)">
-    <input type="number" formControlName="idGroup" placeholder="idGroup">
-    <input type="text" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom">
-    <input type="text" formControlName="groupTheme" placeholder="Tema do grupo">
-    <textarea formControlName="description" placeholder="Descrição"></textarea>
-    
-    
-    <button type="submit"> Salvar</button>
-</form>
 
+        <button type="submit"> Salvar</button>
+    </form>
+    <button (click)="editMode = false">
+        Voltar para Salas
+    </button>
+</div>
 <div class="btn_flutuante">
     <button class="btn_voltar" *ngIf="inputMode" (click)="changeShowGroupsUrl(currentClassroom)">
         <i class="fas fa-reply"></i>

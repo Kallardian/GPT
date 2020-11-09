@@ -235,6 +235,14 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SP_AMOUNT_GROUPS_CLASSROOM(@id_classroom INT)
+AS
+BEGIN
+  SELECT COUNT(*)
+  FROM TB_GROUP
+  WHERE  ID_CLASSROOM = @id_classroom
+END
+
 --| USER |-- 
 CREATE PROCEDURE SP_INSERT_USER
   (@user_login CHAR(6),
@@ -629,9 +637,9 @@ END
 
 GO
 CREATE PROCEDURE SP_UPDATE_MEDIUM_CRITERION(@id_medium   INT,
-                                            @name_medium VARCHAR(30 ),
-                                            @description VARCHAR(300) = NULL,
-                                            @value       DECIMAL(4, 2))
+  @name_medium VARCHAR(30 ),
+  @description VARCHAR(300) = NULL,
+  @value       DECIMAL(4, 2))
 AS
 BEGIN
   IF EXISTS (SELECT *

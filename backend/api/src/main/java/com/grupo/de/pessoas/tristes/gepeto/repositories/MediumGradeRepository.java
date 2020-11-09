@@ -75,9 +75,9 @@ public class MediumGradeRepository {
             Object[] object = (Object[]) iterator.next();
 
             Long idMediumGrade = Long.parseLong(String.valueOf(object[0]));
-            String ra = String.valueOf(object[1]);
-            Long idMedium = Long.parseLong(String.valueOf(object[2]));
-            Long idGroup = Long.parseLong(String.valueOf(object[3]));
+            Long idMedium = Long.parseLong(String.valueOf(object[1]));
+            Long idGroup = Long.parseLong(String.valueOf(object[2]));
+            String ra = String.valueOf(object[3]);
             Double grade = Double.parseDouble(String.valueOf(object[4]));
             int attempt = Integer.parseInt(String.valueOf(object[5]));
 

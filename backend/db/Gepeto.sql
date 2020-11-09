@@ -38,7 +38,7 @@ CREATE TABLE [TB_GROUP]
 (
   [ID_GROUP] INT PRIMARY KEY IDENTITY,
   [GROUP_THEME] VARCHAR(50) NOT NULL,
-  [GROUP_DESCRIPTION] VARCHAR(300) NULL,
+  [GROUP_DESCRIPTION] VARCHAR(300) NOT NULL,
   [ID_CLASSROOM] INT NOT NULL,
   CONSTRAINT [ID_CLASSROOM_FK_0] 
 		FOREIGN KEY ([ID_CLASSROOM]) 
@@ -437,40 +437,16 @@ CREATE PROCEDURE SP_INSERT_GROUP
   @ra             CHAR(6))
 AS
 BEGIN
-  DECLARE @id_group INT
-
-  IF @description IS NULL 
-        BEGIN
-    INSERT INTO TB_GROUP
-      ([GROUP_THEME],
-      [ID_CLASSROOM],
-      [RA])
-    VALUES
-      (@group_theme,
-        @classroom_id,
-        @ra)
-  END 
-      ELSE 
-        BEGIN
     INSERT INTO TB_GROUP
       ([GROUP_THEME],
       [GROUP_DESCRIPTION],
       [ID_CLASSROOM],
       [RA])
     VALUES
-      (@group_theme,
+       (@group_theme,
         @description,
         @classroom_id,
         @ra)
-  END
-  SELECT @id_group = 
-                 ID_GROUP
-  FROM TB_GROUP
-  WHERE        GROUP_THEME = @group_theme
-    AND ID_CLASSROOM = @classroom_id
-  SELECT *
-  FROM TB_GROUP
-  WHERE  ID_GROUP = @id_group
   COMMIT
 END 
 
@@ -787,12 +763,12 @@ GO
 EXEC SP_INSERT_CLASSROOM 9;
 GO
 /*-----SP_INSERT_GROUP-----*/
-EXEC SP_INSERT_GROUP 'Churras Carnes', NULL,'1', '654321';
-EXEC SP_INSERT_GROUP 'Asessoria Carros', NULL,'2', '654321';
+EXEC SP_INSERT_GROUP 'Churras Carnes', 'Um churrascaria','1', '654321';
+EXEC SP_INSERT_GROUP 'Asessoria Carros', 'Vendemos carros','2', '654321';
 EXEC SP_INSERT_GROUP 'Disco Store', 'Será um projeto basico para vender discos','3', '654321';
 EXEC SP_INSERT_GROUP 'GEPETO', 'O projeto terá como objetivo avaliar TCCs','4','654321';
-EXEC SP_INSERT_GROUP 'CORASSAUM', NULL,'5', '654321';
-EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', NULL,'5', '654321';
+EXEC SP_INSERT_GROUP 'CORASSAUM', 'Açogue','5', '654321';
+EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', 'Aluga roupas de cerimônia','5', '654321';
 EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','4', '654321';
 EXEC SP_INSERT_GROUP 'Loja de Pneus', 'Aquela loja que você compra Pneus de Borracha','4', '654321';
 EXEC SP_INSERT_GROUP 'Loja de Gasolina', 'Aquela loja que você compra Gasolinas','2', '654321';

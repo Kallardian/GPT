@@ -218,6 +218,14 @@ GO
 
 /*--------------------------------| STORED PROCEDURES |--------------------------------------*/ 
 --TODO INSERT_MEDIUM FINISH 
+
+CREATE PROCEDURE SP_BIGGEST_ATTEMPT (@id_group INT)
+AS
+BEGIN
+  SELECT MAX(ATTEMPT)
+  FROM   TB_MEDIUM_GRADE
+  WHERE  ID_GROUP = @id_group
+END
 GO
 
 CREATE PROCEDURE SP_LOGIN_USER(@RA  CHAR(6),

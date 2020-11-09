@@ -15,9 +15,11 @@ export class GroupsComponent implements OnInit {
   groups: Group[] = [];
   inputMode = false;
   formAddGroup: FormGroup;
+  formEditGroup: FormGroup;
   currentClassroom = localStorage.getItem('currentClassroom')
   group: any;
   currentUser = localStorage.getItem('currentRa')
+  editMode = false;
 
   
  
@@ -28,7 +30,7 @@ export class GroupsComponent implements OnInit {
   ngOnInit(): void {
     this.showGroups();
     this.createAddGroupForm();
-    // this.groups = []
+    this.createEditGroupForm();
   }
 
   showGroups() {
@@ -48,12 +50,15 @@ export class GroupsComponent implements OnInit {
         '',
         Validators.compose([
           Validators.required,
+          Validators.minLength(3),
           Validators.maxLength(50)
         ])
       ],
       description: [
         '',
         Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
           Validators.maxLength(300)
         ])
       ],
@@ -71,6 +76,8 @@ export class GroupsComponent implements OnInit {
       ]
     })
   }
+
+
   addGroup(frm: FormGroup) {
     alert(frm.value["idClassroom"])
     this.GroupService.addGroup(frm.value)
@@ -96,5 +103,48 @@ export class GroupsComponent implements OnInit {
         this.groups.splice(this.groups.indexOf(group), 1)
         window.alert('O grupo foi deletado com sucesso')
       })
+  }
+  createEditGroupForm() {
+    this.formEditGroup = this.fb.group({
+      idGroup:[
+        '',
+        Validators.compose([
+          Validators.required
+        ])
+      ],
+      idClassroom: [
+        '',
+        
+      ],
+      description: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(300)
+        ])
+      ],
+      groupTheme: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50)
+        ])
+      ]
+    })
+  }
+  updateEditForm(group: Group){
+    this.formEditGroup.patchValue({
+      idGroup: group.id,
+      idClassroom: this.currentClassroom,
+      description: group.description,
+      groupTheme: group.groupTheme
+
+    })
+  }
+
+  editGroup(formEditGroup: FormGroup){
+    
   }
 }

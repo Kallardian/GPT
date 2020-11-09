@@ -1,10 +1,11 @@
 <h1 class="txt_slogan" *ngIf="groups == null || groups.length == 0">
     Não há grupos ainda nesta sala
 </h1>
-<ul class="grupos_lista" *ngIf="!inputMode">
+<ul class="grupos_lista" *ngIf="!inputMode && !editMode">
     <li *ngFor="let group of groups">
         <button class="tittle_grupo" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> |
         <button (click)="removeGroup(group)"> Remover Grupo</button>
+        <button (click)="editMode = true; updateEditForm(group)"> Editar Grupo</button>
     </li>
     <br><br>
     <div class="col-md-6" style="text-align:center;">
@@ -37,6 +38,17 @@
         </button>
     </div>
 </form>
+
+<form [formGroup]="formEditGroup" *ngIf="editMode" (ngSubmit)="editGroup(formEditGroup)">
+    <input type="number" formControlName="idGroup" placeholder="idGroup">
+    <input type="text" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom">
+    <input type="text" formControlName="groupTheme" placeholder="Tema do grupo">
+    <textarea formControlName="description" placeholder="Descrição"></textarea>
+    
+    
+    <button type="submit"> Salvar</button>
+</form>
+
 <div class="btn_flutuante">
     <button class="btn_voltar" *ngIf="inputMode" (click)="changeShowGroupsUrl(currentClassroom)">
         <i class="fas fa-reply"></i>

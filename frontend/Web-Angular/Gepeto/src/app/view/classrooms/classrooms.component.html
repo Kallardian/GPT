@@ -1,37 +1,37 @@
 <div class="d-flex justify-content-center h-100" style="background: #e9e9e9	;">
 
-<div class="content_salas">
-<h1 style="text-align: center;">{{ title }} </h1>
-<form class="num_salas" [formGroup]="formNumberClassrooms">
-    <input class="input_txt" min="0" type="text" pattern="\d*" formControlName="numberClassroom" 
-    placeholder="número de salas" maxlength="2" [(ngModel)]="givenNumberOfClassrooms"> 
+    <div class="content_salas">
+    <h1 style="text-align: center;">{{ title }} </h1>
+    <form class="num_salas" [formGroup]="formNumberClassrooms">
+        <input class="input_txt" min="0" type="text" pattern="\d*" formControlName="numberClassroom" 
+        placeholder="número de salas" maxlength="2" [(ngModel)]="givenNumberOfClassrooms"> 
+        
+        <button type="submit" (click)="addClassroom(givenNumberOfClassrooms)" [disabled]="!formNumberClassrooms.valid"><i class="fas fa-plus-square"></i></button>
+        <br><br>
+    </form>
     
-    <button type="submit" (click)="addClassroom(givenNumberOfClassrooms)" [disabled]="!formNumberClassrooms.valid"><i class="fas fa-plus-square"></i></button>
-    <br><br>
-</form>
+    
+    <ul class="lista_salas">
+        <li *ngFor="let classroom of classrooms">
+           <button class="btn_salas mb-3" routerLink="/groups" (click)="changeCurrentClassroom(classroom.idClassroom)">{{ classroom.nameClassroom }}</button>  
+           <button *ngIf="classrooms.indexOf(classroom) == classrooms.indexOf(classrooms[classrooms.length - 1])" 
+           (click)="removeClassroom(classroom)">
+           <i class="fas fa-trash"></i>
+           </button>
+        </li>
+    </ul>
 
-
-<ul class="lista_salas">
-    <li *ngFor="let classroom of classrooms">
-       <button class="btn_salas mb-3" routerLink="/groups" (click)="changeCurrentClassroom(classroom.idClassroom)">{{ classroom.nameClassroom }}</button>  
-       <button *ngIf="classrooms.indexOf(classroom) == classrooms.indexOf(classrooms[classrooms.length - 1])" 
-       (click)="removeClassroom(classroom)">
-       <i class="fas fa-trash"></i>
-       </button>
-    </li>
-</ul>
-<button routerLink="" (click)="clearLocal()">
-    <i class="fas fa-sign-out-alt"></i>
-</button>
-</div>
+    <div class="btn_flutuante">
+    <button class="btn_voltar" routerLink="" (click)="clearLocal()">
+    </button>
 </div>
 
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-<link rel="stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"> <!--font awesome-->
-
-
-
- 
+    </div>
+    </div>
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"> <!--font awesome-->
+    

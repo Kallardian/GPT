@@ -80,3 +80,42 @@
 .num_salas{
     padding-left: 60px;
 }
+.btn_flutuante{
+    position: fixed;
+    bottom:10px;
+    right:10px;
+  }
+  
+  .btn_flutuante button{
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    border-radius: 30px;
+    background-color: #cb60b3;
+    border: none;
+    box-shadow: 0 1px 5px rgba(0,0,0,.4);
+    font-size: 24px;
+    color: white;
+      
+    -webkit-transition: .2s ease-out;
+    -moz-transition: .2s ease-out;
+    transition: .2s ease-out;
+  }
+  .btn_flutuante button:focus{
+    outline: none;
+  }
+  
+  .btn_flutuante button.btn_voltar{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #1E90FF    ;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+  }
+
+  .btn_flutuante button.btn_voltar:before{
+    content: '      ⎗    ';
+}

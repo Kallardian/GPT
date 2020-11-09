@@ -1,19 +1,19 @@
 import 'package:Gepeto/api/apiConnection.dart';
 import 'package:Gepeto/api/dtos.dart';
 import 'package:Gepeto/blocs/theme.dart';
-import 'package:Gepeto/screensFragments/user.dart';
+import 'package:Gepeto/fragments/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Gepeto/main.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert' as convert;
 
-class DrawerFragment extends StatefulWidget {
+class DrawerComponent extends StatefulWidget {
   @override
-  _DrawerFragmentState createState() => _DrawerFragmentState();
+  _DrawerComponentState createState() => _DrawerComponentState();
 }
 
-class _DrawerFragmentState extends State<DrawerFragment> {
+class _DrawerComponentState extends State<DrawerComponent> {
   Future<User> futureUser;
 
   @override
@@ -106,7 +106,7 @@ class _DrawerFragmentState extends State<DrawerFragment> {
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MyAccountFragment()
+                    builder: (context) => UserFragment()
                 ));
               },
               child: ListTile(

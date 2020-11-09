@@ -1,22 +1,35 @@
 <h1 class="txt_slogan" *ngIf="groups == null || groups.length == 0">
     Não há grupos ainda nesta sala
 </h1>
+<<<<<<< HEAD
 <ul class="grupos_lista" *ngIf="!inputMode && !editMode">
     <li *ngFor="let group of groups">
         <button class="tittle_grupo" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> |
         <button (click)="removeGroup(group)"> Remover Grupo</button>
         <button (click)="editMode = true; updateEditForm(group)"> Editar Grupo</button>
-    </li>
-    <br><br>
-    <div class="col-md-6" style="text-align:center;">
-        <button class="add_grupo" (click)="changeToInputMode()">
-            Adicionar Novo Grupo
-        </button>
+=======
+<ul class="grupos_lista" *ngIf="!inputMode">
+    
+    <h1 style="text-align: center;">Grupos</h1>
+    <li *ngFor="let group of groups">
+       <div class="col-md-6" style="text-align:center;">
+        <button class="btn_salas" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> 
+        <button class="remove_btn"  (click)="removeGroup(group)"><i class="fas fa-trash"></i></button>
     </div>
+>>>>>>> 9fe7affc4b9b77ff1d346c46e111411c6a05ff05
+    </li>
+  
+    <br><br>
+
+    <div class= "col-md-12 plus_btn" style="padding-top: 50px; text-align: center;">
+        <button type="button" class="add_grupo" (click)="changeToInputMode()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
     <br>
-    <div class="col-md-6" style="text-align:center;">
-        <button class="btn_grupo" routerLink="/classrooms">
-            Voltar para salas
+    <div class="btn_flutuante" >
+        <button class="btn_voltar" routerLink="/classrooms">
+            <i class="fas fa-reply"></i>
         </button>
     </div>
 

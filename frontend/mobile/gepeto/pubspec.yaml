@@ -43,6 +43,8 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+    - assets/image/logo.png
   fonts:
     - family: ShareTechMono
       fonts:

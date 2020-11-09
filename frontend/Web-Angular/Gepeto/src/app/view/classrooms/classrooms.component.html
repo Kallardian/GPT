@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-center h-100" style="background: #e9e9e9	;">
 
 <div class="content_salas">
-<h1 >{{ title }} </h1>
-<form [formGroup]="formNumberClassrooms">
+<h1 style="text-align: center;">{{ title }} </h1>
+<form class="num_salas" [formGroup]="formNumberClassrooms">
     <input class="input_txt" min="0" type="text" pattern="\d*" formControlName="numberClassroom" 
     placeholder="número de salas" maxlength="2" [(ngModel)]="givenNumberOfClassrooms"> 
     

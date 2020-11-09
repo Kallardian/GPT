@@ -14,15 +14,18 @@
     <ul class="lista_salas">
         <li *ngFor="let classroom of classrooms">
            <button class="btn_salas mb-3" routerLink="/groups" (click)="changeCurrentClassroom(classroom.idClassroom)">{{ classroom.nameClassroom }}</button>  
-           <button *ngIf="classrooms.indexOf(classroom) == classrooms.indexOf(classrooms[classrooms.length - 1])" 
+         
+           <button class="trash_button" *ngIf="classrooms.indexOf(classroom) == classrooms.indexOf(classrooms[classrooms.length - 1])" 
            (click)="removeClassroom(classroom)">
            <i class="fas fa-trash"></i>
            </button>
+        
         </li>
     </ul>
 
     <div class="btn_flutuante">
     <button class="btn_voltar" routerLink="" (click)="clearLocal()">
+        <i class="fas fa-door-open"></i>
     </button>
 </div>
 

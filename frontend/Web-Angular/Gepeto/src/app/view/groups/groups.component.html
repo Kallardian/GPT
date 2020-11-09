@@ -1,38 +1,48 @@
 <h1 class="txt_slogan" *ngIf="groups == null || groups.length == 0">
     Não há grupos ainda nesta sala
 </h1>
-<ul *ngIf="!inputMode">
+<ul class="grupos_lista" *ngIf="!inputMode">
     <li *ngFor="let group of groups">
-        <button routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> |
+        <button class="tittle_grupo" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> |
         <button (click)="removeGroup(group)"> Remover Grupo</button>
     </li>
     <br><br>
-    <div class="col-md-6" style="text-align: center;">
-    <button class="add_grupo" (click)="changeToInputMode()">
-        Adicionar Novo Grupo
-    </button>
+    <div class="col-md-6" style="text-align:center;">
+        <button class="add_grupo" (click)="changeToInputMode()">
+            Adicionar Novo Grupo
+        </button>
     </div>
     <br>
-    <div class="col-md-6" style="text-align: center;">
-    <button class="btn_grupo" routerLink="/classrooms">
-        Voltar para salas
-    </button>
+    <div class="col-md-6" style="text-align:center;">
+        <button class="btn_grupo" routerLink="/classrooms">
+            Voltar para salas
+        </button>
     </div>
 
 </ul>
 
 <form *ngIf="inputMode" [formGroup]="formAddGroup" (ngSubmit)="addGroup(formAddGroup)">
-    <input type="text" formControlName="groupTheme" placeholder="Tema do grupos" maxlength="50">
-    <input type="text" formControlName="description" placeholder="Descrição do grupo" maxlength="300">
-    <input type="hidden" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom" disabled>
-    <input type="hidden" formControlName="ra" placeholder="RA" maxlength="6" [(ngModel)]="currentUser" disabled>
 
-    <button type="submit" [disabled]="!formAddGroup.valid">
-        Adicionar Grupo
-    </button>
+    <div class="card_add_gp">
+        <h1 style="text-align: center; padding-bottom: 10%;">Adicione o grupo</h1>
+        <input class="input_txt" type="text" formControlName="groupTheme" placeholder="Tema do grupos" maxlength="50">
+        <input class="input_txt" type="text" formControlName="description" placeholder="Descrição do grupo"
+            maxlength="300">
+        <input type="hidden" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom"
+            disabled>
+        <input type="hidden" formControlName="ra" placeholder="RA" maxlength="6" [(ngModel)]="currentUser" disabled>
+
+        <button class="btn_validar" type="submit" [disabled]="!formAddGroup.valid">
+            Adicionar Grupo
+        </button>
+    </div>
 </form>
-<button *ngIf="inputMode" (click)="changeShowGroupsUrl(currentClassroom)">
-    (seta apra esquerda) Voltar para sala
-</button>
+<div class="btn_flutuante">
+    <button class="btn_voltar" *ngIf="inputMode" (click)="changeShowGroupsUrl(currentClassroom)">
+        <i class="fas fa-reply"></i>
+    </button>
+</div>
 
-
+<!--Link-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<!--font awesome-->

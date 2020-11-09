@@ -15,8 +15,14 @@ export class GroupsService {
 
   constructor(private http: HttpClient) { }
 
-  showGroups(){
-    return this.http.get<any[]>(`${this.showGroupsUrl}` + localStorage.getItem('currentClassroom'))
+  showGroups(idClasrrom: number = 0){
+    if(idClasrrom === 0){
+      return this.http.get<any[]>(`${this.showGroupsUrl}` + localStorage.getItem('currentClassroom'))
+    }
+    else{
+      return this.http.get<any[]>(`${this.showGroupsUrl}` + idClasrrom)
+    }
+
   }
 
   // changeCurrentClassroom(classroomId: number){

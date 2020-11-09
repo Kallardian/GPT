@@ -3,3 +3,12 @@
         <button>Editar</button>
     </li>
 </ul>
+
+<form *ngIf="inputMode" [formGroup]="formAddCriteria" (ngSubmit)="addCriteria(formAddCriteria)">
+    <input type="text" formControlName="idBig">
+    <input type="text" formControlName="nameMedium" placeholder="Nome do Critério">
+    <input type="text" formControlName="ra" [(ngModel)]="currentUser">
+    <button type="submit" [disabled]="!formAddGroup.valid">
+        Adicionar Grupo
+    </button>
+</form>

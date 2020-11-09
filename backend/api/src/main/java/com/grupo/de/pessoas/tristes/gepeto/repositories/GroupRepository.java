@@ -159,8 +159,8 @@ public class GroupRepository {
         updateGroupStoredProcedureQuery
                 .setParameter("group_id", group.getIdGroup())
                 .setParameter("classroom_id", group.getIdClassroom())
-                .setParameter("description", group.getDescription())
-                .setParameter("new_theme", group.getGroupTheme());
+                .setParameter("new_theme", group.getGroupTheme())
+                .setParameter("description", group.getDescription());
 
         updateGroupStoredProcedureQuery.execute();
     }

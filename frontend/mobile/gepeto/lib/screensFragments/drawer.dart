@@ -1,39 +1,12 @@
+import 'package:Gepeto/api/apiConnection.dart';
+import 'package:Gepeto/api/dtos.dart';
 import 'package:Gepeto/blocs/theme.dart';
-import 'package:Gepeto/screensFragments/myAccount.dart';
+import 'package:Gepeto/screensFragments/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Gepeto/main.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-
-class User {
-  final String ra;
-  final String fullName;
-  final String password;
-  final int access;
-
-  User({this.ra, this.fullName, this.password, this.access});
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      ra: json['ra'],
-      fullName: json['fullName'],
-      password: json['password'],
-      access: json['access']
-    );
-  }
-}
-
-Future<User> getUserById(String ra) async {
-  final response = await http.get('http://192.168.0.14:3001/api/users/' + ra);
-
-  if (response.statusCode == 200) {
-    return User.fromJson(convert.jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to load user');
-  }
-}
 
 class DrawerFragment extends StatefulWidget {
   @override
@@ -46,7 +19,7 @@ class _DrawerFragmentState extends State<DrawerFragment> {
   @override
   void initState() {
     super.initState();
-    futureUser = getUserById("123321");
+    futureUser = Conn().getUserById("654321");
   }
 
   @override
@@ -58,10 +31,10 @@ class _DrawerFragmentState extends State<DrawerFragment> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(10)
-                  ),
-                  color: Colors.indigoAccent
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(10)
+                ),
+                color: Colors.indigoAccent
               ),
 
               child: Center(
@@ -72,7 +45,7 @@ class _DrawerFragmentState extends State<DrawerFragment> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Text(
-                            snapshot.data.fullName,
+                            convert.utf8.decode(convert.latin1.encode(snapshot.data.fullName)),
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'ShareTechMono',
@@ -92,7 +65,22 @@ class _DrawerFragmentState extends State<DrawerFragment> {
                       color: Colors.indigo,
                     ),
 
-                    Text('Professor da Banca')
+                    FutureBuilder<User>(
+                        future: futureUser,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data.access == 3) {
+                              return Text('Professor de Projetos');
+                            } else if (snapshot.data.access == 4) {
+                              return Text('Professor da Banca');
+                            }
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+
+                          return CircularProgressIndicator();
+                        }
+                    ),
                   ],
                 ),
               ),

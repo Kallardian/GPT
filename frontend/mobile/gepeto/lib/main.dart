@@ -179,16 +179,3 @@ class LoginFragment extends StatelessWidget {
     );
   }
 }
-
-//Loading
-class Loading extends StatelessWidget {
-  Loading({Key key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation(Colors.indigo),
-      ),
-    );
-  }
-}

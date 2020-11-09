@@ -1,23 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:Gepeto/api/dtos.dart';
+import 'dart:convert' as convert;
 
-List<Widget> criteria = [for(int i = 0; i < 4; i++) CriteriaPage(index: i + 1)];
 
 //Criteria Screen
 class CriteriaFragment extends StatelessWidget {
-  CriteriaFragment({Key key}) : super(key: key);
+  final List<MediumCriterion> criteria;
+  
+  CriteriaFragment({Key key, this.criteria}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-        itemBuilder: (context, position) => criteria[position],
-       itemCount: criteria.length,
-    );
+      itemCount: criteria.length,
+      itemBuilder: (context, index) {
+        return CriteriaPage(criterion: criteria[index]);
+      });
   }
 }
 
 class CriteriaPage extends StatelessWidget {
-  CriteriaPage({Key key, this.index}) : super(key: key);
-  final int index;
+  final MediumCriterion criterion;
+  
+  CriteriaPage({Key key, this.criterion}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +40,7 @@ class CriteriaPage extends StatelessWidget {
             height: 60,
             child: Center(
                 child: Text(
-                  'Critério ' + index.toString(),
+                  convert.utf8.decode(convert.latin1.encode(criterion.nameMedium)),
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'ShareTechMono',
@@ -52,7 +59,8 @@ class CriteriaPage extends StatelessWidget {
             height: 240,
             child: Center(
                 child: Text(
-                  'Descrição do critério ' + index.toString() + ': aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                  criterion.totalValue.toString()+ ": " +
+                      convert.utf8.decode(convert.latin1.encode(criterion.description)),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,

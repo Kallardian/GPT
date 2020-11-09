@@ -1,16 +1,15 @@
 import 'package:Gepeto/blocs/theme.dart';
+import 'package:Gepeto/components/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Gepeto/main.dart';
 import 'package:provider/provider.dart';
 
-//Criteria Screen
-class MyAccountFragment extends StatefulWidget {
+class UserFragment extends StatefulWidget {
   @override
-  _MyAccountFragmentState createState() => _MyAccountFragmentState();
+  _UserFragmentState createState() => _UserFragmentState();
 }
 
-class _MyAccountFragmentState extends State<MyAccountFragment> {
+class _UserFragmentState extends State<UserFragment> {
 
   @override
   Widget build(BuildContext context) {
@@ -18,84 +17,7 @@ class _MyAccountFragmentState extends State<MyAccountFragment> {
 
     return Scaffold(
 
-      drawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
-                    color: Colors.indigoAccent
-                ),
-                child: Center(
-                  child: Wrap(
-                    children: <Widget>[
-                      Text(
-                        'Leandro eu sou o batman Cruz',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'ShareTechMono',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.justify,
-                      ),
-                      Divider(
-                        color: Colors.indigo,
-                      ),
-                      Text('Professor da Banca')
-                    ],
-                  ),
-                ),
-              ),//Account
-              Divider(),
-              GestureDetector(
-                  onTap: () {
-                    if (_themeChanger.getTheme() == ThemeData.dark()){
-                      _themeChanger.setTheme(ThemeData.light());
-                    } else {
-                      _themeChanger.setTheme(ThemeData.dark());
-                    }
-                  },
-                  child: ListTile(
-                    leading: Icon(Icons.brightness_medium, color: Colors.indigo),
-                    title: Text('Modo Escuro'),
-                  )
-              ),//DarkMode
-              Divider(),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-                child: ListTile(
-                  leading: Icon(Icons.assignment, color: Colors.indigo),
-                  title: Text('Voltar'),
-                ),
-              ),//Criteria
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: ListTile(
-                  leading: Icon(Icons.memory, color: Colors.indigo),//edit settings build
-                  title: Text('Minha Conta'),
-                ),
-              ),//MyAccount
-              Divider(),
-              GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => MainScreen()
-                    ));
-                  },
-                  child: ListTile(
-                    leading: Icon(Icons.exit_to_app, color: Colors.red),
-                    title: Text('Logout'),
-                  )
-              )//Logout
-            ],
-          )
-      ),
+      drawer: DrawerComponent(),
 
       body: Builder(
         builder: (BuildContext context) {

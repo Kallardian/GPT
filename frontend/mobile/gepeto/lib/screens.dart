@@ -3,11 +3,11 @@ import 'package:Gepeto/blocs/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:Gepeto/screensFragments/criteria.dart';
-import 'package:Gepeto/screensFragments/classrooms.dart';
-import 'package:Gepeto/screensFragments/groups.dart';
-import 'package:Gepeto/screensFragments/grades.dart';
-import 'package:Gepeto/screensFragments/drawer.dart';
+import 'package:Gepeto/fragments/criteria.dart';
+import 'package:Gepeto/fragments/classrooms.dart';
+import 'package:Gepeto/fragments/groups.dart';
+import 'package:Gepeto/fragments/grades.dart';
+import 'package:Gepeto/components/drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -53,6 +53,13 @@ List<Group> parseGroups(String responseBody) {
 
 //Routes Body
 class ContextScreen extends StatefulWidget {
+  final int access;
+
+  ContextScreen({this.access});
+
+  @override
+  void 
+
   @override
   _ContextScreenState createState() => _ContextScreenState();
 }
@@ -65,7 +72,7 @@ class _ContextScreenState extends State<ContextScreen> {
 
     return Scaffold(
 
-      drawer: DrawerFragment(),
+      drawer: DrawerComponent(),
 
       body: Builder(
         builder: (BuildContext context) {
@@ -188,7 +195,7 @@ class _SecondScreenState extends State<SecondScreen> {
 
     return Scaffold(
 
-      drawer: DrawerFragment(),
+      drawer: DrawerComponent(),
 
       body: Builder(
         builder: (BuildContext context) {
@@ -299,7 +306,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
 
     return Scaffold(
 
-      drawer: DrawerFragment(),
+      drawer: DrawerComponent(),
 
       body: Builder(
         builder: (BuildContext context) {

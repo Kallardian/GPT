@@ -21,11 +21,11 @@ export class GroupsComponent implements OnInit {
   currentUser = localStorage.getItem('currentRa')
   editMode = false;
 
-  
- 
+
+
   constructor(private GroupService: GroupsService,
-              private fb: FormBuilder,
-              private LoginService: LoginService) { }
+    private fb: FormBuilder,
+    private LoginService: LoginService) { }
 
   ngOnInit(): void {
     this.showGroups();
@@ -37,9 +37,9 @@ export class GroupsComponent implements OnInit {
     this.GroupService.showGroups()
       .subscribe(result => {
         console.log(result)
-        for(let i = 0; i < result.length; i++){
-          this.groups.push(new Group(result[i].idGroup, result[i].groupTheme, 
-                                     result[i].description, result[i].idClassroom, result[i].ra))
+        for (let i = 0; i < result.length; i++) {
+          this.groups.push(new Group(result[i].idGroup, result[i].groupTheme,
+            result[i].description, result[i].idClassroom, result[i].ra))
         }
       });
   }
@@ -64,7 +64,7 @@ export class GroupsComponent implements OnInit {
       ],
       idClassroom: [
         '',
-        
+
       ],
       ra: [
         '',
@@ -81,32 +81,43 @@ export class GroupsComponent implements OnInit {
   addGroup(frm: FormGroup) {
     alert(frm.value["idClassroom"])
     this.GroupService.addGroup(frm.value)
-      .subscribe(result =>{
+      .subscribe(result => {
         console.log(result["idGroup"])
         this.groups.push(new Group(result["idGroup"], result["groupTheme"], result["description"], result["idClassroom"], result["ra"]))
         window.alert('Grupo Adicionado com Sucesso')
         this.formAddGroup.reset()
       });
   }
-  changeToInputMode(){
+  changeToInputMode() {
     this.inputMode = !this.inputMode
   }
-  changeShowGroupsUrl(classroomId){
+  changeShowGroupsUrl(classroomId) {
     this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl.replace(/\d+/g, '')
     this.GroupService.showGroupsUrl = this.GroupService.showGroupsUrl + classroomId
     this.changeToInputMode()
   }
 
-  removeGroup(group: Group){
-    this.GroupService.removeGroup(group.id)
-      .subscribe(result => {
-        this.groups.splice(this.groups.indexOf(group), 1)
-        window.alert('O grupo foi deletado com sucesso')
+  removeGroup(group: Group) {
+    this.GroupService.showMediumGrades()
+      .subscribe(result1 => {
+        for (let i = 0; i < result1.length; i++) {
+          if (result1[i]["idGroup"] != group.id) {
+            this.GroupService.removeGroup(group.id)
+              .subscribe(result2 => {
+                this.groups.splice(this.groups.indexOf(group), 1)
+                window.alert('O grupo "' + group.groupTheme + '" foi deletado com sucesso')
+              })
+          }
+          else{
+            alert('Este grupo já recebeu nota')
+          }
+        }
       })
+
   }
   createEditGroupForm() {
     this.formEditGroup = this.fb.group({
-      idGroup:[
+      idGroup: [
         '',
         Validators.compose([
           Validators.required
@@ -114,7 +125,7 @@ export class GroupsComponent implements OnInit {
       ],
       idClassroom: [
         '',
-        
+
       ],
       description: [
         '',
@@ -134,7 +145,7 @@ export class GroupsComponent implements OnInit {
       ]
     })
   }
-  updateEditForm(group: Group){
+  updateEditForm(group: Group) {
     this.formEditGroup.patchValue({
       idGroup: group.id,
       idClassroom: this.currentClassroom,
@@ -144,7 +155,7 @@ export class GroupsComponent implements OnInit {
     })
   }
 
-  editGroup(formEditGroup: FormGroup){
-    
+  editGroup(formEditGroup: FormGroup) {
+
   }
 }

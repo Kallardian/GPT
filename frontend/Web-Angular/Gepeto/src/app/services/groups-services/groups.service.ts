@@ -7,11 +7,12 @@ import { HttpClient } from '@angular/common/http'
 })
 export class GroupsService {
 
-  showGroupsUrl = "/api/groups/show/"
-  postGroupsUrl = "/api/groups/"
-  deleteGroupsUrl = "/api/groups/"
+  showGroupsUrl = "/api/groups/show/";
+  GroupsUrl = "/api/groups/";
+  mediumGradesUrl = "/api/medium-grades/";
   currentClassroom: number;
   currentUserGroupService: any;
+
 
   constructor(private http: HttpClient) { }
 
@@ -33,12 +34,16 @@ export class GroupsService {
   // }
 
   addGroup(group: any){
-    return this.http.post(this.postGroupsUrl, group);
+    return this.http.post(this.GroupsUrl, group);
   }
 
   removeGroup(groupId){
-    this.deleteGroupsUrl = this.deleteGroupsUrl.replace(/\d+/g, '');
-    this.deleteGroupsUrl = this.deleteGroupsUrl + groupId.toString();
-    return this.http.delete(`${this.deleteGroupsUrl}`)
+    this.GroupsUrl = this.GroupsUrl.replace(/\d+/g, '');
+    this.GroupsUrl = this.GroupsUrl + groupId.toString();
+    return this.http.delete(`${this.GroupsUrl}`)
+  }
+
+  showMediumGrades(){
+    return this.http.get<any>(`${this.mediumGradesUrl}`)
   }
 } 

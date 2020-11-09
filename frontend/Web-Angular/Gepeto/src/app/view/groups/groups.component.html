@@ -11,16 +11,16 @@
         <button class="edit_btn" (click)="editMode = true; updateEditForm(group)"> <i class="fas fa-pencil-ruler"></i></button>
     </div>
     </li>
-  
+
     <br><br>
 
-    <div class= "col-md-12 plus_btn" style="padding-top: 50px; text-align: center;">
+    <div class="col-md-12 plus_btn" style="padding-top: 50px; text-align: center;">
         <button type="button" class="add_grupo" (click)="changeToInputMode()">
-          <i class="fas fa-plus"></i>
+            <i class="fas fa-plus"></i>
         </button>
-      </div>
+    </div>
     <br>
-    <div class="btn_flutuante" >
+    <div class="btn_flutuante">
         <button class="btn_voltar" routerLink="/classrooms">
             <i class="fas fa-reply"></i>
         </button>
@@ -44,17 +44,20 @@
         </button>
     </div>
 </form>
+<div *ngIf="editMode">
+    <form [formGroup]="formEditGroup"  (ngSubmit)="editGroup(formEditGroup)">
+        <input type="number" formControlName="idGroup" placeholder="idGroup">
+        <input type="text" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom">
+        <input type="text" formControlName="groupTheme" placeholder="Tema do grupo">
+        <textarea formControlName="description" placeholder="Descrição"></textarea>
 
-<form [formGroup]="formEditGroup" *ngIf="editMode" (ngSubmit)="editGroup(formEditGroup)">
-    <input type="number" formControlName="idGroup" placeholder="idGroup">
-    <input type="text" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom">
-    <input type="text" formControlName="groupTheme" placeholder="Tema do grupo">
-    <textarea formControlName="description" placeholder="Descrição"></textarea>
-    
-    
-    <button type="submit"> Salvar</button>
-</form>
 
+        <button type="submit"> Salvar</button>
+    </form>
+    <button (click)="editMode = false">
+        Voltar para Salas
+    </button>
+</div>
 <div class="btn_flutuante">
     <button class="btn_voltar" *ngIf="inputMode" (click)="changeShowGroupsUrl(currentClassroom)">
         <i class="fas fa-reply"></i>

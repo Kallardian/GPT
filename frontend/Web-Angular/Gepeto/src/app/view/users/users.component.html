@@ -13,11 +13,12 @@
             <option *ngIf="editUser" value="0">Desabilitado</option>
             <option value="2">Coordenador do Curso</option>
             <option value="3">Professor de Projetos</option>
-            <option value="4">Professor Avaliador</option>     
+            <option value="4">Professor Avaliador</option>
         </select>
 
         <button *ngIf="!editUser" type="submit" [disabled]="!formUser.valid">Adicionar</button>
-        <button *ngIf="editUser" type="submit" (click)="editUser=false; sendEditUser(formUser); changeToAddMode()" [disabled]="!formUser.valid">Salvar</button>
+        <button *ngIf="editUser" type="submit" (click)="editUser=false; sendEditUser(formUser); changeToAddMode()"
+            [disabled]="!formUser.valid">Salvar</button>
         <button (click)="changeToAddMode(); editUser = false">Voltar para Usuarios</button>
         <br><br>
     </form>
@@ -26,17 +27,20 @@
 
 <div *ngIf="!addMode">
     <h1 style="text-align: center; padding-bottom: 5%;">Usuários</h1>
-<ul class="users_list">
-    <li class="users_description" *ngFor="let user of users">{{ user.ra }} - {{ user.fullName }} - {{ user.access }}
-        <button class="edit_user" *ngIf="user.access!=1" type="button" (click)="editUserOpen(user)"><i class="fas fa-user-edit"></i></button>
-    </li>
-    
-</ul>
+    <ul class="users_list">
+        <li *ngFor="let user of users">
+            <button>{{ user.ra }} - {{ user.fullName }} - {{ user.access }}</button>
+            <button class="edit_user" *ngIf="user.access!=1" type="button" (click)="editUserOpen(user)"><i
+                    class="fas fa-user-edit"></i></button>
+        </li>
 
-<div class= "col-md-12 plus_btn" style="padding-top: 50px; text-align: center;">
-<button class="add_user" (click)="changeToAddMode()">
-    <i class="fas fa-user-plus"></i>
-</button>
+    </ul>
+</div>
+
+<div class="col-md-12 plus_btn" style="padding-top: 50px; text-align: center;">
+    <button class="add_user" (click)="changeToAddMode()">
+        <i class="fas fa-user-plus"></i>
+    </button>
 </div>
 
 <br>

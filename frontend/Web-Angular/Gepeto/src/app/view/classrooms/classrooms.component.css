@@ -116,6 +116,25 @@
     z-index: 20;
   }
 
-  .btn_flutuante button.btn_voltar:before{
+  /*.btn_flutuante button.btn_voltar:before{
     content: '      ⎗    ';
+}*/
+
+.trash_button{
+    background: #a4b3e7; /*cor do fundo do ícone*/
+    color: #060d72; /*cor do icone*/
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: auto;
+    width:50px;
+    height:40px;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19 );   /*  margem esquerda, margem inferior, margem superior, margem direita */ 
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 18px;
+
+    
 }

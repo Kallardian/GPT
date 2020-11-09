@@ -1,15 +1,15 @@
 <h1 class="txt_slogan" *ngIf="groups == null || groups.length == 0">
-    Não há grupos ainda nesta sala
+    Esta sala está vazia
 </h1>
 <ul class="grupos_lista" *ngIf="!inputMode && !editMode">
-
+    
     <h1 style="text-align: center;">Grupos</h1>
     <li *ngFor="let group of groups">
-        <div class="col-md-6" style="text-align:center;">
-            <button class="btn_salas" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button>
-            <button class="remove_btn" (click)="removeGroup(group)"><i class="fas fa-trash"></i></button>
-            <button (click)="canEdit(group); updateEditForm(group)"> Editar Grupo</button>
-        </div>
+       <div class="col-md-6" style="text-align:center;">
+        <button class="btn_salas" routerLink="/groups">{{ group.groupTheme }} - {{ group.description }}</button> 
+        <button class="remove_btn"  (click)="removeGroup(group)"><i class="fas fa-trash"></i></button>
+        <button class="edit_btn" (click)="canEdit(group); updateEditForm(group)"> <i class="fas fa-pencil-ruler"></i></button>
+    </div>
     </li>
 
     <br><br>

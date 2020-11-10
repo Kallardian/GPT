@@ -21,6 +21,30 @@ public class GroupRepository {
     @PersistenceContext
     EntityManager entityManager;
 
+    //Function
+    @Transactional
+    public int isGroupUsed(Long groupId) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery isGroupUsedStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_GROUP_USED");
+
+        isGroupUsedStoredProcedureQuery
+                .setParameter("group_id", groupId);
+
+        isGroupUsedStoredProcedureQuery.execute();
+
+        List<Classroom> classroomList = isGroupUsedStoredProcedureQuery.getResultList();
+
+        Iterator iterator = classroomList.iterator();
+
+        int isUsed = 0;
+        while (iterator.hasNext()) {
+            isUsed = Integer.parseInt(String.valueOf(iterator.next()));
+        }
+
+        return isUsed;
+    }
+
     //GET
     @Transactional
     public Group getGroupById(Group group) {

@@ -2,6 +2,13 @@ package com.grupo.de.pessoas.tristes.gepeto.dtos;
 
 import javax.persistence.*;
 
+//Function
+@NamedStoredProcedureQuery(name = "SP_GROUP_USED", procedureName = "SP_GROUP_USED",
+        parameters = {
+                @StoredProcedureParameter(name = "group_id", type = Long.class, mode = ParameterMode.IN)
+        }
+)
+
 //GET
 @NamedStoredProcedureQuery(name = "SP_FIND_GROUP", procedureName = "SP_FIND_GROUP",
         parameters = {

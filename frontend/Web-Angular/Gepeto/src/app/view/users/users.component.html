@@ -5,20 +5,24 @@
 <div *ngIf="addMode">
     <form [formGroup]="formUser" (ngSubmit)="saveUser(formUser)">
 
-        <input *ngIf="!editUser" type="text" formControlName="ra" placeholder="Entre com o RA" maxlength="6">
-        <input type="text" formControlName="fullName" placeholder="Entre com o Nome" maxlength="50">
-        <input type="text" formControlName="password" placeholder="Entre com a Senha" maxlength="30">
-        <select formControlName="access">
-            <option value="5" disabled>Tipo de Usuario</option>
-            <option *ngIf="editUser" value="0">Desabilitado</option>
-            <option value="2">Coordenador do Curso</option>
-            <option value="3">Professor de Projetos</option>
-            <option value="4">Professor Avaliador</option>
-        </select>
+        <div class="card_add_user">
+            <h1 style="text-align: center; padding-bottom: 10%;">Adicione um usuário</h1>
+            <input class="input_user" *ngIf="!editUser" type="text" formControlName="ra" placeholder="Entre com o RA" maxlength="6">
+            <input class="input_user" type="text" formControlName="fullName" placeholder="Entre com o Nome" maxlength="50">
+            <input class="input_user" type="text" formControlName="password" placeholder="Entre com a Senha" maxlength="30">
+            <select class="select_acessibilidade" formControlName="access">
+                <option value="5" disabled>Tipo de Usuario</option>
+                <option *ngIf="editUser" value="0">Desabilitado</option>
+                <option value="2">Coordenador do Curso</option>
+                <option value="3">Professor de Projetos</option>
+                <option value="4">Professor Avaliador</option>
+            </select>
 
-        <button *ngIf="!editUser" type="submit" [disabled]="!formUser.valid">Adicionar</button>
-        <button *ngIf="editUser" type="submit" (click)="editUser=false; sendEditUser(formUser); changeToAddMode()"
-            [disabled]="!formUser.valid">Salvar</button>
+            <button class="btn_validar" *ngIf="!editUser" type="submit" [disabled]="!formUser.valid">Adicionar</button>
+            <button class="btn_validar" *ngIf="editUser" type="submit" (click)="editUser=false; sendEditUser(formUser); changeToAddMode()"
+                [disabled]="!formUser.valid">Salvar</button>
+        </div>
+
         <button (click)="changeToAddMode(); editUser = false">Voltar para Usuarios</button>
         <br><br>
     </form>

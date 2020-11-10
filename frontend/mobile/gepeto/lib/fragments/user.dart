@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserFragment extends StatefulWidget {
+  final String ra;
+
+  UserFragment({this.ra});
+
   @override
   _UserFragmentState createState() => _UserFragmentState();
 }
@@ -17,7 +21,7 @@ class _UserFragmentState extends State<UserFragment> {
 
     return Scaffold(
 
-      drawer: DrawerComponent(),
+      drawer: DrawerComponent(ra: widget.ra),
 
       body: Builder(
         builder: (BuildContext context) {

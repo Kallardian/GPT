@@ -1,6 +1,5 @@
 import 'package:Gepeto/api/dtos.dart';
 import 'package:Gepeto/blocs/theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:Gepeto/fragments/criteria.dart';
@@ -12,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-//Criterion
 Future<List<MediumCriterion>> showMediumCriteria(http.Client client) async {
   final response = await client.get('http://192.168.0.14:3001/api/medium-criteria/');
 
@@ -25,7 +23,6 @@ List<MediumCriterion> parseCriteria(String responseBody) {
   return parsed.map<MediumCriterion>((json) => MediumCriterion.fromJson(json)).toList();
 }
 
-//Classroom
 Future<List<Classroom>> showClassrooms(http.Client client) async {
   final response = await client.get('http://192.168.0.14:3001/api/classrooms/show/');
 
@@ -38,7 +35,6 @@ List<Classroom> parseClassrooms(String responseBody) {
   return parsed.map<Classroom>((json) => Classroom.fromJson(json)).toList();
 }
 
-//Group
 Future<List<Group>> showGroups(http.Client client, String idClassroom) async {
   final response = await client.get('http://192.168.0.14:3001/api/groups/show/' + idClassroom);
 
@@ -51,14 +47,11 @@ List<Group> parseGroups(String responseBody) {
   return parsed.map<Group>((json) => Group.fromJson(json)).toList();
 }
 
-//Routes Body
+
 class ContextScreen extends StatefulWidget {
-  final int access;
+  final String ra;
 
-  ContextScreen({this.access});
-
-  @override
-  void 
+  ContextScreen({this.ra});
 
   @override
   _ContextScreenState createState() => _ContextScreenState();
@@ -66,13 +59,14 @@ class ContextScreen extends StatefulWidget {
 
 class _ContextScreenState extends State<ContextScreen> {
   int indexContext = 0;
+
   @override
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
 
     return Scaffold(
 
-      drawer: DrawerComponent(),
+      drawer: DrawerComponent(ra: widget.ra),
 
       body: Builder(
         builder: (BuildContext context) {
@@ -175,19 +169,17 @@ class _ContextScreenState extends State<ContextScreen> {
 }
 
 class SecondScreen extends StatefulWidget {
+  final String ra;
   final String idClassroom;
 
-  SecondScreen({Key key, this.idClassroom}) : super (key: key);
+  SecondScreen({Key key, this.idClassroom, this.ra}) : super (key: key);
 
   @override
-  _SecondScreenState createState() => _SecondScreenState(idClassroom: idClassroom);
+  _SecondScreenState createState() => _SecondScreenState();
 }
 
 class _SecondScreenState extends State<SecondScreen> {
   int indexContext = 0;
-  final String idClassroom;
-
-  _SecondScreenState({this.idClassroom});
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +187,7 @@ class _SecondScreenState extends State<SecondScreen> {
 
     return Scaffold(
 
-      drawer: DrawerComponent(),
+      drawer: DrawerComponent(ra: widget.ra),
 
       body: Builder(
         builder: (BuildContext context) {
@@ -203,7 +195,7 @@ class _SecondScreenState extends State<SecondScreen> {
             index: indexContext,
             children: <Widget>[
               FutureBuilder<List<Group>>(
-                future: showGroups(http.Client(), idClassroom),
+                future: showGroups(http.Client(), widget.idClassroom),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
@@ -222,8 +214,8 @@ class _SecondScreenState extends State<SecondScreen> {
                   }
 
                   return snapshot.hasData
-                      ? CriteriaFragment(criteria: snapshot.data)
-                      : Center(child: CircularProgressIndicator());
+                    ? CriteriaFragment(criteria: snapshot.data)
+                    : Center(child: CircularProgressIndicator());
                 }
               ),
             ],
@@ -294,6 +286,10 @@ class _SecondScreenState extends State<SecondScreen> {
 }
 
 class ThirdScreen extends StatefulWidget {
+  final String ra;
+
+  ThirdScreen({this.ra});
+
   @override
   _ThirdScreenState createState() => _ThirdScreenState();
 }
@@ -306,7 +302,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
 
     return Scaffold(
 
-      drawer: DrawerComponent(),
+      drawer: DrawerComponent(ra: widget.ra),
 
       body: Builder(
         builder: (BuildContext context) {

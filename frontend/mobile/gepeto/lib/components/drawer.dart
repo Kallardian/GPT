@@ -2,13 +2,16 @@ import 'package:Gepeto/api/apiConnection.dart';
 import 'package:Gepeto/api/dtos.dart';
 import 'package:Gepeto/blocs/theme.dart';
 import 'package:Gepeto/fragments/user.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Gepeto/main.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert' as convert;
 
 class DrawerComponent extends StatefulWidget {
+  final String ra;
+
+  DrawerComponent({this.ra});
+
   @override
   _DrawerComponentState createState() => _DrawerComponentState();
 }
@@ -19,7 +22,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
   @override
   void initState() {
     super.initState();
-    futureUser = Conn().getUserById("654321");
+    futureUser = Conn().getUserById(widget.ra);
   }
 
   @override
@@ -106,7 +109,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => UserFragment()
+                    builder: (context) => UserFragment(ra: widget.ra)
                 ));
               },
               child: ListTile(

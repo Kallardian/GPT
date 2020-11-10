@@ -29,7 +29,7 @@
     <h1 style="text-align: center; padding-bottom: 5%;">Usuários</h1>
     <ul class="users_list">
         <li *ngFor="let user of users">
-            <button>{{ user.ra }} - {{ user.fullName }} - {{ user.access }}</button>
+            <button class="btn_users">{{ user.ra }} - {{ user.fullName }} - {{ user.access }}</button>
             <button class="edit_user" *ngIf="user.access!=1" type="button" (click)="editUserOpen(user)"><i
                     class="fas fa-user-edit"></i></button>
         </li>

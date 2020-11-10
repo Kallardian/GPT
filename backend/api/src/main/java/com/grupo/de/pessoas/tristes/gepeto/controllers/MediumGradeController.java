@@ -34,7 +34,7 @@ public class MediumGradeController {
         return ResponseEntity.ok().body(mediumGrades);
     }
 
-    @GetMapping("/{group_id}")
+    @GetMapping("/group/{group_id}")
     public ResponseEntity getMediumGradesByGroupId(@PathVariable() Long group_id) {
 
         List<MediumGrade> mediumGrades = mediumGradeRepository.showMediumGradeByGroupId(group_id);

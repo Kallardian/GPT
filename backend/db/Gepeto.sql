@@ -9,6 +9,10 @@
 --     AND spid <> @@SPID -- Não eliminar a sua própria sessão
 -- IF (LEN(@query) > 0)
 --     EXEC(@query)
+-- Transact-SQL
+
+-- ALTER DATABASE GEPETO SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+
 
 USE MASTER
 GO
@@ -216,14 +220,15 @@ returns INT
 END 
 GO
 
-/*--------------------------------| STORED PROCEDURES |--------------------------------------*/ 
+/*--------------------------------| STORED PROCEDURES |--------------------------------------*/
 --TODO INSERT_MEDIUM FINISH 
 
-CREATE PROCEDURE SP_BIGGEST_ATTEMPT (@id_group INT)
+CREATE PROCEDURE SP_BIGGEST_ATTEMPT
+  (@id_group INT)
 AS
 BEGIN
   SELECT MAX(ATTEMPT)
-  FROM   TB_MEDIUM_GRADE
+  FROM TB_MEDIUM_GRADE
   WHERE  ID_GROUP = @id_group
 END
 GO
@@ -247,7 +252,7 @@ CREATE PROCEDURE SP_AMOUNT_GROUPS_CLASSROOM(@id_classroom INT)
 AS
 BEGIN
   SELECT COUNT(*)
-  FROM   TB_GROUP
+  FROM TB_GROUP
   WHERE  ID_CLASSROOM = @id_classroom
 END
 GO
@@ -445,16 +450,16 @@ CREATE PROCEDURE SP_INSERT_GROUP
   @ra             CHAR(6))
 AS
 BEGIN
-    INSERT INTO TB_GROUP
-      ([GROUP_THEME],
-      [GROUP_DESCRIPTION],
-      [ID_CLASSROOM],
-      [RA])
-    VALUES
-       (@group_theme,
-        @description,
-        @classroom_id,
-        @ra)
+  INSERT INTO TB_GROUP
+    ([GROUP_THEME],
+    [GROUP_DESCRIPTION],
+    [ID_CLASSROOM],
+    [RA])
+  VALUES
+    (@group_theme,
+      @description,
+      @classroom_id,
+      @ra)
   COMMIT
 END 
 
@@ -541,6 +546,23 @@ BEGIN
   WHERE  Year(C.YEAR) = Year(Getdate())
     AND C.ID_CLASSROOM = @classroom_id
 END 
+GO
+
+CREATE PROCEDURE SP_GROUP_USED(@group_id INT)
+AS
+BEGIN
+  IF EXISTS(SELECT *
+  FROM TB_MEDIUM_GRADE
+  WHERE  ID_GROUP = @group_id)
+    BEGIN
+    SELECT 1
+  END
+    ELSE 
+      BEGIN
+    SELECT 0
+  END
+END
+
 
 GO
 
@@ -680,6 +702,21 @@ BEGIN
   WHERE  [ID_MEDIUM] = @id_medium
 END 
 GO
+CREATE PROCEDURE SP_CRITERION_USED(@criterion_id INT)
+AS
+BEGIN
+  IF EXISTS(SELECT *
+  FROM TB_MEDIUM_GRADE
+  WHERE  ID_MEDIUM = @criterion_id)
+       BEGIN
+    SELECT 1
+  END
+    ELSE
+    BEGIN
+    SELECT 0
+  END
+END
+GO
 CREATE PROCEDURE SP_SHOW_MEDIUM_CRITERION
 AS
 BEGIN
@@ -755,68 +792,23 @@ BEGIN
     ON MC.ID_BIG = BC.ID_BIG
   WHERE  BC.YEAR = Year(Getdate())
 END 
+GO
+CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP(@group_id INT)
+AS
+BEGIN
+  DECLARE @max_attempt TINYINT
+  SELECT @max_attempt =
+         MAX(ATTEMPT)
+  FROM   TB_MEDIUM_GRADE 
+  WHERE ID_GROUP = @group_id
 
-GO 
+  SELECT *
+  FROM TB_MEDIUM_GRADE
+  WHERE  ID_GROUP = @group_id
+    AND ATTEMPT = @max_attempt
+END 
 
-/*-------------SP_INSERTS-------------*/
-GO
--- USER --
-EXEC SP_INSERT_USER '854950', 'SAIU ESCOLA', 'SENHA123', 4;
-EXEC SP_INSERT_USER '000000', 'TEC', '000000x', 1;
-EXEC SP_INSERT_USER '123456', 'MARCELLO LALLO', 'SENHA123', 2;
-EXEC SP_INSERT_USER '654321', 'GUSMÃO', '654321x', 3;
-EXEC SP_INSERT_USER '123321', 'LEANDRO CRUZ', '123321x', 4;
-GO
-/*---SP_INSERT_CLASSROOM---*/
-EXEC SP_INSERT_CLASSROOM 9;
-GO
-/*-----SP_INSERT_GROUP-----*/
-EXEC SP_INSERT_GROUP 'Churras Carnes', 'Um churrascaria','1', '654321';
-EXEC SP_INSERT_GROUP 'Asessoria Carros', 'Vendemos carros','2', '654321';
-EXEC SP_INSERT_GROUP 'Disco Store', 'Será um projeto basico para vender discos','3', '654321';
-EXEC SP_INSERT_GROUP 'GEPETO', 'O projeto terá como objetivo avaliar TCCs','4','654321';
-EXEC SP_INSERT_GROUP 'CORASSAUM', 'Açogue','5', '654321';
-EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', 'Aluga roupas de cerimônia','5', '654321';
-EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','4', '654321';
-EXEC SP_INSERT_GROUP 'Loja de Pneus', 'Aquela loja que você compra Pneus de Borracha','4', '654321';
-EXEC SP_INSERT_GROUP 'Loja de Gasolina', 'Aquela loja que você compra Gasolinas','2', '654321';
-GO
 
-/*SP_INSERT_BIG_CRITERION*/
-EXEC SP_INSERT_BIG_CRITERION
-GO
-/*SP_INSERT_MEDIUM_CRITERION*/
-EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Mobile', '123456','Olha só, de novo', @VALUE = 2
-EXEC SP_INSERT_MEDIUM_CRITERION 1, 'WEB', '123456', 'Qualquer coisa', 4
-EXEC SP_INSERT_MEDIUM_CRITERION 1, 'Desktop', '123456', 'Já tem WEB pra não ter que ter desktop, mas né?!', 4
-GO
-/*SP_INSERT_MEDIUM_GRADE*/
-EXEC SP_INSERT_MEDIUM_GRADE 1, '246810', 2, 10, 1
-GO
-/*-------------SP_UPDATES-------------*/
-/*-------SP_UPDATE_USER------*/
-EXEC SP_UPDATE_USER '123456', 'MARCELLO LALLO LY', '123456x', 2
-GO
-EXEC SP_UPDATE_USER '854950', 'SAIU ESCOLA', 'EU TAMBÉM', 0
-GO
-/*-------------SP_FIND-------------*/
 
-GO
-/*-------------INSERTS-------------*/
-GO
-SELECT *
-FROM TB_USER;
-SELECT *
-FROM TB_CLASSROOM;
-SELECT *
-FROM TB_GROUP;
 
-SELECT *
-FROM TB_BIG_CRITERION;
-SELECT *
-FROM TB_MEDIUM_CRITERION;
-SELECT *
-FROM TB_MEDIUM_GRADE
-EXEC SP_UPDATE_GROUP  '1', '1', 'Uma churrascaria bem bacana', 'ChurrasquinhoS'
-EXEC SP_UPDATE_GROUP  '3', '3', NULL, 'Loja de Disco'
-GO
+

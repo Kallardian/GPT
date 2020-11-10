@@ -1,5 +1,6 @@
 package com.grupo.de.pessoas.tristes.gepeto.controllers;
 
+import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.MediumCriterion;
 import com.grupo.de.pessoas.tristes.gepeto.repositories.MediumCriterionRepository;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,17 @@ import java.util.List;
 public class MediumCriterionController {
 
     private MediumCriterionRepository mediumCriterionRepository = new MediumCriterionRepository();
+
+    //Function
+    @GetMapping("/used/{criterion_id}")
+    public ResponseEntity isCriterionUsed(@PathVariable() Long criterion_id) {
+
+        int isUsed = mediumCriterionRepository.isCriterionUsed(criterion_id);
+
+        if (isUsed == 0) {
+            return ResponseEntity.ok().body(false);
+        } else return ResponseEntity.ok().body(true);
+    }
 
     //GET
     @GetMapping

@@ -9,6 +9,14 @@ import javax.persistence.*;
         }
 )
 
+@NamedStoredProcedureQuery(name = "SP_AMOUNT_GROUPS_CLASSROOM", procedureName = "SP_AMOUNT_GROUPS_CLASSROOM",
+        parameters = {
+                @StoredProcedureParameter(name = "id_classroom", type = Long.class, mode = ParameterMode.IN)
+        }
+)
+
+
+
 //GET
 @NamedStoredProcedureQuery(name = "SP_FIND_GROUP", procedureName = "SP_FIND_GROUP",
         parameters = {

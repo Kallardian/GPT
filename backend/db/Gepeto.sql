@@ -221,8 +221,6 @@ END
 GO
 
 /*--------------------------------| STORED PROCEDURES |--------------------------------------*/
---TODO INSERT_MEDIUM FINISH 
-
 CREATE PROCEDURE SP_BIGGEST_ATTEMPT
   (@id_group INT)
 AS

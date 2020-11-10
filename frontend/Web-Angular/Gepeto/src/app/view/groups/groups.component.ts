@@ -110,6 +110,7 @@ export class GroupsComponent implements OnInit {
           else {
             alert('Este grupo já recebeu nota')
           }
+          break;
         }
       })
 
@@ -155,7 +156,7 @@ export class GroupsComponent implements OnInit {
     })
   }
 
-  editGroup(formEditGroup: FormGroup) {
+  editGroup(formEditGroup: FormGroup) { //only checks down there
     this.GroupService.showMediumGrades()
       .subscribe(result1 => {
         for (let i = 0; i < result1.length; i++) {
@@ -170,11 +171,12 @@ export class GroupsComponent implements OnInit {
           else {
             alert('Este grupo já recebeu nota')
           }
+          break;
         }
       })
   }
 
-  canEdit(group: Group) {
+  canEdit(group: Group) { //Only checks here if (groups receive a grade)
     this.GroupService.showMediumGrades()
       .subscribe(result1 => {
         for (let i = 0; i < result1.length; i++) {
@@ -186,6 +188,7 @@ export class GroupsComponent implements OnInit {
             alert('Este grupo já recebeu nota')
             this.formEditGroup.reset();
           }
+          break
         }
       })
   }

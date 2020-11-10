@@ -24,6 +24,14 @@ public class MediumGradeController {
         return ResponseEntity.ok().body(mediumGrades);
     }
 
+    @GetMapping("/{group_id}")
+    public ResponseEntity getMediumGradesByGroupId(@PathVariable() Long group_id) {
+
+        List<MediumGrade> mediumGrades = mediumGradeRepository.showMediumGradeByGroupId(group_id);
+
+        return ResponseEntity.ok().body(mediumGrades);
+    }
+
     @GetMapping("/{medium_grade_id}")
     public ResponseEntity getMediumGradeById(@PathVariable() Long medium_grade_id) {
 

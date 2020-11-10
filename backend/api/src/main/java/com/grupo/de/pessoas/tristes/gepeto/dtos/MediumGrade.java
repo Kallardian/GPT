@@ -11,6 +11,12 @@ import javax.persistence.*;
 
 @NamedStoredProcedureQuery(name = "SP_SHOW_MEDIUM_GRADE", procedureName = "SP_SHOW_MEDIUM_GRADE")
 
+@NamedStoredProcedureQuery(name = "SP_SHOW_MEDIUM_GRADE_GROUP", procedureName = "SP_SHOW_MEDIUM_GRADE_GROUP",
+        parameters = {
+                @StoredProcedureParameter(name = "group_id", type = Long.class, mode = ParameterMode.IN)
+        }
+)
+
 //POST
 @NamedStoredProcedureQuery( name = "SP_INSERT_MEDIUM_GRADE", procedureName = "SP_INSERT_MEDIUM_GRADE",
         parameters = {

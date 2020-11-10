@@ -96,6 +96,48 @@ public class MediumGradeRepository {
         return mediumGradeList;
     }
 
+    @Transactional
+    public List<MediumGrade> showMediumGradeByGroupId(Long groupId) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery getMediumGradesByGroupIdStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_SHOW_MEDIUM_GRADE_GROUP");
+
+        getMediumGradesByGroupIdStoredProcedureQuery
+                .setParameter("group_id", groupId);
+
+        getMediumGradesByGroupIdStoredProcedureQuery.execute();
+
+        List<MediumGrade> resultList = getMediumGradesByGroupIdStoredProcedureQuery.getResultList();
+
+        Iterator iterator = resultList.iterator();
+
+        List<MediumGrade> mediumGradeList = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            Object[] object = (Object[]) iterator.next();
+
+            Long idMediumGrade = Long.parseLong(String.valueOf(object[0]));
+            Long idMedium = Long.parseLong(String.valueOf(object[1]));
+            Long idGroup = Long.parseLong(String.valueOf(object[2]));
+            String ra = String.valueOf(object[3]);
+            Double grade = Double.parseDouble(String.valueOf(object[4]));
+            int attempt = Integer.parseInt(String.valueOf(object[5]));
+
+            MediumGrade mediumGrade = new MediumGrade();
+
+            mediumGrade.setIdMediumGrade(idMediumGrade);
+            mediumGrade.setRa(ra);
+            mediumGrade.setIdMedium(idMedium);
+            mediumGrade.setIdGroup(idGroup);
+            mediumGrade.setGrade(grade);
+            mediumGrade.setAttempt(attempt);
+
+            mediumGradeList.add(mediumGrade);
+        }
+
+        return mediumGradeList;
+    }
+
     //POST
     @Transactional
     public void postMediumGrade(MediumGrade mediumGrade) {

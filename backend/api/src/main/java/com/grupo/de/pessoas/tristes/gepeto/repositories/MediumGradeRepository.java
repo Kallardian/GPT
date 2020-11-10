@@ -1,5 +1,6 @@
 package com.grupo.de.pessoas.tristes.gepeto.repositories;
 
+import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.MediumGrade;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,30 @@ public class MediumGradeRepository {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    //Function
+    @Transactional
+    public int getBiggestAttempt(Long groupId) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery getBiggestAttemptStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_BIGGEST_ATTEMPT");
+
+        getBiggestAttemptStoredProcedureQuery
+                .setParameter("id_group", groupId);
+
+        getBiggestAttemptStoredProcedureQuery.execute();
+
+        List<Classroom> classroomList = getBiggestAttemptStoredProcedureQuery.getResultList();
+
+        Iterator iterator = classroomList.iterator();
+
+        int biggestAttempt = 0;
+        while (iterator.hasNext()) {
+            biggestAttempt = Integer.parseInt(String.valueOf(iterator.next()));
+        }
+
+        return biggestAttempt;
+    }
 
     //GET
     @Transactional
@@ -66,6 +91,48 @@ public class MediumGradeRepository {
         getMediumGradesStoredProcedureQuery.execute();
 
         List<MediumGrade> resultList = getMediumGradesStoredProcedureQuery.getResultList();
+
+        Iterator iterator = resultList.iterator();
+
+        List<MediumGrade> mediumGradeList = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            Object[] object = (Object[]) iterator.next();
+
+            Long idMediumGrade = Long.parseLong(String.valueOf(object[0]));
+            Long idMedium = Long.parseLong(String.valueOf(object[1]));
+            Long idGroup = Long.parseLong(String.valueOf(object[2]));
+            String ra = String.valueOf(object[3]);
+            Double grade = Double.parseDouble(String.valueOf(object[4]));
+            int attempt = Integer.parseInt(String.valueOf(object[5]));
+
+            MediumGrade mediumGrade = new MediumGrade();
+
+            mediumGrade.setIdMediumGrade(idMediumGrade);
+            mediumGrade.setRa(ra);
+            mediumGrade.setIdMedium(idMedium);
+            mediumGrade.setIdGroup(idGroup);
+            mediumGrade.setGrade(grade);
+            mediumGrade.setAttempt(attempt);
+
+            mediumGradeList.add(mediumGrade);
+        }
+
+        return mediumGradeList;
+    }
+
+    @Transactional
+    public List<MediumGrade> showMediumGradeByGroupId(Long groupId) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery getMediumGradesByGroupIdStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_SHOW_MEDIUM_GRADE_GROUP");
+
+        getMediumGradesByGroupIdStoredProcedureQuery
+                .setParameter("group_id", groupId);
+
+        getMediumGradesByGroupIdStoredProcedureQuery.execute();
+
+        List<MediumGrade> resultList = getMediumGradesByGroupIdStoredProcedureQuery.getResultList();
 
         Iterator iterator = resultList.iterator();
 

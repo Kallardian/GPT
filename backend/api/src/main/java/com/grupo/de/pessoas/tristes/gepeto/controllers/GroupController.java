@@ -16,6 +16,26 @@ public class GroupController {
 
     private GroupRepository groupRepository = new GroupRepository();
 
+    //Function
+    @GetMapping("/amount/{id_classroom}")
+    public ResponseEntity amountOfGroupsByClassroomId(@PathVariable() Long id_classroom) {
+
+        int amount = groupRepository.amountOfGroupsByClassroomId(id_classroom);
+
+        return ResponseEntity.ok().body(amount);
+    }
+
+    @GetMapping("/used/{group_id}")
+    public ResponseEntity isCriterionUsed(@PathVariable() Long group_id) {
+
+        int isUsed = groupRepository.isGroupUsed(group_id);
+
+        if (isUsed == 0) {
+            return ResponseEntity.ok().body(false);
+        } else return ResponseEntity.ok().body(true);
+    }
+
+
     //GET
     @GetMapping("/show/{classroom_id}")
     public ResponseEntity getGroups(@PathVariable() Long classroom_id) {

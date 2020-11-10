@@ -34,9 +34,7 @@
     z-index: 20;
   }
 
-  .btn_flutuante button.btn_voltar:before{
-    content: '      ⎗    ';
-}
+ 
 
 .users_list{
     list-style: none;

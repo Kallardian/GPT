@@ -1,5 +1,6 @@
 package com.grupo.de.pessoas.tristes.gepeto.controllers;
 
+import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.MediumGrade;
 import com.grupo.de.pessoas.tristes.gepeto.repositories.MediumGradeRepository;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,15 @@ import java.util.List;
 public class MediumGradeController {
 
     private MediumGradeRepository mediumGradeRepository = new MediumGradeRepository();
+
+    //Function
+    @GetMapping("/biggest-attempt/{id_group}")
+    public ResponseEntity getBiggestAttempt(@PathVariable() Long id_group) {
+
+        int attempt = mediumGradeRepository.getBiggestAttempt(id_group);
+
+        return ResponseEntity.ok().body(attempt);
+    }
 
     //GET
     @GetMapping

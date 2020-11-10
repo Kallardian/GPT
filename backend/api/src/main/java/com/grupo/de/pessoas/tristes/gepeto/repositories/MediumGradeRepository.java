@@ -1,5 +1,6 @@
 package com.grupo.de.pessoas.tristes.gepeto.repositories;
 
+import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.MediumGrade;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,30 @@ public class MediumGradeRepository {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    //Function
+    @Transactional
+    public int getBiggestAttempt(Long groupId) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery getBiggestAttemptStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_BIGGEST_ATTEMPT");
+
+        getBiggestAttemptStoredProcedureQuery
+                .setParameter("id_group", groupId);
+
+        getBiggestAttemptStoredProcedureQuery.execute();
+
+        List<Classroom> classroomList = getBiggestAttemptStoredProcedureQuery.getResultList();
+
+        Iterator iterator = classroomList.iterator();
+
+        int biggestAttempt = 0;
+        while (iterator.hasNext()) {
+            biggestAttempt = Integer.parseInt(String.valueOf(iterator.next()));
+        }
+
+        return biggestAttempt;
+    }
 
     //GET
     @Transactional

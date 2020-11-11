@@ -16,7 +16,7 @@ export class CriteriaComponent implements OnInit {
   formAddCriterion: FormGroup;
   formEditCriterion: FormGroup;
   date = new Date;
-  idBig = (2020 - this.date.getFullYear()) + 1
+  idBig = (this.date.getFullYear() - 2020) + 1
   editMode = false;
 
   constructor(private CriteriaService: CriteriaService,
@@ -80,60 +80,63 @@ export class CriteriaComponent implements OnInit {
     })
   }
   addBigCriterion() {
-    this.CriteriaService.addBigCriterion()
+    this.CriteriaService.showBigCriterion()
       .subscribe(result => {
-        console.log()
-      },
-        error => {
-          if (error.status === 500) {
-            console.log('Ok')
-          }
-        })
+        if (result[result.length - 1]["year"] != this.date.getFullYear()) {
+          this.CriteriaService.addBigCriterion()
+            .subscribe(result => {
+              console.log()
+            })
+        }
+        else {
+          console.log('Ok')
+        }
+      })
   }
   addCriteria(criterion: FormGroup) {
     this.CriteriaService.addCriterion(criterion.value)
       .subscribe(result => {
         alert('Critério "' + result["nameMedium"] + '" criado com sucesso')
         this.criteria.push(new Criterion(result["idMedium"], result["idBig"], result["ra"], result["nameMedium"], result["description"], result["totalValue"]))
-        this.formAddCriterion.reset();
+        window.location.reload();
       })
   }
   removeCriterion(criterion: Criterion) {
-    this.CriteriaService.showMediumGrades()
-      .subscribe(result1 => {
-        if (!(result1.length === 0)) {
-          for (let i = 0; i < result1.length; i++) {
-            if (!(result1[i]["idMedium"] === criterion.idMedium)) { //checking if there's a grade with the criterion ID
-              this.CriteriaService.removeCriterion(criterion.idMedium)
-                .subscribe(result2 => {
-                  this.criteria.splice(this.criteria.indexOf(criterion), 1)
-                  alert('Critério "' + criterion.nameMedium + '" deleto com sucesso!')
-                })
-            }
-            else {
-              alert('Você não pode alterar este critério, pois ele já recebeu notas!')
-            }
-          }
-        }
-        else {
+    //checking if there's a grade with the criterion ID
+    this.CriteriaService.criteriaUsed(criterion.idMedium)
+      .subscribe(result => {
+        if (!result) {
           this.CriteriaService.removeCriterion(criterion.idMedium)
             .subscribe(result2 => {
               this.criteria.splice(this.criteria.indexOf(criterion), 1)
               alert('Critério "' + criterion.nameMedium + '" deleto com sucesso!')
             })
         }
-
+        else{
+          alert('Este critério já recebeu nota!')
+        }
       })
+
+
   }
 
-  updateFormEdit(criteria: Criterion) {
-    this.editMode = !this.editMode
-    this.formEditCriterion.patchValue({
-      idMedium: criteria.idMedium,
-      nameMedium: criteria.nameMedium,
-      description: criteria.description,
-      totalValue: criteria.totalValue
-    })
+  updateFormEdit(criteria: Criterion) { //Call usedCriterion
+    this.CriteriaService.criteriaUsed(criteria.idMedium)
+      .subscribe(result => {
+        if (!result) {
+          this.editMode = !this.editMode
+          this.formEditCriterion.patchValue({
+            idMedium: criteria.idMedium,
+            nameMedium: criteria.nameMedium,
+            description: criteria.description,
+            totalValue: criteria.totalValue
+          })
+        }
+        else {
+          alert('Este critério já recebeu nota, não pode ser editado!')
+        }
+      })
+
   }
   updateCriterion(criterion: FormGroup) { //Remember to check if it already received a Grade
     this.CriteriaService.updateCriterion(criterion.value)

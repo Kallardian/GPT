@@ -109,7 +109,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => UserFragment()
+                    builder: (context) => UserFragment(ra: widget.ra)
                 ));
               },
               child: ListTile(

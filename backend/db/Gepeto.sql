@@ -50,7 +50,7 @@ CREATE TABLE [TB_GROUP]
   [RA] CHAR(6) NOT NULL,
   CONSTRAINT [RA_FK_0] 
 		FOREIGN KEY (RA) 
-		REFERENCES [TB_USER]([RA]),
+		REFERENCES [TB_USER]([RA])
 );
 GO
 CREATE TABLE [TB_BIG_CRITERION]
@@ -221,8 +221,6 @@ END
 GO
 
 /*--------------------------------| STORED PROCEDURES |--------------------------------------*/
---TODO INSERT_MEDIUM FINISH 
-
 CREATE PROCEDURE SP_BIGGEST_ATTEMPT
   (@id_group INT)
 AS
@@ -801,6 +799,7 @@ BEGIN
          MAX(ATTEMPT)
   FROM   TB_MEDIUM_GRADE 
   WHERE ID_GROUP = @group_id
+
 
   SELECT *
   FROM TB_MEDIUM_GRADE

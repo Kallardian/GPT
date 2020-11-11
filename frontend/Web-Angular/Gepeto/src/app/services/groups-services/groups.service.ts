@@ -26,13 +26,6 @@ export class GroupsService {
 
   }
 
-  // changeCurrentClassroom(classroomId: number){
-  //   this.currentClassroom = classroomId;
-  // }
-  // changeCurrentUser(userId: number){
-  //   this.currentUserGroupService = userId
-  // }
-
   addGroup(group: any){
     return this.http.post(this.GroupsUrl, group);
   }
@@ -48,6 +41,9 @@ export class GroupsService {
 
   showMediumGrades(){
     return this.http.get<any>(`${this.mediumGradesUrl}`)
+  }
+  isGroupUsed(groupId: number){
+    return this.http.get<any>(`${this.GroupsUrl + 'used/' + groupId}`)
   }
 
 } 

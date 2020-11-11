@@ -21,6 +21,53 @@ public class GroupRepository {
     @PersistenceContext
     EntityManager entityManager;
 
+    //Function
+    @Transactional
+    public int amountOfGroupsByClassroomId(Long classroomId) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery amountOfGroupsByClassroomIdStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_AMOUNT_GROUPS_CLASSROOM");
+
+        amountOfGroupsByClassroomIdStoredProcedureQuery
+                .setParameter("id_classroom", classroomId);
+
+        amountOfGroupsByClassroomIdStoredProcedureQuery.execute();
+
+        List<Classroom> classroomList = amountOfGroupsByClassroomIdStoredProcedureQuery.getResultList();
+
+        Iterator iterator = classroomList.iterator();
+
+        int amount = 0;
+        while (iterator.hasNext()) {
+            amount = Integer.parseInt(String.valueOf(iterator.next()));
+        }
+
+        return amount;
+    }
+
+    @Transactional
+    public int isGroupUsed(Long groupId) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery isGroupUsedStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_GROUP_USED");
+
+        isGroupUsedStoredProcedureQuery
+                .setParameter("group_id", groupId);
+
+        isGroupUsedStoredProcedureQuery.execute();
+
+        List<Classroom> classroomList = isGroupUsedStoredProcedureQuery.getResultList();
+
+        Iterator iterator = classroomList.iterator();
+
+        int isUsed = 0;
+        while (iterator.hasNext()) {
+            isUsed = Integer.parseInt(String.valueOf(iterator.next()));
+        }
+
+        return isUsed;
+    }
+
     //GET
     @Transactional
     public Group getGroupById(Group group) {

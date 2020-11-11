@@ -1,5 +1,6 @@
 package com.grupo.de.pessoas.tristes.gepeto.repositories;
 
+import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.MediumCriterion;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,30 @@ public class MediumCriterionRepository {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    //Function
+    @Transactional
+    public int isCriterionUsed(Long criterionId) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery isCriterionUsedStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_CRITERION_USED");
+
+        isCriterionUsedStoredProcedureQuery
+                .setParameter("criterion_id", criterionId);
+
+        isCriterionUsedStoredProcedureQuery.execute();
+
+        List<Classroom> classroomList = isCriterionUsedStoredProcedureQuery.getResultList();
+
+        Iterator iterator = classroomList.iterator();
+
+        int isUsed = 0;
+        while (iterator.hasNext()) {
+            isUsed = Integer.parseInt(String.valueOf(iterator.next()));
+        }
+
+        return isUsed;
+    }
 
     //GET
     @Transactional

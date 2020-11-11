@@ -2,6 +2,14 @@ package com.grupo.de.pessoas.tristes.gepeto.dtos;
 
 import javax.persistence.*;
 
+//Function
+@NamedStoredProcedureQuery(name = "SP_CRITERION_USED", procedureName = "SP_CRITERION_USED",
+        parameters = {
+                @StoredProcedureParameter(name = "criterion_id", type = Long.class, mode = ParameterMode.IN)
+        }
+)
+
+
 //GET
 @NamedStoredProcedureQuery(name = "SP_FIND_MEDIUM_CRITERION", procedureName = "SP_FIND_MEDIUM_CRITERION",
         parameters = {

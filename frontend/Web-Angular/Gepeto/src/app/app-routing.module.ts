@@ -1,3 +1,4 @@
+import { GradesComponent } from './view/grades/grades.component';
 import { CriteriaComponent } from './view/criteria/criteria.component';
 import { UsersComponent } from './view/users/users.component';
 import { NgModule } from '@angular/core';
@@ -8,12 +9,14 @@ import { GroupsComponent } from './view/groups/groups.component'
 
 
 
+
 const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'classrooms', component: ClassroomsComponent },
   { path: 'groups', component: GroupsComponent },
   { path: 'users', component: UsersComponent },
-  { path: 'criteria', component: CriteriaComponent }
+  { path: 'criteria', component: CriteriaComponent },
+  { path: 'grades', component: GradesComponent }
 
 ];
  

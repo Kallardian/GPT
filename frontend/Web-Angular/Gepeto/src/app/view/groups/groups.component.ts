@@ -83,8 +83,9 @@ export class GroupsComponent implements OnInit {
       .subscribe(result => {
         console.log(result["idGroup"])
         this.groups.push(new Group(result["idGroup"], result["groupTheme"], result["description"], result["idClassroom"], result["ra"]))
-        window.alert('Grupo Adicionado com Sucesso')
-        this.formAddGroup.reset()
+        window.alert('Grupo "' + result["groupTheme"] + '" Adicionado com Sucesso')
+        this.formAddGroup.reset();
+        window.location.reload();
       });
   }
   changeToInputMode() {
@@ -97,23 +98,19 @@ export class GroupsComponent implements OnInit {
   }
 
   removeGroup(group: Group) {
-    this.GroupService.showMediumGrades()
-      .subscribe(result1 => {
-        for (let i = 0; i < result1.length; i++) {
-          if (result1[i]["idGroup"] != group.id) {
-            this.GroupService.removeGroup(group.id)
-              .subscribe(result2 => {
-                this.groups.splice(this.groups.indexOf(group), 1)
-                window.alert('O grupo "' + group.groupTheme + '" foi deletado com sucesso')
-              })
-          }
-          else {
-            alert('Este grupo já recebeu nota')
-          }
-          break;
+    this.GroupService.isGroupUsed(group.id)
+      .subscribe(result => {
+        if (!result) {
+          this.GroupService.removeGroup(group.id)
+            .subscribe(result => {
+              alert('Grupo "' + group.groupTheme + '" deletado com Sucesso!');
+              window.location.reload()
+            })
+        }
+        else {
+          alert('O grupo "' + group.groupTheme + '" não pode ser deletado, pois já recebeu nota')
         }
       })
-
   }
   createEditGroupForm() {
     this.formEditGroup = this.fb.group({
@@ -157,38 +154,22 @@ export class GroupsComponent implements OnInit {
   }
 
   editGroup(formEditGroup: FormGroup) { //only checks down there
-    this.GroupService.showMediumGrades()
-      .subscribe(result1 => {
-        for (let i = 0; i < result1.length; i++) {
-          if (result1[i]["idGroup"] != formEditGroup.value["idGroup"]) {
-            this.GroupService.editGroup(formEditGroup.value)
-              .subscribe(result => {
-                alert('Grupo "' + result["groupTheme"] + '" editado com sucesso!')
-                this.formEditGroup.reset();
-                window.location.reload();
-              })
-          }
-          else {
-            alert('Este grupo já recebeu nota')
-          }
-          break;
-        }
+    this.GroupService.editGroup(formEditGroup.value)
+      .subscribe(result => {
+        alert('Grupo "' + result["groupTheme"] + '" editado com sucesso!')
+        this.formEditGroup.reset();
+        window.location.reload();
       })
   }
 
   canEdit(group: Group) { //Only checks here if (groups receive a grade)
-    this.GroupService.showMediumGrades()
-      .subscribe(result1 => {
-        for (let i = 0; i < result1.length; i++) {
-          if (result1[i]["idGroup"] != group.id) {
-            this.editMode = true;
-          }
-          else {
-            this.editMode = false;
-            alert('Este grupo já recebeu nota')
-            this.formEditGroup.reset();
-          }
-          break
+    this.GroupService.isGroupUsed(group.id)
+      .subscribe(result => {
+        if (!result) {
+          this.editMode = true;
+        }
+        else {
+          alert('Esse grupo não pode ser editado, pois já recebeu nota!')
         }
       })
   }

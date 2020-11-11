@@ -15,9 +15,7 @@
     font-size: 24px;
     color: white;
       
-    -webkit-transition: .2s ease-out;
-    -moz-transition: .2s ease-out;
-    transition: .2s ease-out;
+    
   }
   .btn_flutuante button:focus{
     outline: none;
@@ -34,6 +32,8 @@
     z-index: 20;
   }
 
+
+  
  
 
 .users_list{
@@ -101,4 +101,67 @@
     -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 18px;
+}
+
+.card_add_user{
+  height:380px;
+    width:350px ;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:auto;
+    margin-top: 100px;
+    background:#6495ED	;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19 );   /*  margem esquerda, margem inferior, margem superior, margem direita */ 
+            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 18px;
+}
+
+.input_user{
+  background: lightblue;
+    border:0;
+    border-radius:5px;
+    width:80%;
+    height:35px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+}
+
+.select_acessibilidade{
+  background: lightblue;
+    border:0;
+    border-radius:5px;
+    width:80%;
+    height:35px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    cursor: pointer;
+
+}
+
+.btn_validar{
+  cursor: pointer;
+  margin-top:  5px;
+  margin-bottom: 3px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #1E90FF			;
+  border:0;
+  border-radius:10px;
+  width:50%;
+  height:35px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
 }

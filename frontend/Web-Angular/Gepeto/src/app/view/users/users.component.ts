@@ -116,4 +116,16 @@ export class UsersComponent implements OnInit {
   clearLocal(){
     localStorage.clear();
   }
+  accessType(userAccess: number): string{
+    switch(userAccess){
+      case 2:
+       return "Coodenador do Curso"
+      case 3:
+        return "Professor de Projetos"
+      case 4:
+        return "Professor Avaliador"
+      case 0:
+        return "Desabilitado"
+    }
+  }
 }

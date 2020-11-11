@@ -35,6 +35,12 @@ export class CriteriaService {
   addBigCriterion(){
     return this.http.post(this.bigCriterionUrl, "")
   }
+  showBigCriterion(){
+    return this.http.get<any[]>(`${this.bigCriterionUrl}`)
+  }
+  criteriaUsed(criteriaId: number){
+    return this.http.get<any[]>(`${this.mediumCriteriaUrl + 'used/' + criteriaId}`)
+  }
 
 
 }

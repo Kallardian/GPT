@@ -85,10 +85,6 @@ CREATE TABLE [TB_MEDIUM_GRADE]
 )
 GO
 /*----------------------------------SYSTEM FUNCTIONS------------------------------------*/
-
---TODO function for amount of groups/classroom
-GO
-
 CREATE FUNCTION Funcencrypt(@pwd1 VARCHAR(30)) 
 returns VARCHAR(max) 
   BEGIN
@@ -208,6 +204,61 @@ END
 GO
 
 /*--------------------------------| STORED PROCEDURES |--------------------------------------*/
+--| USER |--
+CREATE PROCEDURE  SP_UPDATE_PASSWORD_USER(@ra CHAR(6),
+  @pwd CHAR(20))
+AS
+BEGIN
+  DECLARE @finalpwd VARCHAR(MAX)
+  SELECT @finalpwd = DBO.funcEncrypt(@pwd)
+
+  UPDATE TB_USER
+  SET PASSWORD = @finalpwd
+  WHERE RA = @ra
+END
+GO
+CREATE PROCEDURE SP_LOGIN_USER(@RA  CHAR(6),
+  @pwd VARCHAR(20))
+AS
+BEGIN
+  SELECT DBO.Checklogin(@ra, @pwd)
+END
+GO
+
+
+--| GROUP |-- 
+CREATE PROCEDURE SP_GROUP_USED(@group_id INT)
+AS
+BEGIN
+  IF EXISTS(SELECT *
+  FROM TB_MEDIUM_GRADE
+  WHERE  ID_GROUP = @group_id)
+    BEGIN
+    SELECT 1
+  END
+    ELSE 
+      BEGIN
+    SELECT 0
+  END
+END
+GO
+CREATE PROCEDURE SP_LAST_GROUP
+AS
+BEGIN
+  SELECT *
+  FROM TB_GROUP
+  WHERE  ID_GROUP = (SELECT MAX(ID_GROUP)
+  FROM TB_GROUP)
+END
+GO
+CREATE PROCEDURE SP_AMOUNT_GROUPS_CLASSROOM(@id_classroom INT)
+AS
+BEGIN
+  SELECT COUNT(*)
+  FROM TB_GROUP
+  WHERE  ID_CLASSROOM = @id_classroom
+END
+GO
 CREATE PROCEDURE SP_BIGGEST_ATTEMPT
   (@id_group INT)
 AS
@@ -218,29 +269,106 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE SP_LOGIN_USER(@RA  CHAR(6),
-  @pwd VARCHAR(20))
+
+--| MEDIUM_CRETERION |--  
+CREATE PROCEDURE SP_CRITERION_USED(@criterion_id INT)
 AS
 BEGIN
-  SELECT DBO.Checklogin(@ra, @pwd)
+  IF EXISTS(SELECT *
+  FROM TB_MEDIUM_GRADE
+  WHERE  ID_MEDIUM = @criterion_id)
+       BEGIN
+    SELECT 1
+  END
+    ELSE
+    BEGIN
+    SELECT 0
+  END
 END
 GO
 
-CREATE PROCEDURE SP_AMOUNT_CLASSROOMS
+
+--| MEDIUM_GRADES |-- 
+CREATE PROCEDURE SP_SHOW_FINAL_GRADE_GROUP(@group_id INT)
 AS
 BEGIN
-  SELECT DBO.Returnamountofclassrooms()
+  DECLARE @max_attempt TINYINT
+  SELECT @max_attempt =
+         MAX(ATTEMPT)
+  FROM TB_MEDIUM_GRADE
+  WHERE ID_GROUP = @group_id
+
+
+  SELECT *
+  FROM TB_MEDIUM_GRADE
+  WHERE  ID_GROUP = @group_id
+    AND ATTEMPT = @max_attempt
+END 
+GO
+CREATE VIEW aView
+AS
+  SELECT MC.ID_MEDIUM,
+    ROW_NUMBER() OVER(ORDER BY MC.ID_MEDIUM) ROWNUMBER
+  FROM [TB_MEDIUM_CRITERION] MC
+    INNER JOIN [TB_BIG_CRITERION] BC
+    ON         MC.ID_BIG = BC.ID_BIG
+  WHERE  BC.YEAR = Year(Getdate())
+
+GO
+CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP(@group_id INT)
+AS
+BEGIN
+  DECLARE  @max_attempt TINYINT,
+           @amount_medium INT,
+           @id_medium INT,
+           @i INT;
+
+  CREATE TABLE #temp
+  (
+    NAME_MEDIUM VARCHAR(30) PRIMARY  KEY,
+    GRADE DECIMAL (4,2)
+  );
+
+  SELECT @max_attempt =
+         MAX(ATTEMPT)
+  FROM TB_MEDIUM_GRADE
+  WHERE ID_GROUP = @group_id;
+
+  SELECT @amount_medium = COUNT(MC.ID_MEDIUM)
+  FROM [TB_MEDIUM_CRITERION] MC
+    INNER JOIN [TB_BIG_CRITERION] BC
+    ON         MC.ID_BIG = BC.ID_BIG
+  WHERE  BC.YEAR = Year(Getdate());
+
+  SET @i = 1;
+
+  WHILE @i <= @amount_medium
+    BEGIN
+
+
+    SELECT @id_medium = 
+            ID_MEDIUM
+    FROM aView
+    WHERE   ROWNUMBER = @i;
+
+    INSERT INTO #temp
+      (NAME_MEDIUM, GRADE)
+    SELECT MC.NAME_MEDIUM, SUM(MG.GRADE) / COUNT(MG.RA) as GRADE
+    FROM TB_MEDIUM_GRADE MG
+      INNER JOIN TB_MEDIUM_CRITERION MC
+      ON MG.ID_MEDIUM = MC.ID_MEDIUM
+    WHERE MG.ID_GROUP = @group_id
+      AND MG.ID_MEDIUM = @id_medium
+      AND MG.ATTEMPT = @max_attempt
+    GROUP BY MC.NAME_MEDIUM;
+
+    SET @i = @i + 1;
+  END
+  SELECT *
+  FROM #temp
 END
 GO
 
-CREATE PROCEDURE SP_AMOUNT_GROUPS_CLASSROOM(@id_classroom INT)
-AS
-BEGIN
-  SELECT COUNT(*)
-  FROM TB_GROUP
-  WHERE  ID_CLASSROOM = @id_classroom
-END
-GO
 
 --| USER |-- 
 CREATE PROCEDURE SP_INSERT_USER
@@ -294,19 +422,6 @@ BEGIN
       WHERE  [RA] = @ra
   COMMIT
 END
-
-GO
-CREATE PROCEDURE  SP_UPDATE_PASSWORD_USER(@ra CHAR(6),
-  @pwd CHAR(20))
-AS
-BEGIN
-  DECLARE @finalpwd VARCHAR(MAX)
-  SELECT @finalpwd = DBO.funcEncrypt(@pwd)
-
-  UPDATE TB_USER
-  SET PASSWORD = @finalpwd
-  WHERE RA = @ra
-END 
 
 GO
 CREATE PROCEDURE SP_FIND_USER
@@ -433,16 +548,6 @@ END
 GO
 
 --| GROUP |-- 
-CREATE PROCEDURE SP_LAST_GROUP
-AS
-BEGIN
-  SELECT *
-  FROM TB_GROUP
-  WHERE  ID_GROUP = (SELECT MAX(ID_GROUP)
-  FROM TB_GROUP)
-END
-GO
-
 CREATE PROCEDURE SP_INSERT_GROUP
   (@group_theme   VARCHAR(50),
   @description    VARCHAR(300),
@@ -546,24 +651,6 @@ BEGIN
   WHERE  Year(C.YEAR) = Year(Getdate())
     AND C.ID_CLASSROOM = @classroom_id
 END 
-GO
-
-CREATE PROCEDURE SP_GROUP_USED(@group_id INT)
-AS
-BEGIN
-  IF EXISTS(SELECT *
-  FROM TB_MEDIUM_GRADE
-  WHERE  ID_GROUP = @group_id)
-    BEGIN
-    SELECT 1
-  END
-    ELSE 
-      BEGIN
-    SELECT 0
-  END
-END
-
-
 GO
 
 --| BIG_CRETERION |--  
@@ -702,21 +789,6 @@ BEGIN
   WHERE  [ID_MEDIUM] = @id_medium
 END 
 GO
-CREATE PROCEDURE SP_CRITERION_USED(@criterion_id INT)
-AS
-BEGIN
-  IF EXISTS(SELECT *
-  FROM TB_MEDIUM_GRADE
-  WHERE  ID_MEDIUM = @criterion_id)
-       BEGIN
-    SELECT 1
-  END
-    ELSE
-    BEGIN
-    SELECT 0
-  END
-END
-GO
 CREATE PROCEDURE SP_SHOW_MEDIUM_CRITERION
 AS
 BEGIN
@@ -794,88 +866,12 @@ BEGIN
 END 
 GO
 
-CREATE PROCEDURE SP_SHOW_FINAL_GRADE_GROUP(@group_id INT)
-AS
-BEGIN
-  DECLARE @max_attempt TINYINT
-  SELECT @max_attempt =
-         MAX(ATTEMPT)
-  FROM TB_MEDIUM_GRADE
-  WHERE ID_GROUP = @group_id
-
-
-  SELECT *
-  FROM TB_MEDIUM_GRADE
-  WHERE  ID_GROUP = @group_id
-    AND ATTEMPT = @max_attempt
-END 
-GO
-CREATE VIEW aView
-AS
-  SELECT MC.ID_MEDIUM,
-    ROW_NUMBER() OVER(ORDER BY MC.ID_MEDIUM) ROWNUMBER
-  FROM [TB_MEDIUM_CRITERION] MC
-    INNER JOIN [TB_BIG_CRITERION] BC
-    ON         MC.ID_BIG = BC.ID_BIG
-  WHERE  BC.YEAR = Year(Getdate())
-
-GO
-CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP(@group_id INT)
-AS
-BEGIN
-  DECLARE  @max_attempt TINYINT,
-           @amount_medium INT,
-           @id_medium INT,
-           @i INT;
-
-  CREATE TABLE #temp
-  (
-    NAME_MEDIUM VARCHAR(30) PRIMARY  KEY,
-    GRADE DECIMAL (4,2)
-  );
-
-  SELECT @max_attempt =
-         MAX(ATTEMPT)
-  FROM TB_MEDIUM_GRADE
-  WHERE ID_GROUP = @group_id;
-
-  SELECT @amount_medium = COUNT(MC.ID_MEDIUM)
-  FROM [TB_MEDIUM_CRITERION] MC
-    INNER JOIN [TB_BIG_CRITERION] BC
-    ON         MC.ID_BIG = BC.ID_BIG
-  WHERE  BC.YEAR = Year(Getdate());
-
-  SET @i = 1;
-
-  WHILE @i <= @amount_medium
-    BEGIN
-
-
-    SELECT @id_medium = 
-            ID_MEDIUM
-    FROM aView
-    WHERE   ROWNUMBER = @i;
-
-    INSERT INTO #temp
-      (NAME_MEDIUM, GRADE)
-    SELECT MC.NAME_MEDIUM, SUM(MG.GRADE) / COUNT(MG.RA) as GRADE
-    FROM TB_MEDIUM_GRADE MG
-      INNER JOIN TB_MEDIUM_CRITERION MC
-      ON MG.ID_MEDIUM = MC.ID_MEDIUM
-    WHERE MG.ID_GROUP = @group_id
-      AND MG.ID_MEDIUM = @id_medium
-      AND MG.ATTEMPT = @max_attempt
-    GROUP BY MC.NAME_MEDIUM;
-
-    SET @i = @i + 1;
-  END
-  SELECT *
-  FROM #temp
-END
 
 
 
--- EXEC SP_SHOW_MEDIUM_GRADE_GROUP 2
+
+
+
 
 
 

@@ -273,7 +273,8 @@ BEGIN
     WHERE  RA = @user_login
   END
   COMMIT
-END 
+END
+
 GO
 CREATE PROCEDURE SP_UPDATE_USER
   (@ra     CHAR(6),
@@ -292,6 +293,19 @@ BEGIN
              [ACCESS] = @access 
       WHERE  [RA] = @ra
   COMMIT
+END
+
+GO
+CREATE PROCEDURE  SP_UPDATE_PASSWORD_USER(@ra CHAR(6),
+  @pwd CHAR(20))
+AS
+BEGIN
+  DECLARE @finalpwd VARCHAR(MAX)
+  SELECT @finalpwd = DBO.funcEncrypt(@pwd)
+
+  UPDATE TB_USER
+  SET PASSWORD = @finalpwd
+  WHERE RA = @ra
 END 
 
 GO

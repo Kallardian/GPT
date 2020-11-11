@@ -1,16 +1,31 @@
-<ul *ngIf="!inputMode && !editMode">
-    <li *ngFor="let c of criteria">
-        <button>Nome: {{ c.nameMedium }}  <br> Descrição: {{ c.description }} <br> Valor:{{ c.totalValue }}
+
+<div class="pg_criteria" style="background: #e9e9e9;">
+
+<ul class="criteria_list" *ngIf="!inputMode && !editMode">
+    <h1 style="text-align: center;">Critérios</h1>
+
+    
+        <li *ngFor="let c of criteria">   
+
+                <div class="d-flex card-body">         
+        <h5 class="card-text"> <br><b class="titulo_text"> {{ c.nameMedium }} </b>  <br> Descrição: {{ c.description }} <br> Valor:{{ c.totalValue }}
             <br>
-            <button (click)="updateFormEdit(c)">Editar</button>
-            <button (click)="removeCriterion(c)">Remove</button>
-        </button>
+            <button class="editar_criteria" (click)="updateFormEdit(c)"><i class="fas fa-edit"></i></button>
+            <button class="remover_criteria" (click)="removeCriterion(c)"><i class="fas fa-trash"></i></button>
+        </h5>
         <br><br>
+   
+</div>
+
     </li>
+
 </ul>
-<button *ngIf="!inputMode && !editMode" (click)="inputMode = true; addBigCriterion()">
-    Adicionar Critério
+
+
+<button class="add_criteria" *ngIf="!inputMode && !editMode" (click)="inputMode = true; addBigCriterion()">
+    <i class="fas fa-plus"></i>
 </button>
+
 <!-- Form Insert -->
 <form *ngIf="inputMode" [formGroup]="formAddCriterion">
     <input type="hidden" formControlName="idBig" placeholder="idBig" [(ngModel)]="idBig">
@@ -21,15 +36,17 @@
     </textarea>
     <input type="number" formControlName="totalValue" placeholder="Valor Total" >
 
-    <button *ngIf="!editMode" type="submit" (click)="addCriteria(formAddCriterion)" [disabled]="!formAddCriterion.valid">
-        Adicionar Critério
+    <button class="add_criteria" *ngIf="!editMode" type="submit" (click)="addCriteria(formAddCriterion)" [disabled]="!formAddCriterion.valid">
+        <i class="fas fa-plus"></i>
     </button>
     <!-- <button *ngIf="editMode" type="submit" (click)="updateCriterion(formAddCriterion)" [disabled]="!formAddCriterion.valid">
         Salvar
     </button>  -->
-    <button (click)="inputMode=false; editMode = false">
-        Voltar para Critérios
+    <div class="btn_flutuante">
+    <button class="btn_voltar" (click)="inputMode=false; editMode = false">
+        <i class="fas fa-reply"></i>
     </button>
+    </div>
 </form>
 
 
@@ -50,7 +67,18 @@
     </button>
 </form>
 
-<button *ngIf="!inputMode && !editMode" routerLink="">
-    Sair
+<div class="btn_flutuante">
+<button class="btn_voltar" *ngIf="!inputMode && !editMode" routerLink="">
+    <i class="fas fa-reply"></i>
 </button>
+</div>
 
+</div>
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<!--Link-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<!--font awesome-->

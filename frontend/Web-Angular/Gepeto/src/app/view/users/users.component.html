@@ -6,7 +6,8 @@
     <form [formGroup]="formUser" (ngSubmit)="saveUser(formUser)">
 
         <div class="card_add_user">
-            <h1 style="text-align: center; padding-bottom: 10%;">Adicione um usuário</h1>
+            <h1 style="text-align: center; padding-bottom: 10%;" *ngIf="!editUser">Adicione um usuário</h1>
+            <h1 style="text-align: center; padding-bottom: 10%;" *ngIf="editUser">Edite o usuário</h1>
             <input class="input_user" *ngIf="!editUser" type="text" formControlName="ra" placeholder="Entre com o RA" maxlength="6">
             <input class="input_user" type="text" formControlName="fullName" placeholder="Entre com o Nome" maxlength="50">
             <input class="input_user" type="text" formControlName="password" placeholder="Entre com a Senha" maxlength="30">
@@ -32,7 +33,7 @@
 <div *ngIf="!addMode">
     <h1 style="text-align: center; padding-bottom: 5%;">Usuários</h1>
     <ul class="users_list">
-        <li *ngFor="let user of users">
+        <li *ngFor="let user of users"> 
             <button class="btn_users">{{ user.ra }} - {{ user.fullName }} - {{ user.access }}</button>
             <button class="edit_user" *ngIf="user.access!=1" type="button" (click)="editUserOpen(user)"><i
                     class="fas fa-user-edit"></i></button>
@@ -49,7 +50,7 @@
 
 <br>
 
-<div class="btn_flutuante">
+<div class="btn_flutuante" *ngIf="!editUser">
     <button class="btn_voltar" routerLink="" (click)="clearLocal()">
         <i class="fas fa-door-open"></i>
     </button>

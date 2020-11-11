@@ -1,6 +1,7 @@
 package com.grupo.de.pessoas.tristes.gepeto.controllers;
 
 import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
+import com.grupo.de.pessoas.tristes.gepeto.dtos.FinalGrade;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.MediumGrade;
 import com.grupo.de.pessoas.tristes.gepeto.repositories.MediumGradeRepository;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,14 @@ public class MediumGradeController {
     }
 
     @GetMapping("/group/{group_id}")
+    public ResponseEntity getMediumGradesByGroupId(@PathVariable() Long group_id) {
+
+        List<FinalGrade> finalGradeList = mediumGradeRepository.showMediumGradeByGroupId(group_id);
+
+        return ResponseEntity.ok().body(finalGradeList);
+    }
+
+    @GetMapping("/final/{group_id}")
     public ResponseEntity getFinalGradeByGroupId(@PathVariable() Long group_id) {
 
         double finalGrade = mediumGradeRepository.finalMediumGradeByGroupId(group_id);

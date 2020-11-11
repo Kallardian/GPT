@@ -26,7 +26,7 @@ public class GroupController {
     }
 
     @GetMapping("/used/{group_id}")
-    public ResponseEntity isCriterionUsed(@PathVariable() Long group_id) {
+    public ResponseEntity isGroupUsed(@PathVariable() Long group_id) {
 
         int isUsed = groupRepository.isGroupUsed(group_id);
 

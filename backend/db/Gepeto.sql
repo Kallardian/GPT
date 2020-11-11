@@ -800,6 +800,7 @@ BEGIN
   FROM   TB_MEDIUM_GRADE 
   WHERE ID_GROUP = @group_id
 
+
   SELECT *
   FROM TB_MEDIUM_GRADE
   WHERE  ID_GROUP = @group_id

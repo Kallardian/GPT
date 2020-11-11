@@ -45,19 +45,26 @@
         </button>
     </div>
 </form>
+
+
 <div *ngIf="editMode">
-    <form [formGroup]="formEditGroup"  (ngSubmit)="editGroup(formEditGroup)">
-        <input type="hidden" formControlName="idGroup" placeholder="idGroup">
-        <input type="hidden" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom">
-        <input type="text" formControlName="groupTheme" placeholder="Tema do grupo">
-        <textarea formControlName="description" placeholder="Descrição"></textarea>
+    <div class="card_add_gp">
+        <h1 style="text-align: center; padding-bottom: 10%;">Edite o grupo</h1>
+        <form [formGroup]="formEditGroup"  (ngSubmit)="editGroup(formEditGroup)">
+        <input class="input_edit_txt" type="hidden" formControlName="idGroup" placeholder="idGroup">
+        <input class="input_edit_txt" type="hidden" formControlName="idClassroom" placeholder="Id da classe" [(ngModel)]="currentClassroom">
+        <input class="input_edit_txt" type="text" formControlName="groupTheme" placeholder="Tema do grupo">
+        <textarea class="input_edit_txt" formControlName="description" placeholder="Descrição"></textarea>
 
 
-        <button type="submit"> Salvar</button>
+        <button class="btn_validar_edit" type="submit"> Salvar</button>
     </form>
-    <button (click)="editMode = false">
-        Voltar para Salas
+    </div>
+    <div class="btn_flutuante">
+    <button class="btn_voltar" (click)="editMode = false">
+        <i class="fas fa-reply"></i>
     </button>
+    </div>
 </div>
 <div class="btn_flutuante">
     <button class="btn_voltar" *ngIf="inputMode" (click)="changeShowGroupsUrl(currentClassroom)">

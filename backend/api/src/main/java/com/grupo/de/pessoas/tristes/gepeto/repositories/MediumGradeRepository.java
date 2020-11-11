@@ -122,7 +122,7 @@ public class MediumGradeRepository {
     }
 
     @Transactional
-    public List<MediumGrade> showMediumGradeByGroupId(Long groupId) {
+    public int showMediumGradeByGroupId(Long groupId) {
         entityManager = getEntityManager();
         StoredProcedureQuery getMediumGradesByGroupIdStoredProcedureQuery = entityManager
                 .createNamedStoredProcedureQuery("SP_SHOW_MEDIUM_GRADE_GROUP");
@@ -160,7 +160,19 @@ public class MediumGradeRepository {
             mediumGradeList.add(mediumGrade);
         }
 
-        return mediumGradeList;
+        int finalGrade = mediumGradeList.stream().mapToInt(mediumGrade -> (int) mediumGrade.getGrade()).sum();
+
+        MediumCriterionRepository mediumCriterionRepository = new MediumCriterionRepository();
+
+        int amount = mediumCriterionRepository.showMediumCriteria().size();
+
+        int grades = mediumGradeList.size() / amount;
+
+        finalGrade /= grades;
+
+        System.out.println(finalGrade);
+
+        return finalGrade;
     }
 
     //POST

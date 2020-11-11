@@ -1,16 +1,3 @@
--- DECLARE @query VARCHAR(MAX) = ''
-
--- SELECT @query = COALESCE(@query, ',') + 'KILL ' + CONVERT(VARCHAR, spid) + '; '
--- FROM
---     master..sysprocesses
--- WHERE
---     dbid = DB_ID('GEPETO') -- Nome do database
---     AND dbid > 4 -- Não eliminar sessões em databases de sistema
---     AND spid <> @@SPID -- Não eliminar a sua própria sessão
--- IF (LEN(@query) > 0)
---     EXEC(@query)
--- Transact-SQL
-
 -- ALTER DATABASE GEPETO SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 
 
@@ -323,7 +310,8 @@ AS
 BEGIN
   SELECT *
   FROM TB_USER
-  ORDER BY ACCESS
+  WHERE ACCESS != 1
+  ORDER BY ACCESS DESC
 END
 GO
 
@@ -791,13 +779,14 @@ BEGIN
   WHERE  BC.YEAR = Year(Getdate())
 END 
 GO
-CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP(@group_id INT)
+
+CREATE PROCEDURE SP_SHOW_FINAL_GRADE_GROUP(@group_id INT)
 AS
 BEGIN
   DECLARE @max_attempt TINYINT
   SELECT @max_attempt =
          MAX(ATTEMPT)
-  FROM   TB_MEDIUM_GRADE 
+  FROM TB_MEDIUM_GRADE
   WHERE ID_GROUP = @group_id
 
 
@@ -806,6 +795,74 @@ BEGIN
   WHERE  ID_GROUP = @group_id
     AND ATTEMPT = @max_attempt
 END 
+GO
+CREATE VIEW aView
+AS
+  SELECT MC.ID_MEDIUM,
+    ROW_NUMBER() OVER(ORDER BY MC.ID_MEDIUM) ROWNUMBER
+  FROM [TB_MEDIUM_CRITERION] MC
+    INNER JOIN [TB_BIG_CRITERION] BC
+    ON         MC.ID_BIG = BC.ID_BIG
+  WHERE  BC.YEAR = Year(Getdate())
+
+GO
+CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP(@group_id INT)
+AS
+BEGIN
+  DECLARE  @max_attempt TINYINT,
+           @amount_medium INT,
+           @id_medium INT,
+           @i INT;
+
+  CREATE TABLE #temp
+  (
+    NAME_MEDIUM VARCHAR(30) PRIMARY  KEY,
+    GRADE DECIMAL (4,2)
+  );
+
+  SELECT @max_attempt =
+         MAX(ATTEMPT)
+  FROM TB_MEDIUM_GRADE
+  WHERE ID_GROUP = @group_id;
+
+  SELECT @amount_medium = COUNT(MC.ID_MEDIUM)
+  FROM [TB_MEDIUM_CRITERION] MC
+    INNER JOIN [TB_BIG_CRITERION] BC
+    ON         MC.ID_BIG = BC.ID_BIG
+  WHERE  BC.YEAR = Year(Getdate());
+
+  SET @i = 1;
+
+  WHILE @i <= @amount_medium
+    BEGIN
+
+
+    SELECT @id_medium = 
+            ID_MEDIUM
+    FROM aView
+    WHERE   ROWNUMBER = @i;
+
+    INSERT INTO #temp
+      (NAME_MEDIUM, GRADE)
+    SELECT MC.NAME_MEDIUM, SUM(MG.GRADE) / COUNT(MG.RA) as GRADE
+    FROM TB_MEDIUM_GRADE MG
+      INNER JOIN TB_MEDIUM_CRITERION MC
+      ON MG.ID_MEDIUM = MC.ID_MEDIUM
+    WHERE MG.ID_GROUP = @group_id
+      AND MG.ID_MEDIUM = @id_medium
+      AND MG.ATTEMPT = @max_attempt
+    GROUP BY MC.NAME_MEDIUM;
+
+    SET @i = @i + 1;
+  END
+  SELECT *
+  FROM #temp
+END
+
+
+
+-- EXEC SP_SHOW_MEDIUM_GRADE_GROUP 2
+
 
 
 

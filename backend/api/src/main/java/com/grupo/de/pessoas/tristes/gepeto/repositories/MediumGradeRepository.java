@@ -1,6 +1,7 @@
 package com.grupo.de.pessoas.tristes.gepeto.repositories;
 
 import com.grupo.de.pessoas.tristes.gepeto.dtos.Classroom;
+import com.grupo.de.pessoas.tristes.gepeto.dtos.FinalGrade;
 import com.grupo.de.pessoas.tristes.gepeto.dtos.MediumGrade;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,10 +123,45 @@ public class MediumGradeRepository {
     }
 
     @Transactional
+    public List<FinalGrade> showMediumGradeByGroupId(Long groupId) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery showMediumGradeByGroupIdStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_SHOW_MEDIUM_GRADE_GROUP");
+
+        showMediumGradeByGroupIdStoredProcedureQuery
+                .setParameter("group_id", groupId);
+
+        showMediumGradeByGroupIdStoredProcedureQuery.execute();
+
+        List<FinalGrade> resultList = showMediumGradeByGroupIdStoredProcedureQuery.getResultList();
+
+        Iterator iterator = resultList.iterator();
+
+        List<FinalGrade> finalGradeList = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            Object[] object = (Object[]) iterator.next();
+
+            String nameCriterion = String.valueOf(object[0]);
+            double grade = Double.parseDouble(String.valueOf(object[1]));
+
+            FinalGrade finalGrade = new FinalGrade();
+
+            finalGrade.setNameCriterion(nameCriterion);
+            finalGrade.setGrade(grade);
+
+            finalGradeList.add(finalGrade);
+        }
+
+        return finalGradeList;
+
+    }
+
+    @Transactional
     public double finalMediumGradeByGroupId(Long groupId) {
         entityManager = getEntityManager();
         StoredProcedureQuery getMediumGradesByGroupIdStoredProcedureQuery = entityManager
-                .createNamedStoredProcedureQuery("SP_SHOW_MEDIUM_GRADE_GROUP");
+                .createNamedStoredProcedureQuery("SP_SHOW_FINAL_GRADE_GROUP");
 
         getMediumGradesByGroupIdStoredProcedureQuery
                 .setParameter("group_id", groupId);

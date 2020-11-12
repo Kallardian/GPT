@@ -42,6 +42,8 @@ public class MediumCriterionRepository {
             isUsed = Integer.parseInt(String.valueOf(iterator.next()));
         }
 
+        entityManager.close();
+
         return isUsed;
     }
 
@@ -78,6 +80,8 @@ public class MediumCriterionRepository {
             mediumCriterion.setDescription(description);
             mediumCriterion.setTotalValue(totalValue);
         }
+
+        entityManager.close();
 
         return mediumCriterion;
     }
@@ -120,6 +124,8 @@ public class MediumCriterionRepository {
             mediumCriterionList.add(mediumCriterion);
         }
 
+        entityManager.close();
+
         return mediumCriterionList;
     }
 
@@ -138,6 +144,8 @@ public class MediumCriterionRepository {
                 .setParameter("value", mediumCriterion.getTotalValue());
 
         postMediumCriterionStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 
     //PUT
@@ -154,6 +162,8 @@ public class MediumCriterionRepository {
                 .setParameter("value", mediumCriterion.getTotalValue());
 
         updateMediumCriterionStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 
     //DELETE
@@ -167,5 +177,7 @@ public class MediumCriterionRepository {
                 .setParameter("id_medium", mediumCriterion.getIdMedium());
 
         deleteMediumCriterionStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 }

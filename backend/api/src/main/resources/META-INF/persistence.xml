@@ -9,6 +9,7 @@
         <class>com.grupo.de.pessoas.tristes.gepeto.dtos.BigCriterion</class>
         <class>com.grupo.de.pessoas.tristes.gepeto.dtos.MediumCriterion</class>
         <class>com.grupo.de.pessoas.tristes.gepeto.dtos.MediumGrade</class>
+        <class>com.grupo.de.pessoas.tristes.gepeto.dtos.FinalGrade</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2012Dialect"/>
             <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />

@@ -28,6 +28,18 @@ public class UserController {
         return ResponseEntity.ok().body(access);
     }
 
+    @PutMapping("/password")
+    public ResponseEntity updateUserPassword(@RequestBody User jsonUser) {
+
+        User user = new User();
+        user.setRa(jsonUser.getRa());
+        user.setPassword(jsonUser.getPassword());
+
+        userRepository.updateUserPassword(user);
+
+        return ResponseEntity.ok().build();
+    }
+
     //GET User
     @GetMapping
     public ResponseEntity getUsers() {

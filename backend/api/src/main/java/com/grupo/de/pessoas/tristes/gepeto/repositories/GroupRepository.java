@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public class GroupRepository {
 
+
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
     private EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
@@ -42,6 +43,8 @@ public class GroupRepository {
             amount = Integer.parseInt(String.valueOf(iterator.next()));
         }
 
+        entityManager.close();
+
         return amount;
     }
 
@@ -64,6 +67,8 @@ public class GroupRepository {
         while (iterator.hasNext()) {
             isUsed = Integer.parseInt(String.valueOf(iterator.next()));
         }
+
+        entityManager.close();
 
         return isUsed;
     }
@@ -99,6 +104,8 @@ public class GroupRepository {
             group.setIdClassroom(idClassroom);
             group.setRa(ra);
         }
+
+        entityManager.close();
 
         return group;
     }
@@ -140,6 +147,8 @@ public class GroupRepository {
             groupList.add(group);
         }
 
+        entityManager.close();
+
         return groupList;
     }
 
@@ -173,6 +182,8 @@ public class GroupRepository {
             group.setRa(ra);
         }
 
+        entityManager.close();
+
         return group;
     }
 
@@ -191,7 +202,9 @@ public class GroupRepository {
 
         postGroupStoredProcedureQuery.execute();
 
-        group =getLastGroup();
+        entityManager.close();
+
+        group = getLastGroup();
 
         return group;
     }
@@ -210,6 +223,8 @@ public class GroupRepository {
                 .setParameter("description", group.getDescription());
 
         updateGroupStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 
     //DELETE
@@ -223,5 +238,7 @@ public class GroupRepository {
                 .setParameter("group_id", group.getIdGroup());
 
         deleteGroupStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 }

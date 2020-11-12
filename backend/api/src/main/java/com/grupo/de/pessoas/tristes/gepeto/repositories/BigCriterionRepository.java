@@ -46,6 +46,8 @@ public class BigCriterionRepository {
             bigCriterion.setYear(year);
         }
 
+        entityManager.close();
+
         return bigCriterion;
     }
 
@@ -77,6 +79,8 @@ public class BigCriterionRepository {
             bigCriterionList.add(bigCriterion);
         }
 
+        entityManager.close();
+
         return bigCriterionList;
     }
 
@@ -88,5 +92,7 @@ public class BigCriterionRepository {
                 .createNamedStoredProcedureQuery("SP_INSERT_BIG_CRITERION");
 
         postBigCriterionStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 }

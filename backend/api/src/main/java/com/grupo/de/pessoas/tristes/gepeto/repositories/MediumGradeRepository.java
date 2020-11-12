@@ -43,6 +43,8 @@ public class MediumGradeRepository {
             biggestAttempt = Integer.parseInt(String.valueOf(iterator.next()));
         }
 
+        entityManager.close();
+
         return biggestAttempt;
     }
 
@@ -79,6 +81,8 @@ public class MediumGradeRepository {
             mediumGrade.setGrade(grade);
             mediumGrade.setAttempt(attempt);
         }
+
+        entityManager.close();
 
         return mediumGrade;
     }
@@ -119,6 +123,8 @@ public class MediumGradeRepository {
             mediumGradeList.add(mediumGrade);
         }
 
+        entityManager.close();
+
         return mediumGradeList;
     }
 
@@ -153,8 +159,9 @@ public class MediumGradeRepository {
             finalGradeList.add(finalGrade);
         }
 
-        return finalGradeList;
+        entityManager.close();
 
+        return finalGradeList;
     }
 
     @Transactional
@@ -206,6 +213,8 @@ public class MediumGradeRepository {
 
         finalGrade /= grades;
 
+        entityManager.close();
+
         return finalGrade;
     }
 
@@ -224,5 +233,21 @@ public class MediumGradeRepository {
                 .setParameter("attempt", mediumGrade.getAttempt());
 
         postMediumGradeStoredProcedureQuery.execute();
+
+        entityManager.close();
+    }
+
+    @Transactional
+    public void postListOfMediumGrades(List<FinalGrade> mediumGradeList) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery postListOfMediumGradeStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_INSERT_MEDIUM_GRADE");
+
+        postListOfMediumGradeStoredProcedureQuery
+                .setParameter("listMediumGrades", mediumGradeList);
+
+        postListOfMediumGradeStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 }

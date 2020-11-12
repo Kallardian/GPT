@@ -2,9 +2,6 @@ package com.grupo.de.pessoas.tristes.gepeto.dtos;
 
 import javax.persistence.*;
 
-//Function
-@NamedStoredProcedureQuery(name = "SP_AMOUNT_CLASSROOMS", procedureName = "SP_AMOUNT_CLASSROOMS")
-
 //GET
 @NamedStoredProcedureQuery(name = "SP_FIND_CLASSROOM", procedureName = "SP_FIND_CLASSROOM",
         parameters = {

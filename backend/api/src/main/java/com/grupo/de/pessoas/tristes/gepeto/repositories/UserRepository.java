@@ -42,6 +42,8 @@ public class UserRepository {
             user.setAccess(access);
         }
 
+        entityManager.close();
+
         return user.getAccess();
     }
 
@@ -74,6 +76,8 @@ public class UserRepository {
             user.setPassword(password);
             user.setAccess(access);
         }
+
+        entityManager.close();
 
         return user;
     }
@@ -110,6 +114,8 @@ public class UserRepository {
             userList.add(user);
         }
 
+        entityManager.close();
+
         return userList;
     }
 
@@ -127,6 +133,8 @@ public class UserRepository {
                 .setParameter("access", user.getAccess());
 
         postUserStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 
     //PUT User
@@ -143,5 +151,7 @@ public class UserRepository {
                 .setParameter("access", user.getAccess());
 
         updateUserStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 }

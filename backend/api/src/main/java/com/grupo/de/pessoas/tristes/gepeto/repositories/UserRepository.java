@@ -47,6 +47,22 @@ public class UserRepository {
         return user.getAccess();
     }
 
+    @Transactional
+    public int updateUserPassword(User user) {
+        entityManager = getEntityManager();
+        StoredProcedureQuery updateUserPasswordStoredProcedureQuery = entityManager
+                .createNamedStoredProcedureQuery("SP_UPDATE_PASSWORD_USER");
+
+        updateUserPasswordStoredProcedureQuery.setParameter("rạ", user.getRa());
+        updateUserPasswordStoredProcedureQuery.setParameter("pwd", user.getPassword());
+
+        updateUserPasswordStoredProcedureQuery.execute();
+
+        entityManager.close();
+
+        return user.getAccess();
+    }
+
     //GET User
     @Transactional
     public User getUserById(User user) {

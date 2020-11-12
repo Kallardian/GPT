@@ -10,6 +10,13 @@ import javax.persistence.*;
         }
 )
 
+@NamedStoredProcedureQuery(name = "SP_UPDATE_PASSWORD_USER", procedureName = "SP_UPDATE_PASSWORD_USER",
+        parameters = {
+                @StoredProcedureParameter(name = "ra", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "pwd", type = String.class, mode = ParameterMode.IN)
+        }
+)
+
 //GET
 @NamedStoredProcedureQuery(name = "SP_FIND_USER", procedureName = "SP_FIND_USER",
         parameters = {

@@ -173,4 +173,8 @@ export class GroupsComponent implements OnInit {
         }
       })
   }
+  saveGroupLocal(groupNumber: number){
+    var groupString = groupNumber.toString()
+    localStorage.setItem("idGroup", groupString)
+  }
 }

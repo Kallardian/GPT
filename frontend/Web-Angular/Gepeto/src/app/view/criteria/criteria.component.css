@@ -60,8 +60,8 @@
 .add_criteria{
     background: #a4b3e7; /*cor do fundo do ícone*/
     color: #060d72; /*cor do icone*/
-    margin-left: auto;
-    margin-top: auto;
+    margin-left: 665px;
+    margin-top: 10px;
     margin-bottom: auto;
     margin-right: auto;
     width:50px;
@@ -119,3 +119,5 @@
 .description_p{
     color:darkblue
 }
+
+

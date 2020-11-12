@@ -6,8 +6,7 @@
 
     
         <li *ngFor="let c of criteria">   
-
-                <div class="d-flex card-body">         
+                <div class="d-flex card-body mb-5">         
         <h5 class="card-text"> <br><b class="titulo_text"> {{ c.nameMedium }} </b>  <br> Descrição: {{ c.description }} <br> Valor:{{ c.totalValue }}
             <br>
             <button class="editar_criteria" (click)="updateFormEdit(c)"><i class="fas fa-edit"></i></button>
@@ -15,6 +14,7 @@
         </h5>
         <br><br>
    
+
 </div>
 
     </li>

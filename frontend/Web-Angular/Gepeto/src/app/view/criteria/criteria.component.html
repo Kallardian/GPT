@@ -28,17 +28,22 @@
 
 <!-- Form Insert -->
 <form *ngIf="inputMode" [formGroup]="formAddCriterion">
-    <input type="hidden" formControlName="idBig" placeholder="idBig" [(ngModel)]="idBig">
-    <input type="text" formControlName="nameMedium" placeholder="Nome do Critério">
-    <input type="hidden" formControlName="ra"  maxlength="6" [(ngModel)]="currentUser" placeholder="Ra">
-    <!-- <input type="text" formControlName="description" placeholder="Descrição"> -->
-    <textarea formControlName="description" cols="33" rows="5" placeholder="Descrição" maxlength="100">
-    </textarea>
-    <input type="number" formControlName="totalValue" placeholder="Valor Total" >
 
-    <button class="add_criteria" *ngIf="!editMode" type="submit" (click)="addCriteria(formAddCriterion)" [disabled]="!formAddCriterion.valid">
-        <i class="fas fa-plus"></i>
+    <div class="card_add_criteria">
+        <h1 style="text-align: center; padding-bottom: 10%;">Adicione um critério</h1>
+        <input class="input_txt" type="hidden" formControlName="ra"  maxlength="6" [(ngModel)]="currentUser" placeholder="Ra">
+        <input class="input_txt" type="hidden" formControlName="idBig" placeholder="idBig" [(ngModel)]="idBig">
+    <input class="input_txt" type="text" formControlName="nameMedium" placeholder="Nome do Critério">
+
+    <!-- <input type="text" formControlName="description" placeholder="Descrição"> -->
+    <input class="input_txt" type="number" formControlName="totalValue" placeholder="Valor Total" >
+    <textarea class="txta_txt" formControlName="description" cols="33" rows="5" placeholder="Descrição" maxlength="100">
+    </textarea>
+
+    <button class="btn_validar" *ngIf="!editMode" type="submit" (click)="addCriteria(formAddCriterion)" [disabled]="!formAddCriterion.valid">
+        Salvar
     </button>
+    </div>
     <!-- <button *ngIf="editMode" type="submit" (click)="updateCriterion(formAddCriterion)" [disabled]="!formAddCriterion.valid">
         Salvar
     </button>  -->
@@ -53,18 +58,23 @@
 <!-- Form Edit -->
 <form *ngIf="editMode" [formGroup]="formEditCriterion">
     <input type="hidden" formControlName="idMedium" placeholder="idMedium">
-    
-    <input type="text" formControlName="nameMedium" placeholder="Nome do Critério">
-    <textarea formControlName="description" cols="33" rows="5" placeholder="Descrição" maxlength="100">
-    </textarea>
-    <input type="number" formControlName="totalValue" placeholder="Valor Total">
 
-    <button type="submit" (click)="updateCriterion(formEditCriterion)" [disabled]="!formEditCriterion.valid">
+    <div class="card_add_criteria">
+        <h1 style="text-align: center; padding-bottom: 10%;">Edite um critério</h1>
+    <input class="input_add" type="text" formControlName="nameMedium" placeholder="Nome do Critério">
+    <input class="input_add" type="number" formControlName="totalValue" placeholder="Valor Total">
+    <textarea class="txta_add"  formControlName="description" cols="33" rows="5" placeholder="Descrição" maxlength="100">
+    </textarea>
+    <button class= "btn_validar" type="submit" (click)="updateCriterion(formEditCriterion)" [disabled]="!formEditCriterion.valid">
         Salvar
-    </button>  
-    <button (click)="inputMode=false; editMode = false">
-        Voltar para Critérios
+    </button> 
+</div> 
+<div class="btn_flutuante">
+    <button class="btn_voltar" (click)="inputMode=false; editMode = false">
+        <i class="fas fa-reply"></i>
     </button>
+</div>
+
 </form>
 
 <div class="btn_flutuante">

@@ -30,7 +30,7 @@ EXEC SP_INSERT_GROUP 'Lorem ipsum dolor sit amet, consectetur cras amet.',
  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque hendrerit ante 
  sed fringilla pulvinar. Vestibulum molestie fringilla odio, ac fringilla urna. Proin nec feugiat leo. 
  Nulla laoreet mauris vel eros molestie vulputate. Donec maximus, eros vel tincidunt finibus, quam ipsum 
- tincidunt nec.','1', '654321';
+ tincidunt nec.', 1, '654321';
 GO
 
 /*SP_INSERT_BIG_CRITERION*/
@@ -126,7 +126,7 @@ GO
 EXEC SP_INSERT_MEDIUM_GRADE 1, '888888', 4, 10, 1
 EXEC SP_INSERT_MEDIUM_GRADE 2, '888888', 4, 10, 1
 EXEC SP_INSERT_MEDIUM_GRADE 3, '888888', 4, 10, 1
-GO 
+GO
 
 -- CRUZ ATTEMPT 2
 EXEC SP_INSERT_MEDIUM_GRADE 1, '123321', 1, 10, 2

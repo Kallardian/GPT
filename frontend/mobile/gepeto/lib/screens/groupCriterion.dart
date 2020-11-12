@@ -46,6 +46,16 @@ class GroupCriterionScreen extends StatefulWidget {
 class _GroupCriterionScreenState extends State<GroupCriterionScreen> {
   int indexContext = 0;
 
+  Future _futureGroups;
+  Future _futureCriteria;
+
+  @override
+  void initState() {
+    _futureGroups = showGroups(http.Client(), widget.idClassroom);
+    _futureCriteria = showMediumCriteria(http.Client());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
@@ -60,19 +70,19 @@ class _GroupCriterionScreenState extends State<GroupCriterionScreen> {
             index: indexContext,
             children: <Widget>[
               FutureBuilder<List<Group>>(
-                  future: showGroups(http.Client(), widget.idClassroom),
+                  future: _futureGroups,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }
 
                     return snapshot.hasData
-                        ? GroupsFragment(groups: snapshot.data)
+                        ? GroupsFragment(groups: snapshot.data, ra: widget.ra,)
                         : Center(child: CircularProgressIndicator());
                   }
               ),
               FutureBuilder<List<MediumCriterion>>(
-                  future: showMediumCriteria(http.Client()),
+                  future: _futureCriteria,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return Text(snapshot.error.toString());

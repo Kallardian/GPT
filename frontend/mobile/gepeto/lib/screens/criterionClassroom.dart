@@ -45,6 +45,16 @@ class CriterionClassroomScreen extends StatefulWidget {
 class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
   int indexContext = 0;
 
+  Future _futureCriteria;
+  Future _futureClassroom;
+
+  @override
+  void initState() {
+    _futureCriteria = showMediumCriteria(http.Client());
+    _futureClassroom = showClassrooms(http.Client());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
@@ -59,7 +69,7 @@ class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
             index: indexContext,
             children: <Widget>[
               FutureBuilder<List<MediumCriterion>>(
-                  future: showMediumCriteria(http.Client()),
+                  future: _futureCriteria,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
@@ -71,14 +81,14 @@ class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
                   }
               ),
               FutureBuilder<List<Classroom>> (
-                  future: showClassrooms(http.Client()),
+                  future: _futureClassroom,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }
 
                     return snapshot.hasData
-                        ? ClassroomsFragment(classrooms: snapshot.data)
+                        ? ClassroomsFragment(classrooms: snapshot.data, ra: widget.ra)
                         : Center(child: CircularProgressIndicator());
                   }
               )

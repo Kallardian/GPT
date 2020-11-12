@@ -1,15 +1,16 @@
+import 'package:Gepeto/screens/gradeCriterion.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vibration/vibration.dart';
-import '../screens.dart';
+import '../screens/gradeCriterion.dart';
 import 'package:Gepeto/api/dtos.dart';
 import 'dart:convert' as convert;
 
 //Groups Screen
 class GroupsFragment extends StatelessWidget {
   final List<Group> groups;
+  final String ra;
 
-  GroupsFragment({Key key, this.groups}) : super(key: key);
+  GroupsFragment({Key key, this.groups, this.ra}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,39 +28,45 @@ class GroupsFragment extends StatelessWidget {
 
 class GroupsMain extends StatelessWidget {
   final Group group;
+  final String ra;
 
-  GroupsMain({Key key, this.group}) : super(key: key);
+  GroupsMain({Key key, this.group, this.ra}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 10 / 16,
-      child: Container(
-        margin: EdgeInsets.only(top: 60.0, bottom: 40.0, left: 40, right: 40),
-        decoration: BoxDecoration(
-          color: Colors.indigo,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Container(
-                margin: EdgeInsets.only(top: 20, bottom: 10),
-                child: Text(
-                  convert.utf8.decode(convert.latin1.encode(group.groupTheme)),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'ShareTechMono',
-                    fontSize: 32,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => GradeCriterionScreen(ra: ra, groupId: group.idGroup)));
+        },
+        child: Container(
+          margin: EdgeInsets.only(top: 60.0, bottom: 40.0, left: 40, right: 40),
+          decoration: BoxDecoration(
+            color: Colors.indigo,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          child: Column(
+            children: <Widget>[
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(top: 20, bottom: 10),
+                  child: Text(
+                    convert.utf8.decode(convert.latin1.encode(group.groupTheme)),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'ShareTechMono',
+                      fontSize: 32,
+                    ),
                   ),
-                ),
-              )
-            ),
-            GroupsDescription(description: group.description)
-          ],
+                )
+              ),
+              GroupsDescription(description: group.description)
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 }

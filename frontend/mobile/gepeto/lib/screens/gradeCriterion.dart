@@ -23,8 +23,9 @@ List<MediumCriterion> parseCriteria(String responseBody) {
 
 class GradeCriterionScreen extends StatefulWidget {
   final String ra;
+  final int groupId;
 
-  GradeCriterionScreen({this.ra});
+  GradeCriterionScreen({this.ra, this.groupId});
 
   @override
   _GradeCriterionScreenState createState() => _GradeCriterionScreenState();
@@ -32,6 +33,15 @@ class GradeCriterionScreen extends StatefulWidget {
 
 class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
   int indexContext = 0;
+
+  Future _futureCriteria;
+
+  @override
+  void initState() {
+    _futureCriteria = showMediumCriteria(http.Client());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
@@ -47,7 +57,7 @@ class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
             children: <Widget>[
               GradeFragment(),
               FutureBuilder<List<MediumCriterion>>(
-                  future: showMediumCriteria(http.Client()),
+                  future: _futureCriteria,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return Text(snapshot.error.toString());

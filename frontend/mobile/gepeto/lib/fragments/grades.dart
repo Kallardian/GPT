@@ -1,20 +1,29 @@
+import 'package:Gepeto/api/dtos.dart';
+import 'package:Gepeto/screens/criterionClassroom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //Grade Screen
 class GradeFragment extends StatefulWidget {
-  GradeFragment({Key key}) : super(key: key);
+  final List<MediumCriterion> criteria;
+
+  GradeFragment({Key key, this.criteria}) : super(key: key);
 
   @override
   _GradeFragmentState createState() => _GradeFragmentState();
 }
 
 class _GradeFragmentState extends State<GradeFragment> {
-  List<ExpansionCriteria> _gradeCriteria = <ExpansionCriteria>[
-    ExpansionCriteria(header: 'web', body: ''),
-    ExpansionCriteria(header: 'mobile', body: ''),
-    ExpansionCriteria(header: 'desktop', body: ''),
-  ];
+  List<ExpansionCriteria> _gradeCriteria;
+  final TextEditingController _controllerGrade = TextEditingController();
+
+  @override
+  void initState() {
+    widget.criteria.forEach((element) {
+      _gradeCriteria.add(ExpansionCriteria(header: element.nameMedium));
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +59,7 @@ class _GradeFragmentState extends State<GradeFragment> {
                     child: Column(
                       children: <Widget>[
                         TextFormField(
+                          controller: _controllerGrade,
                           decoration: InputDecoration(
                               icon: Icon(Icons.assessment),
                               hintText: 'Notas de 0 a 10.',
@@ -65,10 +75,19 @@ class _GradeFragmentState extends State<GradeFragment> {
                       ],
                     ),
                   ),
-
                 );
               }).toList(),
             ),
+            Center(
+              child: FlatButton(
+                color: Colors.indigoAccent,
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                child: Text("Enviar"),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => CriterionClassroomScreen()));
+                },
+              ),
+            )
           ],
         )
     );

@@ -56,7 +56,17 @@ class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
           return IndexedStack(
             index: indexContext,
             children: <Widget>[
-              GradeFragment(),
+              FutureBuilder<List<MediumCriterion>>(
+                  future: _futureCriteria,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
+
+                    return snapshot.hasData
+                        ? GradeFragment(criteria: snapshot.data)
+                        : Center(child: CircularProgressIndicator());
+                  }),
               FutureBuilder<List<MediumCriterion>>(
                   future: _futureCriteria,
                   builder: (context, snapshot) {

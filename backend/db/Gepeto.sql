@@ -1,4 +1,4 @@
--- ALTER DATABASE GEPETO SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+ALTER DATABASE GEPETO SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 
 
 USE MASTER
@@ -82,7 +82,12 @@ CREATE TABLE [TB_MEDIUM_GRADE]
 		REFERENCES [TB_GROUP]([ID_GROUP]),
   [GRADE] DECIMAL(4,2) NOT NULL,
   [ATTEMPT] TINYINT NOT NULL
-)
+);
+CREATE TABLE [TB_MEDIUM_GRADES_GROUP]
+(
+  NAME_MEDIUM VARCHAR(30),
+  GRADE DECIMAL (4,2)
+);
 GO
 /*----------------------------------SYSTEM FUNCTIONS------------------------------------*/
 CREATE FUNCTION Funcencrypt(@pwd1 VARCHAR(30)) 
@@ -322,12 +327,7 @@ BEGIN
            @amount_medium INT,
            @id_medium INT,
            @i INT;
-
-  CREATE TABLE #temp
-  (
-    NAME_MEDIUM VARCHAR(30) PRIMARY  KEY,
-    GRADE DECIMAL (4,2)
-  );
+  DELETE FROM TB_MEDIUM_GRADES_GROUP
 
   SELECT @max_attempt =
          MAX(ATTEMPT)
@@ -351,7 +351,7 @@ BEGIN
     FROM aView
     WHERE   ROWNUMBER = @i;
 
-    INSERT INTO #temp
+    INSERT INTO TB_MEDIUM_GRADES_GROUP
       (NAME_MEDIUM, GRADE)
     SELECT MC.NAME_MEDIUM, SUM(MG.GRADE) / COUNT(MG.RA) as GRADE
     FROM TB_MEDIUM_GRADE MG
@@ -364,17 +364,18 @@ BEGIN
 
     SET @i = @i + 1;
   END
-  SELECT *
-  FROM #temp
+  COMMIT
 END
 GO
 
-CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP(@group_id INT)
+CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP
 AS
 BEGIN
-  EXEC SP_SHOW_MEDIUM_GRADE_GROUP_1 @group_id
+  SELECT *
+  FROM TB_MEDIUM_GRADES_GROUP
 END;
 GO
+
 
 
 create type tbTypeMediumGrade as table
@@ -387,11 +388,14 @@ create type tbTypeMediumGrade as table
 )
 
 GO
-CREATE PROCEDURE SP_INSERT_LIST_MEDIUM_GRADE(@listMediumGrades tbTypeMediumGrade readonly)
+CREATE PROCEDURE SP_INSERT_LIST_MEDIUM_GRADE(@listMediumGrades TBTYPEMEDIUMGRADE readonly)
 AS
 BEGIN
-  INSERT INTO TB_MEDIUM_GRADE (RA, ID_MEDIUM, ID_GROUP, GRADE, ATTEMPT)
-  SELECT RA, ID_MEDIUM, ID_GROUP, GRADE, ATTEMPT FROM @listMediumGrades
+  INSERT INTO TB_MEDIUM_GRADE
+    (RA, ID_MEDIUM, ID_GROUP, GRADE, ATTEMPT)
+  SELECT RA, ID_MEDIUM, ID_GROUP, GRADE, ATTEMPT
+  FROM @listMediumGrades
+  COMMIT
 END
 
 
@@ -408,12 +412,12 @@ CREATE PROCEDURE SP_INSERT_USER
 AS
 BEGIN
   IF(@access = 0) 
-        PRINT 'Você não pode adicionar um usuário inativo' 
+        PRINT 'Você não pode adicionar um usuário inativo'; 
       ELSE 
         BEGIN
-    DECLARE @final_pwd VARCHAR(MAX)
+    DECLARE @final_pwd VARCHAR(MAX);
 
-    SET @final_pwd = dbo.funcEncrypt(@user_pwd)
+    SET @final_pwd = dbo.funcEncrypt(@user_pwd);
 
     INSERT INTO [TB_USER]
       ([RA],
@@ -424,13 +428,13 @@ BEGIN
       (@user_login,
         @user_name,
         @final_pwd,
-        @access)
+        @access);
     SELECT *
     FROM TB_USER
-    WHERE  RA = @user_login
-  END
-  COMMIT
-END
+    WHERE  RA = @user_login;
+  END;
+  COMMIT;
+END;
 
 GO
 CREATE PROCEDURE SP_UPDATE_USER
@@ -894,6 +898,9 @@ BEGIN
   WHERE  BC.YEAR = Year(Getdate())
 END 
 GO
+
+ALTER DATABASE GEPETO SET MULTI_USER
+
 
 
 

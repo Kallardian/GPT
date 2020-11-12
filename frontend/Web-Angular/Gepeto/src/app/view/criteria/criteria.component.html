@@ -4,8 +4,8 @@
 <ul class="criteria_list" *ngIf="!inputMode && !editMode">
     <h1 style="text-align: center;">Critérios</h1>
 
-    
-        <li *ngFor="let c of criteria">   
+    <div class="container">
+        <li class="list_criteria" *ngFor="let c of criteria">   
                 <div class="d-flex card-body mb-5">         
         <h5 class="card-text"> <br><b class="titulo_text"> {{ c.nameMedium }} </b>  <br> Descrição: {{ c.description }} <br> Valor:{{ c.totalValue }}
             <br>
@@ -18,6 +18,7 @@
 </div>
 
     </li>
+</div>
 
 </ul>
 

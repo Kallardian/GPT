@@ -1,0 +1,65 @@
+.list_grades{
+    list-style: none;
+}
+
+.btn_flutuante{
+    position: fixed;
+    bottom:10px;
+    right:10px;
+  }
+  
+  .btn_flutuante button{
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0 1px 5px rgba(0,0,0,.4);
+    font-size: 24px;
+    color: white;
+      
+    -webkit-transition: .2s ease-out;
+    -moz-transition: .2s ease-out;
+    transition: .2s ease-out;
+  }
+  .btn_flutuante button:focus{
+    outline: none;
+  }
+  
+  .btn_flutuante button.btn_voltar{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #1E90FF    ;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+  }
+
+  .card_grades{
+    height:200px;
+    width:300px ;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:auto;
+    margin-top: 100px;
+    background:#6495ED	;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19 );   /*  margem esquerda, margem inferior, margem superior, margem direita */ 
+              -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+              -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+              border-radius: 18px;
+  }
+
+  .titulo_nota{
+      color: darkblue;
+      margin-top: auto;
+      margin-bottom: auto;
+      margin-right: auto;
+      margin-left: auto;
+
+  }

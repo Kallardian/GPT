@@ -24,7 +24,7 @@ class Conn {
   }
 
   Future<User> getUserById(String ra) async {
-    final response = await http.get('http://192.168.3.7:3001/api/users/123321');
+    final response = await http.get('http://192.168.3.7:3001/api/users/$ra');
 
     if (response.statusCode == 200) {
       return User.fromJson(convert.jsonDecode(response.body));

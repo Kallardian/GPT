@@ -15,6 +15,7 @@ import javax.persistence.*;
 public class FinalGrade {
 
     //Attributes
+    @Id
     @Column(name = "NAME_MEDIUM")
     private String nameCriterion;
     @Column(name = "GRADE")

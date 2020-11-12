@@ -15,7 +15,7 @@ public class FinalGradeController {
 
     //GET
     @GetMapping("/{group_id}")
-    public ResponseEntity getBigCriterionById(@PathVariable() Long group_id) {
+    public ResponseEntity getFinalGradesById(@PathVariable() Long group_id) {
 
         List<FinalGrade> finalGradeList = finalGradeRepository.showFinalGrades(group_id);
 

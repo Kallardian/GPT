@@ -137,3 +137,75 @@
           -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
           border-radius: 18px;
 }
+
+.input_add{
+  background: lightblue;
+  border:0;
+  border-radius:5px;
+  width:80%;
+  height:35px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 30px;
+  margin-right: 30px;
+  text-align: center;
+}
+
+.txta_add{
+  background: lightblue;
+  border:0;
+  border-radius:5px;
+  width:80%;
+  height:60px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 30px;
+  margin-right: 30px;
+  text-align: center;
+  align-content: center;
+
+}
+
+.btn_validar{
+  margin-top:  5px;
+  margin-bottom: 3px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #1E90FF			;
+  border:0;
+  border-radius:10px;
+  width:50%;
+  height:35px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+.input_txt{
+  background: lightblue;
+  border:0;
+  border-radius:5px;
+  width:80%;
+  height:35px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.txta_txt{
+  background: lightblue;
+  border:0;
+  border-radius:5px;
+  width:80%;
+  height:60px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}

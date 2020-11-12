@@ -25,9 +25,23 @@ class Classroom {
 
   factory Classroom.fromJson(Map<String, dynamic> json) {
     return Classroom(
-      idClassroom: json['idClassroom'],
-      nameClassroom: json['nameClassroom'],
-      year: json['year']
+        idClassroom: json['idClassroom'],
+        nameClassroom: json['nameClassroom'],
+        year: json['year']
+    );
+  }
+}
+
+class FinalGrade {
+  final String nameCriterion;
+  final double grade;
+
+  FinalGrade({this.nameCriterion , this.grade});
+
+  factory FinalGrade.fromJson(Map<String, dynamic> json) {
+    return FinalGrade(
+        nameCriterion: json['nameCriterion'],
+        grade: json['grade']
     );
   }
 }

@@ -36,12 +36,6 @@ import java.util.List;
         }
 )
 
-@NamedStoredProcedureQuery(name = "SP_INSERT_LIST_MEDIUM_GRADE", procedureName = "SP_INSERT_LIST_MEDIUM_GRADE",
-        parameters = {
-                @StoredProcedureParameter(name = "listMediumGrades", type = List.class, mode = ParameterMode.IN)
-        }
-)
-
 @Entity
 @Table(name = "TB_MEDIUM_GRADE")
 public class MediumGrade {

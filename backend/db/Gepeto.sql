@@ -369,7 +369,28 @@ BEGIN
 END
 GO
 
+create type tbTypeMediumGrade as table
+(
+  [RA] CHAR(6) NOT NULL,
+  [ID_MEDIUM] INT NOT NULL,
+  [ID_GROUP] INT NOT NULL,
+  [GRADE] DECIMAL(4,2) NOT NULL,
+  [ATTEMPT] TINYINT NOT NULL
+)
 
+GO
+CREATE PROCEDURE SP_INSERT_LIST_MEDIUM_GRADE(@listMediumGrades tbTypeMediumGrade readonly)
+AS
+BEGIN
+  INSERT INTO TB_MEDIUM_GRADE (RA, ID_MEDIUM, ID_GROUP, GRADE, ATTEMPT)
+  SELECT RA, ID_MEDIUM, ID_GROUP, GRADE, ATTEMPT FROM @listMediumGrades
+END
+
+
+
+
+/*----------------------| DEFAULT STORED PROCEDURES |--------------------------*/
+GO
 --| USER |-- 
 CREATE PROCEDURE SP_INSERT_USER
   (@user_login CHAR(6),

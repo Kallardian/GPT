@@ -21,16 +21,16 @@ List<MediumCriterion> parseCriteria(String responseBody) {
   return parsed.map<MediumCriterion>((json) => MediumCriterion.fromJson(json)).toList();
 }
 
-class ThirdScreen extends StatefulWidget {
+class GradeCriterionScreen extends StatefulWidget {
   final String ra;
 
-  ThirdScreen({this.ra});
+  GradeCriterionScreen({this.ra});
 
   @override
-  _ThirdScreenState createState() => _ThirdScreenState();
+  _GradeCriterionScreenState createState() => _GradeCriterionScreenState();
 }
 
-class _ThirdScreenState extends State<ThirdScreen> {
+class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
   int indexContext = 0;
   @override
   Widget build(BuildContext context) {

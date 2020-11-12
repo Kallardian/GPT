@@ -33,17 +33,17 @@ List<Group> parseGroups(String responseBody) {
   return parsed.map<Group>((json) => Group.fromJson(json)).toList();
 }
 
-class SecondScreen extends StatefulWidget {
+class GroupCriterionScreen extends StatefulWidget {
   final String ra;
   final String idClassroom;
 
-  SecondScreen({Key key, this.idClassroom, this.ra}) : super (key: key);
+  GroupCriterionScreen({Key key, this.idClassroom, this.ra}) : super (key: key);
 
   @override
-  _SecondScreenState createState() => _SecondScreenState();
+  _GroupCriterionScreenState createState() => _GroupCriterionScreenState();
 }
 
-class _SecondScreenState extends State<SecondScreen> {
+class _GroupCriterionScreenState extends State<GroupCriterionScreen> {
   int indexContext = 0;
 
   @override

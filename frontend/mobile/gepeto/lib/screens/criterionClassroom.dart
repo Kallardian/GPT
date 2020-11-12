@@ -33,16 +33,16 @@ List<Classroom> parseClassrooms(String responseBody) {
   return parsed.map<Classroom>((json) => Classroom.fromJson(json)).toList();
 }
 
-class ContextScreen extends StatefulWidget {
+class CriterionClassroomScreen extends StatefulWidget {
   final String ra;
 
-  ContextScreen({this.ra});
+  CriterionClassroomScreen({this.ra});
 
   @override
-  _ContextScreenState createState() => _ContextScreenState();
+  _CriterionClassroomScreenState createState() => _CriterionClassroomScreenState();
 }
 
-class _ContextScreenState extends State<ContextScreen> {
+class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
   int indexContext = 0;
 
   @override

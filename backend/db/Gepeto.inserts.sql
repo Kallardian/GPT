@@ -80,10 +80,10 @@ EXEC SP_INSERT_MEDIUM_CRITERION 1, 'DESKTOP', '123456', 'Desenvolvimento UI Desk
 GO
 /*SP_INSERT_MEDIUM_GRADE*/
 -- CRUZ ATTEMPT 1
+
 DECLARE 
 @groups INT,
 @ra CHAR(6),
-@medium TINYINT,
 @grade TINYINT
 SET @groups = 1;
 SET @ra = '123321';
@@ -91,18 +91,20 @@ WHILE(@GROUPS <= 42)
     BEGIN
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium = 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, @groups, @grade, 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 1, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
+
+
+    EXEC SP_INSERT_MEDIUM_GRADE 2, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
 
-   SET @groups += 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 3, @ra, @groups, @grade, 1;
+    
+    SET @groups += 1;
 END
 
 -- RODRIGO ATTEMPT 1
@@ -112,18 +114,20 @@ WHILE(@GROUPS <= 42)
     BEGIN
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium = 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, @groups, @grade, 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 1, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
+
+
+    EXEC SP_INSERT_MEDIUM_GRADE 2, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
 
-   SET @groups += 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 3, @ra, @groups, @grade, 1;
+
+    SET @groups += 1;
 END
 
 --SANDRA ATTEMPT 1
@@ -133,18 +137,20 @@ WHILE(@GROUPS <= 42)
     BEGIN
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium = 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, @groups, @grade, 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 1, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
+
+
+    EXEC SP_INSERT_MEDIUM_GRADE 2, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
 
-   SET @groups += 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 3, @ra, @groups, @grade, 1;
+
+    SET @groups += 1;
 END
 
 
@@ -155,18 +161,20 @@ WHILE(@GROUPS <= 42)
     BEGIN
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium = 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, @groups, @grade, 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 1, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
+
+
+    EXEC SP_INSERT_MEDIUM_GRADE 2, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
 
-   SET @groups += 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 3, @ra, @groups, @grade, 1;
+
+    SET @groups += 1;
 END
 
 -- JACK CIANO
@@ -176,18 +184,20 @@ WHILE(@GROUPS <= 42)
     BEGIN
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium = 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, @groups, @grade, 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 1, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
+
+
+    EXEC SP_INSERT_MEDIUM_GRADE 2, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
 
-   SET @groups += 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 3, @ra, @groups, @grade, 1;
+
+    SET @groups += 1;
 END
 -- ADRIANO P. MÓVEL
 SET @groups = 1;
@@ -196,18 +206,20 @@ WHILE(@GROUPS <= 42)
     BEGIN
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium = 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, @groups, @grade, 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 1, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
+
+
+    EXEC SP_INSERT_MEDIUM_GRADE 2, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
 
-   SET @groups += 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 3, @ra, @groups, @grade, 1;
+
+    SET @groups += 1;
 END
 -- ELIANA ALMEIDA SILVA
 SET @groups = 1;
@@ -216,20 +228,23 @@ WHILE(@GROUPS <= 42)
     BEGIN
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium = 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, @groups, @grade, 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 1, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
+
+
+    EXEC SP_INSERT_MEDIUM_GRADE 2, @ra, @groups, @grade, 1;
 
     SELECT @grade = round(((11 - 6 -1) * rand() + 6), 0);
-    SET @medium += 1;
-    EXEC SP_INSERT_MEDIUM_GRADE @medium, @ra, 20, @grade, 1;
 
-   SET @groups += 1;
+
+    EXEC SP_INSERT_MEDIUM_GRADE 3, @ra, @groups, @grade, 1;
+
+    SET @groups += 1;
 END
-select * from tb_medium_grade
+select *
+from tb_medium_grade
 GO
 /*-------------SP_UPDATES-------------*/
 /*-------SP_UPDATE_USER------*/

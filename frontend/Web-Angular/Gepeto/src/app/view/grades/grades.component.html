@@ -1,1 +1,10 @@
-
+<ul>
+    <li *ngFor="let g of grades"> <strong> {{ g.nameCriterion }}:</strong> {{ g.grade }} <br>
+    </li>
+    <li>
+        <strong>NOTA FINAL:</strong> {{ finalGrade}} 
+    </li>
+</ul>
+<button routerLink="/groups">
+    Voltar para o Grupo
+</button>

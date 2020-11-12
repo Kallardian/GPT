@@ -10,7 +10,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Future<List<MediumCriterion>> showMediumCriteria(http.Client client) async {
-  final response = await client.get('http://192.168.0.14:3001/api/medium-criteria/');
+  final response =
+      await client.get('http://192.168.3.7:3001/api/medium-criteria/');
 
   return compute(parseCriteria, response.body);
 }
@@ -18,7 +19,9 @@ Future<List<MediumCriterion>> showMediumCriteria(http.Client client) async {
 List<MediumCriterion> parseCriteria(String responseBody) {
   final parsed = convert.jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-  return parsed.map<MediumCriterion>((json) => MediumCriterion.fromJson(json)).toList();
+  return parsed
+      .map<MediumCriterion>((json) => MediumCriterion.fromJson(json))
+      .toList();
 }
 
 class GradeCriterionScreen extends StatefulWidget {
@@ -47,9 +50,7 @@ class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
 
     return Scaffold(
-
       drawer: DrawerComponent(ra: widget.ra),
-
       body: Builder(
         builder: (BuildContext context) {
           return IndexedStack(
@@ -66,20 +67,18 @@ class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
                     return snapshot.hasData
                         ? CriteriaFragment(criteria: snapshot.data)
                         : Center(child: CircularProgressIndicator());
-                  }
-              ),
+                  }),
             ],
           );
         },
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if(indexContext == 0) {
+          if (indexContext == 0) {
             setState(() {
               indexContext = 1;
             });
-          } else if(indexContext == 1) {
+          } else if (indexContext == 1) {
             setState(() {
               indexContext = 0;
             });
@@ -94,7 +93,6 @@ class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
           ],
         ),
       ),
-
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
           return BottomAppBar(
@@ -109,18 +107,17 @@ class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
                     margin: EdgeInsets.only(right: 180),
                     child: FlatButton(
                       child: Icon(Icons.arrow_back),
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
                   ),
                   Container(
                     child: FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Scaffold.of(context).openDrawer();
                       },
                       child: Icon(Icons.list),
-
                     ),
                   ),
                 ],
@@ -129,7 +126,6 @@ class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
           );
         },
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

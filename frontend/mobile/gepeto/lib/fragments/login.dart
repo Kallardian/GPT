@@ -6,10 +6,7 @@ class LoginFragment extends StatelessWidget {
   final TextEditingController _controllerRA = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
-  final List<Color> colorList = [
-    Colors.amber,
-    Colors.indigo
-  ];
+  final List<Color> colorList = [Colors.amber, Colors.indigo];
 
   LoginFragment({Key key}) : super(key: key);
 
@@ -18,9 +15,7 @@ class LoginFragment extends StatelessWidget {
     return Center(
       child: ListView(
         children: <Widget>[
-          Image.asset(
-            "assets/image/logo.png"
-          ),
+          Image.asset("assets/image/logo.png"),
           Container(
             margin: EdgeInsets.only(top: 0, bottom: 10),
             height: 100,
@@ -45,9 +40,7 @@ class LoginFragment extends StatelessWidget {
                 maxLength: 6,
                 keyboardType: TextInputType.numberWithOptions(),
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Entre com seu RA'
-                ),
+                    border: OutlineInputBorder(), hintText: 'Entre com seu RA'),
                 validator: (String value) {
                   return value.isEmpty ? 'Preencha o campo com seu RA.' : null;
                 },
@@ -58,40 +51,39 @@ class LoginFragment extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 70.0),
             child: Center(
               child: TextField(
-                controller: _controllerPassword,
-                obscureText: true,
-                maxLength: 20,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: ' Digite sua senha',
-                )
-              ),
+                  controller: _controllerPassword,
+                  obscureText: true,
+                  maxLength: 20,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: ' Digite sua senha',
+                  )),
             ),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 120.0),
             padding: EdgeInsets.only(bottom: 80),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Container(
-                color: Colors.indigoAccent,
-                child: FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => LoginValidator(ra: _controllerRA.text, password: _controllerPassword.text)
-                    ));
-                  },
-                  child: Text(
-                    'Login',
-                    textScaleFactor: 1.2,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ShareTechMono',
+                borderRadius: BorderRadius.circular(15),
+                child: Container(
+                  color: Colors.indigoAccent,
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => LoginValidator(
+                              ra: _controllerRA.text,
+                              password: _controllerPassword.text)));
+                    },
+                    child: Text(
+                      'Login',
+                      textScaleFactor: 1.2,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'ShareTechMono',
+                      ),
                     ),
                   ),
-                ),
-              )
-            ),
+                )),
           )
         ],
       ),

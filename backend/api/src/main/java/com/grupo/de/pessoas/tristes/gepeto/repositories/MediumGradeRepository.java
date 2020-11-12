@@ -236,18 +236,4 @@ public class MediumGradeRepository {
 
         entityManager.close();
     }
-
-    @Transactional
-    public void postListOfMediumGrades(List<FinalGrade> mediumGradeList) {
-        entityManager = getEntityManager();
-        StoredProcedureQuery postListOfMediumGradeStoredProcedureQuery = entityManager
-                .createNamedStoredProcedureQuery("SP_INSERT_MEDIUM_GRADE");
-
-        postListOfMediumGradeStoredProcedureQuery
-                .setParameter("listMediumGrades", mediumGradeList);
-
-        postListOfMediumGradeStoredProcedureQuery.execute();
-
-        entityManager.close();
-    }
 }

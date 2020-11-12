@@ -6,7 +6,7 @@
         <input class="input_txt" min="0" type="text" pattern="\d*" formControlName="numberClassroom" 
         placeholder="número de salas" maxlength="2" [(ngModel)]="givenNumberOfClassrooms"> 
         
-        <button type="submit" (click)="addClassroom(givenNumberOfClassrooms)" [disabled]="!formNumberClassrooms.valid"><i class="fas fa-plus-square"></i></button>
+        <button class="plus_button" type="submit" (click)="addClassroom(givenNumberOfClassrooms)" [disabled]="!formNumberClassrooms.valid"><i class="fas fa-plus-square"></i></button>
         <br><br>
     </form>
     

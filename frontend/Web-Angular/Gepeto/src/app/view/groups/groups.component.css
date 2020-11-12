@@ -3,7 +3,7 @@
 }
 
 .add_grupo{
-    
+        cursor: pointer;
         background: #a4b3e7; /*cor do fundo do ícone*/
         color: #060d72; /*cor do icone*/
         border: 0;
@@ -52,7 +52,7 @@
   border:0;
   border-radius:5px;
   width:80%;
-  height:35px;
+  height:60px;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -178,6 +178,7 @@
 }
 
 .remove_btn{
+  cursor: pointer;
   background: #a4b3e7; /*cor do fundo do ícone*/
   color: #060d72; /*cor do icone*/
   margin-left: 5px;
@@ -195,6 +196,7 @@
 }
 
 .edit_btn{
+  cursor: pointer;
   background: #a4b3e7; /*cor do fundo do ícone*/
   color: #060d72; /*cor do icone*/
   margin-left: 5px;
@@ -212,6 +214,7 @@
 }
 
 .btn_salas{
+    cursor: pointer;
     background: #6495ED	;
     border:0;
     border-radius:5px;

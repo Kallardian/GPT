@@ -1,10 +1,20 @@
-<ul>
+<ul class="list_grades">
+    <div class="card_grades">
     <li *ngFor="let g of grades"> <strong> {{ g.nameCriterion }}:</strong> {{ g.grade }} <br>
     </li>
-    <li>
+    <li class="titulo_nota">
         <strong>NOTA FINAL:</strong> {{ finalGrade}} 
     </li>
+</div>
 </ul>
-<button routerLink="/groups">
-    Voltar para o Grupo
+
+<div class="btn_flutuante">
+<button class="btn_voltar" routerLink="/groups">
+    <i class="fas fa-reply"></i>
 </button>
+</div>
+
+
+<!--Link-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<!--font awesome--> 

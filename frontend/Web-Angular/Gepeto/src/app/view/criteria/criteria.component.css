@@ -1,3 +1,9 @@
+
+
+.list_criteria{
+  flex-direction: row;
+}
+
 .criteria_list{
     list-style: none;
 }
@@ -60,12 +66,12 @@
 .add_criteria{
     background: #a4b3e7; /*cor do fundo do ícone*/
     color: #060d72; /*cor do icone*/
-    margin-left: 665px;
+    margin-left: 670px;
     margin-top: 10px;
     margin-bottom: auto;
     margin-right: auto;
-    width:50px;
-    height:40px;
+    width:auto;
+    height:auto;
     justify-content: center;
     text-align: center;
     box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19 );   /*  margem esquerda, margem inferior, margem superior, margem direita */ 

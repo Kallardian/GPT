@@ -26,6 +26,11 @@ EXEC SP_INSERT_GROUP 'Locadora de Roupas Cerimoniais', 'Aluga roupas de cerimôn
 EXEC SP_INSERT_GROUP 'Loja de Açaí', 'Uma loja que vende açaí bem gostoso pra você','4', '654321';
 EXEC SP_INSERT_GROUP 'Loja de Pneus', 'Aquela loja que você compra Pneus de Borracha','4', '654321';
 EXEC SP_INSERT_GROUP 'Loja de Gasolina', 'Aquela loja que você compra Gasolinas','2', '654321';
+EXEC SP_INSERT_GROUP 'Lorem ipsum dolor sit amet, consectetur cras amet.',
+ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque hendrerit ante 
+ sed fringilla pulvinar. Vestibulum molestie fringilla odio, ac fringilla urna. Proin nec feugiat leo. 
+ Nulla laoreet mauris vel eros molestie vulputate. Donec maximus, eros vel tincidunt finibus, quam ipsum 
+ tincidunt nec.','1', '654321';
 GO
 
 /*SP_INSERT_BIG_CRITERION*/

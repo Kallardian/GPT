@@ -369,6 +369,14 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP_1(@group_id INT)
+AS
+BEGIN
+  EXEC SP_SHOW_MEDIUM_GRADE_GROUP @group_id
+END
+
+
+
 create type tbTypeMediumGrade as table
 (
   [RA] CHAR(6) NOT NULL,

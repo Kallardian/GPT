@@ -21,27 +21,6 @@ public class ClassroomRepository {
     @PersistenceContext
     EntityManager entityManager;
 
-    //Function
-    @Transactional
-    public int amountOfClassrooms() {
-        entityManager = getEntityManager();
-        StoredProcedureQuery amountOfClassroomsStoredProcedureQuery = entityManager
-                .createNamedStoredProcedureQuery("SP_AMOUNT_CLASSROOMS");
-
-        amountOfClassroomsStoredProcedureQuery.execute();
-
-        List<Classroom> classroomList = amountOfClassroomsStoredProcedureQuery.getResultList();
-
-        Iterator iterator = classroomList.iterator();
-
-        int amount = 0;
-        while (iterator.hasNext()) {
-            amount = Integer.parseInt(String.valueOf(iterator.next()));
-        }
-
-        return amount;
-    }
-
     //GET
     @Transactional
     public Classroom getClassroomById(Classroom classroom) {
@@ -69,6 +48,8 @@ public class ClassroomRepository {
             classroom.setNameClassroom(nameClassroom);
             classroom.setYear(year);
         }
+
+        entityManager.close();
 
         return classroom;
     }
@@ -103,6 +84,8 @@ public class ClassroomRepository {
             classroomList.add(classroom);
         }
 
+        entityManager.close();
+
         return classroomList;
     }
 
@@ -117,6 +100,8 @@ public class ClassroomRepository {
                 .setParameter("amount_classroom", amount);
 
         postClassroomsStoredProcedureQuery.execute();
+
+        entityManager.close();
     }
 
     //DELETE
@@ -131,6 +116,7 @@ public class ClassroomRepository {
 
         deleteClassroomStoredProcedureQuery.execute();
 
+        entityManager.close();
     }
 
 }

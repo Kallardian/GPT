@@ -1,6 +1,7 @@
 package com.grupo.de.pessoas.tristes.gepeto.dtos;
 
 import javax.persistence.*;
+import java.util.List;
 
 //Function
 @NamedStoredProcedureQuery(name = "SP_BIGGEST_ATTEMPT", procedureName = "SP_BIGGEST_ATTEMPT",
@@ -38,6 +39,12 @@ import javax.persistence.*;
                 @StoredProcedureParameter(name = "id_group", type = Long.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "grade", type = Double.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "attempt", type = int.class, mode = ParameterMode.IN)
+        }
+)
+
+@NamedStoredProcedureQuery(name = "SP_INSERT_LIST_MEDIUM_GRADE", procedureName = "SP_INSERT_LIST_MEDIUM_GRADE",
+        parameters = {
+                @StoredProcedureParameter(name = "listMediumGrades", type = List.class, mode = ParameterMode.IN)
         }
 )
 

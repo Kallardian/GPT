@@ -13,17 +13,6 @@ public class ClassroomController {
 
     private ClassroomRepository classroomRepository = new ClassroomRepository();
 
-    //Function
-    @GetMapping("/amount")
-    public ResponseEntity amountOfClassrooms() {
-
-        Classroom classroom = new Classroom();
-
-        int amount = classroomRepository.amountOfClassrooms();
-
-        return ResponseEntity.ok().body(amount);
-    }
-
     //GET
     @GetMapping("/show")
     public ResponseEntity getClassrooms() {

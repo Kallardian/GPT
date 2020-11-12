@@ -10,7 +10,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Future<List<MediumCriterion>> showMediumCriteria(http.Client client) async {
-  final response = await client.get('http://192.168.0.14:3001/api/medium-criteria/');
+  final response =
+      await client.get('http://192.168.3.7:3001/api/medium-criteria/');
 
   return compute(parseCriteria, response.body);
 }
@@ -18,11 +19,14 @@ Future<List<MediumCriterion>> showMediumCriteria(http.Client client) async {
 List<MediumCriterion> parseCriteria(String responseBody) {
   final parsed = convert.jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-  return parsed.map<MediumCriterion>((json) => MediumCriterion.fromJson(json)).toList();
+  return parsed
+      .map<MediumCriterion>((json) => MediumCriterion.fromJson(json))
+      .toList();
 }
 
 Future<List<Group>> showGroups(http.Client client, String idClassroom) async {
-  final response = await client.get('http://192.168.0.14:3001/api/groups/show/' + idClassroom);
+  final response = await client
+      .get('http://192.168.3.7:3001/api/groups/show/' + idClassroom);
 
   return compute(parseGroups, response.body);
 }
@@ -37,7 +41,7 @@ class GroupCriterionScreen extends StatefulWidget {
   final String ra;
   final String idClassroom;
 
-  GroupCriterionScreen({Key key, this.idClassroom, this.ra}) : super (key: key);
+  GroupCriterionScreen({Key key, this.idClassroom, this.ra}) : super(key: key);
 
   @override
   _GroupCriterionScreenState createState() => _GroupCriterionScreenState();
@@ -61,9 +65,7 @@ class _GroupCriterionScreenState extends State<GroupCriterionScreen> {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
 
     return Scaffold(
-
       drawer: DrawerComponent(ra: widget.ra),
-
       body: Builder(
         builder: (BuildContext context) {
           return IndexedStack(
@@ -77,10 +79,12 @@ class _GroupCriterionScreenState extends State<GroupCriterionScreen> {
                     }
 
                     return snapshot.hasData
-                        ? GroupsFragment(groups: snapshot.data, ra: widget.ra,)
+                        ? GroupsFragment(
+                            groups: snapshot.data,
+                            ra: widget.ra,
+                          )
                         : Center(child: CircularProgressIndicator());
-                  }
-              ),
+                  }),
               FutureBuilder<List<MediumCriterion>>(
                   future: _futureCriteria,
                   builder: (context, snapshot) {
@@ -91,20 +95,18 @@ class _GroupCriterionScreenState extends State<GroupCriterionScreen> {
                     return snapshot.hasData
                         ? CriteriaFragment(criteria: snapshot.data)
                         : Center(child: CircularProgressIndicator());
-                  }
-              ),
+                  }),
             ],
           );
         },
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if(indexContext == 0) {
+          if (indexContext == 0) {
             setState(() {
               indexContext = 1;
             });
-          } else if(indexContext == 1) {
+          } else if (indexContext == 1) {
             setState(() {
               indexContext = 0;
             });
@@ -119,7 +121,6 @@ class _GroupCriterionScreenState extends State<GroupCriterionScreen> {
           ],
         ),
       ),
-
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
           return BottomAppBar(
@@ -134,18 +135,17 @@ class _GroupCriterionScreenState extends State<GroupCriterionScreen> {
                     margin: EdgeInsets.only(right: 180),
                     child: FlatButton(
                       child: Icon(Icons.arrow_back),
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
                   ),
                   Container(
                     child: FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Scaffold.of(context).openDrawer();
                       },
                       child: Icon(Icons.list),
-
                     ),
                   ),
                 ],
@@ -154,9 +154,7 @@ class _GroupCriterionScreenState extends State<GroupCriterionScreen> {
           );
         },
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
-

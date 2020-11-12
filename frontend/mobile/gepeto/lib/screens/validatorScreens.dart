@@ -9,16 +9,13 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
 Future<int> loginUser(String ra, String password) async {
-  const String url = 'http://192.168.0.14:3001/api/users/login';
+  const String url = 'http://192.168.3.7:3001/api/users/login';
   final http.Response response = await http.post(
     url,
-    headers: <String, String> {
-      'Content-Type' : 'application/json; charset=UTF-8',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, dynamic> {
-      "ra" : ra,
-      "password" : password
-    }),
+    body: jsonEncode(<String, dynamic>{"ra": ra, "password": password}),
   );
 
   if (response.statusCode == 200) {
@@ -37,21 +34,20 @@ class LoginValidator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        future: loginUser(ra, password),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
+        body: FutureBuilder(
+      future: loginUser(ra, password),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text(snapshot.error.toString());
+        }
 
-          return snapshot.hasData
-              ? (snapshot.data == 3 || snapshot.data == 4)
+        return snapshot.hasData
+            ? (snapshot.data == 3 || snapshot.data == 4)
                 ? OkAlertDialog(access: snapshot.data, ra: ra)
                 : SomethingWentWrongAlertDialog()
-              : Center(child: CircularProgressIndicator());
-        },
-      )
-    );
+            : Center(child: CircularProgressIndicator());
+      },
+    ));
   }
 }
 
@@ -65,16 +61,18 @@ class OkAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: CupertinoAlertDialog(
-        title: Text(convert.utf8.decode(convert.latin1.encode("Login realizado como" + ((access == 3) ? "Professor de Projetos" : "Professor Avaliador")))),
+        title: Text(convert.utf8.decode(convert.latin1.encode(
+            "Login realizado como" +
+                ((access == 3)
+                    ? "Professor de Projetos"
+                    : "Professor Avaliador")))),
         actions: [
           CupertinoDialogAction(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CriterionClassroomScreen(ra: ra)
-                ));
+                    builder: (context) => CriterionClassroomScreen(ra: ra)));
               },
-              child: Text("OK")
-          )
+              child: Text("OK"))
         ],
       ),
     );
@@ -82,22 +80,21 @@ class OkAlertDialog extends StatelessWidget {
 }
 
 class SomethingWentWrongAlertDialog extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Container(
       child: CupertinoAlertDialog(
-        title: Text(convert.utf8.decode(convert.latin1.encode("DADOS INCORRETOS OU USIÁRIO INATIVO"))),
-        content: Text(convert.utf8.decode(convert.latin1.encode("Tente novamente ou entre em contato com a coordenação."))),
+        title: Text(convert.utf8.decode(
+            convert.latin1.encode("DADOS INCORRETOS OU USIÁRIO INATIVO"))),
+        content: Text(convert.utf8.decode(convert.latin1
+            .encode("Tente novamente ou entre em contato com a coordenação."))),
         actions: [
           CupertinoDialogAction(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MainScreen()
-                ));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => MainScreen()));
               },
-              child: Text("OK")
-          )
+              child: Text("OK"))
         ],
       ),
     );

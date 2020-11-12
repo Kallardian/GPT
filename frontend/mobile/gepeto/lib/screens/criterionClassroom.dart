@@ -10,7 +10,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Future<List<MediumCriterion>> showMediumCriteria(http.Client client) async {
-  final response = await client.get('http://192.168.0.14:3001/api/medium-criteria/');
+  final response =
+      await client.get('http://192.168.3.7:3001/api/medium-criteria/');
 
   return compute(parseCriteria, response.body);
 }
@@ -18,11 +19,14 @@ Future<List<MediumCriterion>> showMediumCriteria(http.Client client) async {
 List<MediumCriterion> parseCriteria(String responseBody) {
   final parsed = convert.jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-  return parsed.map<MediumCriterion>((json) => MediumCriterion.fromJson(json)).toList();
+  return parsed
+      .map<MediumCriterion>((json) => MediumCriterion.fromJson(json))
+      .toList();
 }
 
 Future<List<Classroom>> showClassrooms(http.Client client) async {
-  final response = await client.get('http://192.168.0.14:3001/api/classrooms/show/');
+  final response =
+      await client.get('http://192.168.3.7:3001/api/classrooms/show/');
 
   return compute(parseClassrooms, response.body);
 }
@@ -39,7 +43,8 @@ class CriterionClassroomScreen extends StatefulWidget {
   CriterionClassroomScreen({this.ra});
 
   @override
-  _CriterionClassroomScreenState createState() => _CriterionClassroomScreenState();
+  _CriterionClassroomScreenState createState() =>
+      _CriterionClassroomScreenState();
 }
 
 class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
@@ -60,9 +65,7 @@ class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
 
     return Scaffold(
-
       drawer: DrawerComponent(ra: widget.ra),
-
       body: Builder(
         builder: (BuildContext context) {
           return IndexedStack(
@@ -78,9 +81,8 @@ class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
                     return snapshot.hasData
                         ? CriteriaFragment(criteria: snapshot.data)
                         : Center(child: CircularProgressIndicator());
-                  }
-              ),
-              FutureBuilder<List<Classroom>> (
+                  }),
+              FutureBuilder<List<Classroom>>(
                   future: _futureClassroom,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
@@ -88,22 +90,21 @@ class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
                     }
 
                     return snapshot.hasData
-                        ? ClassroomsFragment(classrooms: snapshot.data, ra: widget.ra)
+                        ? ClassroomsFragment(
+                            classrooms: snapshot.data, ra: widget.ra)
                         : Center(child: CircularProgressIndicator());
-                  }
-              )
+                  })
             ],
           );
         },
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if(indexContext == 0) {
+          if (indexContext == 0) {
             setState(() {
               indexContext = 1;
             });
-          } else if(indexContext == 1) {
+          } else if (indexContext == 1) {
             setState(() {
               indexContext = 0;
             });
@@ -118,7 +119,6 @@ class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
           ],
         ),
       ),
-
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
           return BottomAppBar(
@@ -136,19 +136,18 @@ class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
                         Icons.arrow_back,
                         color: Colors.black,
                       ),
-                      onPressed: (){},
+                      onPressed: () {},
                     ),
                   ),
                   Container(
                     child: FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Scaffold.of(context).openDrawer();
                       },
                       child: Icon(
                         Icons.list,
                         color: Colors.black,
                       ),
-
                     ),
                   ),
                 ],
@@ -157,9 +156,7 @@ class _CriterionClassroomScreenState extends State<CriterionClassroomScreen> {
           );
         },
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
-

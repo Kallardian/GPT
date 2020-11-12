@@ -19,12 +19,6 @@ import java.util.List;
 
 @NamedStoredProcedureQuery(name = "SP_SHOW_MEDIUM_GRADE", procedureName = "SP_SHOW_MEDIUM_GRADE")
 
-@NamedStoredProcedureQuery(name = "SP_SHOW_MEDIUM_GRADE_GROUP", procedureName = "SP_SHOW_MEDIUM_GRADE_GROUP",
-        parameters = {
-                @StoredProcedureParameter(name = "group_id", type = Long.class, mode = ParameterMode.IN)
-        }
-)
-
 @NamedStoredProcedureQuery(name = "SP_SHOW_FINAL_GRADE_GROUP", procedureName = "SP_SHOW_FINAL_GRADE_GROUP",
         parameters = {
                 @StoredProcedureParameter(name = "group_id", type = Long.class, mode = ParameterMode.IN)

@@ -1,57 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:Gepeto/screens.dart';
-import 'package:http/http.dart' as http;
-
-Future<int> loginUser(String ra, String password) async {
-  final http.Response response = await http.post(
-    'http://192.168.0.14:3001/api/users/login',
-    headers: <String, String> {
-      'Content-Type' : 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, dynamic> {
-      "ra" : ra,
-      "password" : password
-    }),
-  );
-
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body);
-  } else {
-    throw Exception('Failed to Login');
-  }
-}
-
-class LoginButton extends StatelessWidget {
-  final String ra;
-
-  LoginButton({this.ra});
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ContextScreen(ra: ra)
-        ));
-      },
-      backgroundColor: Colors.indigo,
-      child: Icon(
-        Icons.login
-      ),
-    );
-  }
-}
+import 'package:Gepeto/screens/validatorScreens.dart';
 
 class LoginFragment extends StatelessWidget {
   final TextEditingController _controllerRA = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
-  List<Color> colorList = [
+  final List<Color> colorList = [
     Colors.amber,
-    Colors.deepPurple
+    Colors.indigo
   ];
 
   LoginFragment({Key key}) : super(key: key);
@@ -120,25 +77,9 @@ class LoginFragment extends StatelessWidget {
                 color: Colors.indigoAccent,
                 child: FlatButton(
                   onPressed: () {
-                    return showAboutDialog(
-                      context: context,
-                      children: [
-                        FutureBuilder<int>(
-                          future: loginUser(_controllerRA.text, _controllerPassword.text),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return Text(snapshot.error.toString());
-                            }
-
-                            return snapshot.hasData
-                                ? (snapshot.data == 3 || snapshot.data == 4)
-                                    ? LoginButton(ra: _controllerRA.text)
-                                    : Text('Deu ruim kkkkk')
-                                : Center(child: CircularProgressIndicator());
-                          },
-                        ),
-                      ]
-                    );
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => LoginValidator(ra: _controllerRA.text, password: _controllerPassword.text)
+                    ));
                   },
                   child: Text(
                     'Login',

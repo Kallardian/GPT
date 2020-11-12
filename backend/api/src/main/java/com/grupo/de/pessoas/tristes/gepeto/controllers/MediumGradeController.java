@@ -80,9 +80,11 @@ public class MediumGradeController {
     }
 
     @PostMapping("/list")
-    public ResponseEntity<?> postListOfMediumGrades(@RequestBody List<FinalGrade> jsonMediumGrade) throws URISyntaxException {
+    public ResponseEntity<?> postListOfMediumGrades(@RequestBody List<MediumGrade> jsonListOfMediumGrade) throws URISyntaxException {
 
-        mediumGradeRepository.postListOfMediumGrades(jsonMediumGrade);
+        for (int i = 0; i < jsonListOfMediumGrade.size(); i++) {
+            mediumGradeRepository.postMediumGrade(jsonListOfMediumGrade.get(i));
+        }
 
         return ResponseEntity.ok().build();
     }

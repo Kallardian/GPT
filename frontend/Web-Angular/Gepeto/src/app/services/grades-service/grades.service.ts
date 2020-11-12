@@ -6,12 +6,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GradesService {
 
-  gradesUrl = '/api/medium-grades/'
+  gradesUrl = '/api/final-grades/'
 
   constructor(private http: HttpClient) { }  
 
-  showGrades(){
-    return this.http.get<any[]>(`${this.gradesUrl}`)
+  showGrades(groupId: string){
+    return this.http.get<any[]>(`${this.gradesUrl + groupId}`)
   }
   
 }

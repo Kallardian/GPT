@@ -1,14 +1,15 @@
 import 'package:Gepeto/api/dtos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../screens.dart';
+import '../screens/groupCriterion.dart';
 import 'dart:convert' as convert;
 
 //Classrooms Screen
 class ClassroomsFragment extends StatelessWidget {
   final List<Classroom> classrooms;
+  final String ra;
 
-  ClassroomsFragment({Key key, this.classrooms}) : super(key: key);
+  ClassroomsFragment({Key key, this.classrooms, this.ra}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class ClassroomsFragment extends StatelessWidget {
       padding: EdgeInsets.only(top: 40.0, bottom: 40.0),
       itemCount: classrooms.length,
       itemBuilder: (context, index) {
-        return ClassroomsContainer(classroom: classrooms[index]);
+        return ClassroomsContainer(classroom: classrooms[index], ra: ra,);
       }
     );
   }
@@ -24,8 +25,9 @@ class ClassroomsFragment extends StatelessWidget {
 
 class ClassroomsContainer extends StatelessWidget {
   final Classroom classroom;
+  final String ra;
 
-  ClassroomsContainer({Key key, this.classroom}) : super(key: key);
+  ClassroomsContainer({Key key, this.classroom, this.ra}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class ClassroomsContainer extends StatelessWidget {
       aspectRatio: 16 / 7,
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SecondScreen(idClassroom: classroom.idClassroom.toString())));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => GroupCriterionScreen(ra: ra, idClassroom: classroom.idClassroom.toString())));
         },
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0),

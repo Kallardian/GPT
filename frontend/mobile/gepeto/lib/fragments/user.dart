@@ -1,8 +1,26 @@
+import 'dart:convert';
+
+import 'package:Gepeto/api/apiConnection.dart';
+import 'package:Gepeto/api/dtos.dart';
 import 'package:Gepeto/blocs/theme.dart';
 import 'package:Gepeto/components/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+
+Future updateUserPassword(String ra, String password) async {
+  final http.Response response = await http.post(
+    'http://192.168.0.14:3001/api/users/password',
+    headers: <String, String> {
+      'Content-Type' : 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic> {
+      "ra" : ra,
+      "password" : password
+    }),
+  );
+}
 
 class UserFragment extends StatefulWidget {
   final String ra;
@@ -25,7 +43,7 @@ class _UserFragmentState extends State<UserFragment> {
 
       body: Builder(
         builder: (BuildContext context) {
-          return AccountFragment();
+          return AccountFragment(ra: widget.ra);
         },
       ),
 
@@ -78,6 +96,13 @@ class _UserFragmentState extends State<UserFragment> {
 }
 
 class AccountFragment extends StatelessWidget {
+  final String ra;
+  final TextEditingController _controllerOldPassword = TextEditingController();
+  final TextEditingController _controllerNewPassword1 = TextEditingController();
+  final TextEditingController _controllerNewPassword2 = TextEditingController();
+
+  AccountFragment({this.ra});
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -88,6 +113,7 @@ class AccountFragment extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 70.0),
             child: Center(
               child: TextField(
+                controller: _controllerOldPassword,
                   obscureText: true,
                   maxLength: 20,
                   decoration: InputDecoration(
@@ -101,12 +127,13 @@ class AccountFragment extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 70.0),
             child: Center(
               child: TextField(
-                  obscureText: true,
-                  maxLength: 20,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: ' Digite sua nova senha',
-                  )
+                controller: _controllerNewPassword1,
+                obscureText: true,
+                maxLength: 20,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: ' Digite sua nova senha',
+                )
               ),
             ),
           ),
@@ -114,12 +141,13 @@ class AccountFragment extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 70.0),
             child: Center(
               child: TextField(
-                  obscureText: true,
-                  maxLength: 20,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: ' Confirme sua senha',
-                  )
+                controller: _controllerNewPassword2,
+                obscureText: true,
+                maxLength: 20,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: ' Confirme sua senha',
+                )
               ),
             ),
           ),
@@ -131,7 +159,35 @@ class AccountFragment extends StatelessWidget {
                   color: Colors.indigoAccent,
                   child: FlatButton(
                     onPressed: (){
-                      Navigator.of(context).pop();
+                      return showCupertinoDialog(
+                        context: context,
+                        builder: (context) => CupertinoAlertDialog(
+                          title: Text("Mudar Senha do Usuário"),
+                          content: Text("Você tem certeza de que quer mudar sua senha?"),
+                          actions: [
+                            CupertinoDialogAction(
+                              child: GestureDetector(
+                                child: Text("Sim"),
+                                onTap: () {
+                                  User user;
+
+
+                                },
+                              )
+                            ),
+                            CupertinoDialogAction(
+                              child: GestureDetector(
+                                child: Container(
+                                  child: Text("Não"),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            )
+                          ],
+                        ),
+                      );
                     },
                     child: Text(
                       'Salvar',

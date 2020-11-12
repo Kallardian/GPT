@@ -101,17 +101,17 @@ GO
 CREATE FUNCTION Checkuserexists(@ra CHAR(6)) 
 returns BIT 
   BEGIN
-  DECLARE @status BIT
+  DECLARE @status BIT;
 
   IF EXISTS (SELECT *
   FROM [TB_USER]
-  WHERE  [RA] = @ra) 
-        SET @status = 1 
+  WHERE  [RA] = @ra)
+        SET @status = 1; 
       ELSE 
-        SET @status = 0
+        SET @status = 0;
 
   RETURN @status
-END -- 0 == inactive or 0 == does not exist  
+END; -- 0 == inactive or 0 == does not exist  
 
 GO
 
@@ -135,7 +135,7 @@ returns TINYINT
         SET @access_level = 0;
 
   RETURN @access_level
-END 
+END; 
 
 GO
 
@@ -315,7 +315,7 @@ AS
   WHERE  BC.YEAR = Year(Getdate())
 
 GO
-CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP(@group_id INT)
+CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP_1(@group_id INT)
 AS
 BEGIN
   DECLARE  @max_attempt TINYINT,
@@ -369,12 +369,12 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP_1(@group_id INT)
+CREATE PROCEDURE SP_SHOW_MEDIUM_GRADE_GROUP(@group_id INT)
 AS
 BEGIN
-  EXEC SP_SHOW_MEDIUM_GRADE_GROUP @group_id
-END
-
+  EXEC SP_SHOW_MEDIUM_GRADE_GROUP_1 @group_id
+END;
+GO
 
 
 create type tbTypeMediumGrade as table

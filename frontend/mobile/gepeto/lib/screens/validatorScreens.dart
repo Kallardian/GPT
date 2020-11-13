@@ -9,7 +9,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
 Future<int> loginUser(String ra, String password) async {
-  const String url = 'http://192.168.3.7:3001/api/users/login';
+  const String url = 'http://192.168.0.14:3001/api/users/login';
   final http.Response response = await http.post(
     url,
     headers: <String, String>{
@@ -61,11 +61,11 @@ class OkAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: CupertinoAlertDialog(
-        title: Text(convert.utf8.decode(convert.latin1.encode(
+        title: Text((
             "Login realizado como " +
                 ((access == 3)
                     ? "Professor de Projetos"
-                    : "Professor Avaliador")))),
+                    : "Professor Avaliador"))),
         actions: [
           CupertinoDialogAction(
               onPressed: () {
@@ -84,10 +84,12 @@ class SomethingWentWrongAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: CupertinoAlertDialog(
-        title: Text(convert.utf8.decode(
-            convert.latin1.encode("DADOS INCORRETOS OU USIÁRIO INATIVO"))),
-        content: Text(convert.utf8.decode(convert.latin1
-            .encode("Tente novamente ou entre em contato com a coordenação."))),
+        title: Text("DADOS INCORRETOS OU USUÁRIO INATIVO\n"),
+        content: Text(
+          "Tente novamente ou entre em contato com a coordenação.\n",
+          textAlign: TextAlign.left,
+
+        ),
         actions: [
           CupertinoDialogAction(
               onPressed: () {

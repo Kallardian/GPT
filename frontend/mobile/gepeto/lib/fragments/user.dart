@@ -9,16 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
-Future updateUserPassword(String ra, String password) async {
-  final http.Response response = await http.post(
-    'http://192.168.3.7:3001/api/users/password',
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, dynamic>{"ra": ra, "password": password}),
-  );
-}
-
 class UserFragment extends StatefulWidget {
   final String ra;
 
@@ -155,13 +145,13 @@ class AccountFragment extends StatelessWidget {
                             CupertinoDialogAction(
                               child: Text("Sim"),
                               onPressed: () {
-                                //TODO ChangeUser
+                                Conn().updateUserPassword(ra, _controllerNewPassword2.text);
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
                               },
                             ),
                             CupertinoDialogAction(
-                                  child: Container(
-                                    child: Text("Não"),
-                                  ),
+                                  child: Text("Não"),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },

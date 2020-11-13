@@ -77,6 +77,8 @@ public class UserRepository {
 
         List<User> userList = getUserByIdStoredProcedureQuery.getResultList();
 
+        entityManager.close();
+
         Iterator iterator = userList.iterator();
 
         while (iterator.hasNext()) {
@@ -92,8 +94,6 @@ public class UserRepository {
             user.setPassword(password);
             user.setAccess(access);
         }
-
-        entityManager.close();
 
         return user;
     }

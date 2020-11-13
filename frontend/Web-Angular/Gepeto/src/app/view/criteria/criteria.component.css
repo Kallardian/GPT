@@ -1,16 +1,14 @@
 
 
-.list_criteria{
-  flex-direction: row;
-}
+
 
 .criteria_list{
     list-style: none;
 }
 
 .card-body{
-    height:200px;
-    width:250px ;
+    height:250px;
+    width:325px ;
     margin-left: auto;
     margin-right: auto;
     margin-bottom:auto;
@@ -30,7 +28,7 @@
 .editar_criteria{
     background: #a4b3e7; /*cor do fundo do ícone*/
     color: #060d72; /*cor do icone*/
-    margin-left: 50px;
+    margin-left: 70px;
     margin-top: 15px;
     margin-bottom: auto;
     margin-right: auto;
@@ -49,10 +47,10 @@
 .remover_criteria{
     background: #a4b3e7; /*cor do fundo do ícone*/
     color: #060d72; /*cor do icone*/
-    margin-left: 8px;
+    margin-left: 10px;
     margin-top: 15px;
     margin-bottom: auto;
-    margin-right: 40px;
+    margin-right: auto;
     width:50px;
     height:40px;
     justify-content: center;
@@ -123,7 +121,8 @@
   }
 
 .description_p{
-    color:darkblue
+    color:darkblue;
+    margin-left: auto;
 }
 
 .card_add_criteria{

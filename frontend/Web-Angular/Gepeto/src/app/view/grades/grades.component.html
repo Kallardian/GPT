@@ -1,11 +1,15 @@
+<h1 style="text-align: center; padding-bottom: 3%;">Notas</h1>
+
 <ul class="list_grades">
-    <div class="card_grades">
-    <li *ngFor="let g of grades"> <strong> {{ g.nameCriterion }}:</strong> {{ g.grade }} <br>
+    
+    <div class="card_add_criteria">
+
+        <li class="criterios_li" *ngFor="let g of grades"><br><strong> {{ g.nameCriterion }}:</strong> {{ g.grade }} 
     </li>
-    <li class="titulo_nota">
-        <strong>NOTA FINAL:</strong> {{ finalGrade}} 
+    <li class="nota_final">
+        <br><strong>NOTA FINAL:</strong> {{ finalGrade}} 
     </li>
-</div>
+    </div>
 </ul>
 
 <div class="btn_flutuante">

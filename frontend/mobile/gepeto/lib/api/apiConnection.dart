@@ -59,14 +59,20 @@ class Conn {
     }
   }
 
-  Future postListOfMediumGrades(List<FinalGrade> listOfMediumGrades) async {
-    var url = "http://192.168.0.14:3001/api/medium-grades/list";
+  Future postListOfMediumGrades(MediumGrade mediumGrade) async {
+    var url = "http://192.168.0.14:3001/api/medium-grades/";
     var response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(listOfMediumGrades),
+      body: jsonEncode(<String, dynamic>{
+          "idMedium": mediumGrade.idMedium,
+          "ra": mediumGrade.ra,
+          "idGroup": mediumGrade.idGroup,
+          "grade": mediumGrade.grade,
+          "attempt": mediumGrade.attempt
+      }),
     );
 
     return response.statusCode;

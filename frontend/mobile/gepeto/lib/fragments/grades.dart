@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:Gepeto/api/apiConnection.dart';
 import 'package:Gepeto/api/dtos.dart';
 import 'package:Gepeto/screens/criterionClassroom.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +13,7 @@ import '../main.dart';
 
 //Grade Screen
 
-class GradeFragment extends StatelessWidget {
+class GradeFragment extends StatefulWidget {
   final List<MediumCriterion> criteria;
   final String ra;
   final int groupId;
@@ -20,26 +21,65 @@ class GradeFragment extends StatelessWidget {
   GradeFragment({Key key, this.criteria, this.ra, this.groupId}) : super(key: key);
 
   @override
+  _GradeFragmentState createState() => _GradeFragmentState();
+}
+
+class _GradeFragmentState extends State<GradeFragment> {
+  Future _futureAttempt;
+
+  @override
+  void initState() {
+    _futureAttempt = Conn().getBiggestAttempt(widget.groupId.toString());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        padding: EdgeInsets.only(top: 40.0, bottom: 40.0),
-        itemCount: criteria.length,
-        itemBuilder: (context, index) {
-          return GradesContainer(criterion: criteria[index], ra: ra, groupId: groupId);
-        }
+    return FutureBuilder(
+        future: _futureAttempt,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+
+          return snapshot.hasData
+              ? ListView(
+                children: [
+                  ListView.builder(
+                    padding: EdgeInsets.only(top: 40.0, bottom: 40.0),
+                    itemCount: widget.criteria.length,
+                    itemBuilder: (context, index) {
+                      return GradesContainer(
+                        criterion: widget.criteria[index],
+                        ra: widget.ra,
+                        groupId: widget.groupId,
+                        attempt: snapshot.data
+                      );
+                    }
+                  ),
+                  Center(
+                    child: Container(
+
+                    ),
+                  )
+                ],
+              )
+              : Center(child: CircularProgressIndicator());
+      }
     );
   }
 }
 
 class GradesContainer extends StatelessWidget {
-  final TextEditingController _controllerGrade = TextEditingController();
-  final List<MediumGrade> gradesList = List<MediumGrade>();
-
   final MediumCriterion criterion;
   final String ra;
   final int groupId;
+  final int attempt;
 
-  GradesContainer({this.criterion, this.ra, this.groupId});
+  GradesContainer({this.criterion, this.ra, this.groupId, this.attempt});
+
+  final TextEditingController _controllerGrade = TextEditingController();
+  final List<MediumGrade> gradesList = List<MediumGrade>();
 
   @override
   Widget build(BuildContext context) {

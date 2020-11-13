@@ -64,9 +64,10 @@ class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
                   }
 
                   return snapshot.hasData
-                      ? GradeFragment(criteria: snapshot.data,)
+                      ? GradeFragment(criteria: snapshot.data, ra: widget.ra, groupId: widget.groupId)
                       : Center(child: CircularProgressIndicator());
-                }),
+                }
+              ),
 
               FutureBuilder<List<MediumCriterion>>(
                 future: _futureCriteria,

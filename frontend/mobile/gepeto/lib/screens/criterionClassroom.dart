@@ -11,7 +11,7 @@ import 'dart:convert' as convert;
 
 Future<List<MediumCriterion>> showMediumCriteria(http.Client client) async {
   final response =
-      await client.get('http://192.168.3.7:3001/api/medium-criteria/');
+      await client.get('http://192.168.0.14:3001/api/medium-criteria/');
 
   return compute(parseCriteria, response.body);
 }
@@ -26,7 +26,7 @@ List<MediumCriterion> parseCriteria(String responseBody) {
 
 Future<List<Classroom>> showClassrooms(http.Client client) async {
   final response =
-      await client.get('http://192.168.3.7:3001/api/classrooms/show/');
+      await client.get('http://192.168.0.14:3001/api/classrooms/show/');
 
   return compute(parseClassrooms, response.body);
 }

@@ -50,7 +50,8 @@ class GradesContainer extends StatelessWidget {
             children: <Widget>[
               Center(
                 child: Container(
-                  margin: EdgeInsets.only(top: 30),
+                  margin: EdgeInsets.only(top: 15),
+                  height: 40,
                   child: Text(
                     convert.utf8
                         .decode(convert.latin1
@@ -59,15 +60,34 @@ class GradesContainer extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'ShareTechMono',
-                      fontSize: 16,
+                      fontSize: 24,
                     ),
                   ),
                 )
               ),
-              Center(
+              Container(
                 child: ListTile(
-                  title: Text("Valor total:"),
-                  subtitle: Text(criterion.totalValue.toString()),
+
+                  title: Text(
+                    "Valor total:",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontFamily: 'ShareTechMono',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  subtitle: Text(
+                    criterion.totalValue.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontFamily: 'ShareTechMono',
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
                 ),
               )
             ],

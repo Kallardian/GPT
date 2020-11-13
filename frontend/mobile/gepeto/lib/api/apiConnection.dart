@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class Conn {
   Future<int> loginUser(String ra, String password) async {
-    const String url = 'http://192.168.3.7:3001/api/users/login';
+    const String url = 'http://192.168.0.14:3001/api/users/login';
     final http.Response response = await http.post(
       url,
       headers: <String, String>{
@@ -24,7 +24,7 @@ class Conn {
   }
 
   Future<User> getUserById(String ra) async {
-    final response = await http.get('http://192.168.3.7:3001/api/users/$ra');
+    final response = await http.get('http://192.168.0.14:3001/api/users/$ra');
 
     if (response.statusCode == 200) {
       return User.fromJson(convert.jsonDecode(response.body));
@@ -35,7 +35,7 @@ class Conn {
 
   Future updateUserPassword(String ra, String password) async {
     final http.Response response = await http.post(
-      'http://192.168.3.7:3001/api/users/password',
+      'http://192.168.0.14:3001/api/users/password',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -50,7 +50,7 @@ class Conn {
   }
 
   Future postListOfMediumGrades(List<FinalGrade> listOfMediumGrades) async {
-    var url = "http://192.168.3.7:3001/api/medium-grades/list";
+    var url = "http://192.168.0.14:3001/api/medium-grades/list";
     var response = await http.post(
       url,
       headers: <String, String>{

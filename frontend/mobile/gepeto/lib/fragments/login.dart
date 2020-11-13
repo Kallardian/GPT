@@ -19,6 +19,7 @@ class LoginFragment extends StatelessWidget {
             child: Container(
               width: 100,
               height: 100,
+              margin: EdgeInsets.only(top: 40),
               child: Image.asset("assets/image/logo.png"),
             ),
           ),

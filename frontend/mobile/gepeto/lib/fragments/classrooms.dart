@@ -47,24 +47,18 @@ class ClassroomsContainer extends StatelessWidget {
             children: <Widget>[
               Center(
                   child: Container(
-                    margin: EdgeInsets.only(top: 30),
+                    margin: EdgeInsets.only(top: 40),
                     child: Text(
                         convert.utf8.decode(convert.latin1.encode(classroom.nameClassroom)),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'ShareTechMono',
-                        fontSize: 32,
+                        fontSize: 48,
                       ),
                     ),
                   )
               ),
-              Container(
-                margin: EdgeInsets.only(left: 40, top: 9.5),
-                child: ListTile(
-                  trailing: Icon(Icons.arrow_forward_ios),
-                ),
-              )
             ],
           ),
         ),

@@ -81,13 +81,15 @@ class GradesContainer extends StatelessWidget {
               title: Text(convert.utf8
                   .decode(convert.latin1
                   .encode(criterion.nameMedium))),
-              content: TextField(
+              content: CupertinoTextField(
                   controller: _controllerGrade,
                   maxLength: 2,
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: ' Nota',
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.indigo
+                    )
                   )
               ),
               actions: [

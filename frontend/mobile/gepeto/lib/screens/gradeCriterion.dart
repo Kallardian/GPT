@@ -57,27 +57,28 @@ class _GradeCriterionScreenState extends State<GradeCriterionScreen> {
             index: indexContext,
             children: <Widget>[
               FutureBuilder<List<MediumCriterion>>(
-                  future: _futureCriteria,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
+                future: _futureCriteria,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
 
-                    return snapshot.hasData
-                        ? GradeFragment(criteria: snapshot.data)
-                        : Center(child: CircularProgressIndicator());
-                  }),
+                  return snapshot.hasData
+                      ? GradeFragment(criteria: snapshot.data,)
+                      : Center(child: CircularProgressIndicator());
+                }),
+
               FutureBuilder<List<MediumCriterion>>(
-                  future: _futureCriteria,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
+                future: _futureCriteria,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
 
-                    return snapshot.hasData
-                        ? CriteriaFragment(criteria: snapshot.data)
-                        : Center(child: CircularProgressIndicator());
-                  }),
+                  return snapshot.hasData
+                      ? CriteriaFragment(criteria: snapshot.data)
+                      : Center(child: CircularProgressIndicator());
+                }),
             ],
           );
         },

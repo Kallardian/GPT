@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:Gepeto/api/dtos.dart';
 import 'package:Gepeto/screens/criterionClassroom.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,8 +15,9 @@ import '../main.dart';
 class GradeFragment extends StatelessWidget {
   final List<MediumCriterion> criteria;
   final String ra;
+  final int groupId;
 
-  GradeFragment({Key key, this.criteria, this.ra}) : super(key: key);
+  GradeFragment({Key key, this.criteria, this.ra, this.groupId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class GradeFragment extends StatelessWidget {
         padding: EdgeInsets.only(top: 40.0, bottom: 40.0),
         itemCount: criteria.length,
         itemBuilder: (context, index) {
-          return GradesContainer(criterion: criteria[index], ra: ra,);
+          return GradesContainer(criterion: criteria[index], ra: ra, groupId: groupId);
         }
     );
   }
@@ -30,10 +33,13 @@ class GradeFragment extends StatelessWidget {
 
 class GradesContainer extends StatelessWidget {
   final TextEditingController _controllerGrade = TextEditingController();
+  final List<MediumGrade> gradesList = List<MediumGrade>();
+
   final MediumCriterion criterion;
   final String ra;
+  final int groupId;
 
-  GradesContainer({this.criterion, this.ra});
+  GradesContainer({this.criterion, this.ra, this.groupId});
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +122,24 @@ class GradesContainer extends StatelessWidget {
               actions: [
                 CupertinoDialogAction(
                     onPressed: () {
+                      MediumGrade grade = MediumGrade(
+                        idMediumGrade: criterion.idMedium,
+                        grade: double.parse(_controllerGrade.text),
+                        idMedium: criterion.idMedium,
+                        ra: ra,
+                        idGroup: groupId,
+                        attempt: null
+                      );
+
+                      for (int i = 0; i < gradesList.length; i++) {
+                        if (gradesList[i].idMediumGrade == grade.idMediumGrade) {
+                          gradesList.removeAt(i);
+                          break;
+                        }
+                      }
+
+                      gradesList.add(grade);
+
                       Navigator.of(context).pop();
                     },
                     child: Text("Salvar"))

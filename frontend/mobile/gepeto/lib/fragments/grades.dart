@@ -43,26 +43,17 @@ class _GradeFragmentState extends State<GradeFragment> {
           }
 
           return snapshot.hasData
-              ? ListView(
-                children: [
-                  ListView.builder(
-                    padding: EdgeInsets.only(top: 40.0, bottom: 40.0),
-                    itemCount: widget.criteria.length,
-                    itemBuilder: (context, index) {
-                      return GradesContainer(
-                        criterion: widget.criteria[index],
-                        ra: widget.ra,
-                        groupId: widget.groupId,
-                        attempt: snapshot.data
-                      );
-                    }
-                  ),
-                  Center(
-                    child: Container(
-
-                    ),
-                  )
-                ],
+              ? ListView.builder(
+                padding: EdgeInsets.only(top: 40.0, bottom: 40.0),
+                itemCount: widget.criteria.length,
+                itemBuilder: (context, index) {
+                  return GradesContainer(
+                    criterion: widget.criteria[index],
+                    ra: widget.ra,
+                    groupId: widget.groupId,
+                    attempt: snapshot.data + 1
+                  );
+                },
               )
               : Center(child: CircularProgressIndicator());
       }
@@ -168,17 +159,10 @@ class GradesContainer extends StatelessWidget {
                         idMedium: criterion.idMedium,
                         ra: ra,
                         idGroup: groupId,
-                        attempt: null
+                        attempt: attempt
                       );
 
-                      for (int i = 0; i < gradesList.length; i++) {
-                        if (gradesList[i].idMediumGrade == grade.idMediumGrade) {
-                          gradesList.removeAt(i);
-                          break;
-                        }
-                      }
-
-                      gradesList.add(grade);
+                      Conn().postListOfMediumGrades(grade);
 
                       Navigator.of(context).pop();
                     },

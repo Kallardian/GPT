@@ -153,21 +153,19 @@ class AccountFragment extends StatelessWidget {
                               "Você tem certeza de que quer mudar sua senha?"),
                           actions: [
                             CupertinoDialogAction(
-                                child: GestureDetector(
                               child: Text("Sim"),
-                              onTap: () {
-                                User user;
+                              onPressed: () {
+                                //TODO ChangeUser
                               },
-                            )),
+                            ),
                             CupertinoDialogAction(
-                                child: GestureDetector(
-                              child: Container(
-                                child: Text("Não"),
-                              ),
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                            ))
+                                  child: Container(
+                                    child: Text("Não"),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                            )
                           ],
                         ),
                       );

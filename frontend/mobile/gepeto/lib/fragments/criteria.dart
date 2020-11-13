@@ -57,15 +57,17 @@ class CriteriaPage extends StatelessWidget {
             ),
             padding: EdgeInsets.all(20),
             height: 240,
-            child: Center(
+            child: Container(
+                margin: EdgeInsets.only(top: 20),
                 child: Text(
-                  criterion.totalValue.toString()+ ": " +
-                      convert.utf8.decode(convert.latin1.encode(criterion.description)),
+                    criterion.totalValue.toString()+ ": " + convert.utf8.decode(convert.latin1.encode(criterion.description)
+                ),
                   style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
+                    color: Colors.white70,
+                    fontSize: 21,
+                    fontFamily: 'ShareTechMono'
                   ),
-                  textAlign: TextAlign.justify,
+                  textAlign: TextAlign.left,
                 )
             ),
           ),

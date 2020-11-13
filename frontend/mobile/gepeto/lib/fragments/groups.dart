@@ -19,7 +19,7 @@ class GroupsFragment extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: groups.length,
           itemBuilder: (context, index) {
-            return GroupsMain(group: groups[index]);
+            return GroupsMain(group: groups[index], ra: ra);
           },
         )
     );
@@ -50,6 +50,7 @@ class GroupsMain extends StatelessWidget {
             children: <Widget>[
               Center(
                 child: Container(
+                  height: 60,
                   margin: EdgeInsets.only(top: 20, bottom: 10),
                   child: Text(
                     convert.utf8.decode(convert.latin1.encode(group.groupTheme)),
@@ -57,12 +58,16 @@ class GroupsMain extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'ShareTechMono',
-                      fontSize: 32,
+                      fontSize: 20,
                     ),
                   ),
+                  alignment: AlignmentDirectional.topCenter,
                 )
               ),
-              GroupsDescription(description: group.description)
+              Container(
+                child: GroupsDescription(description: group.description),
+                alignment: AlignmentDirectional.bottomCenter,
+              )
             ],
           ),
         ),
@@ -83,7 +88,6 @@ class GroupsDescription extends StatelessWidget{
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10))
         ),
-        margin: EdgeInsets.only(top: 10.0, left: 25),
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         height: 370,
         width: 240,

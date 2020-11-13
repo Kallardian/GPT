@@ -83,6 +83,7 @@ class GradesContainer extends StatelessWidget {
                   .encode(criterion.nameMedium))),
               content: CupertinoTextField(
                   controller: _controllerGrade,
+                  cursorRadius: Radius.circular(4),
                   maxLength: 2,
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   decoration: BoxDecoration(
@@ -95,9 +96,7 @@ class GradesContainer extends StatelessWidget {
               actions: [
                 CupertinoDialogAction(
                     onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => MainScreen())
-                      );
+                      Navigator.of(context).pop();
                     },
                     child: Text("Salvar"))
               ],

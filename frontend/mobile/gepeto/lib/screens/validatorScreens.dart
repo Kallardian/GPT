@@ -62,7 +62,7 @@ class OkAlertDialog extends StatelessWidget {
     return Container(
       child: CupertinoAlertDialog(
         title: Text(convert.utf8.decode(convert.latin1.encode(
-            "Login realizado como" +
+            "Login realizado como " +
                 ((access == 3)
                     ? "Professor de Projetos"
                     : "Professor Avaliador")))),

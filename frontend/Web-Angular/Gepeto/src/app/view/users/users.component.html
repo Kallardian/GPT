@@ -31,13 +31,14 @@
         </div>
 
 
-        <div class="btn_flutuante">
-            <button class="btn_validar" (click)="changeToAddMode(); editUser = false"> <i class="fas fa-reply"></i>
-            </button>
-        </div>
+       
         <br><br>
     </form>
     <br><br>
+</div>
+<div class="btn_flutuante">
+    <button *ngIf="editUser || addMode"  class="btn_validar" (click)="changeToAddMode(); editUser = false"> <i class="fas fa-reply"></i>
+    </button>
 </div>
 
 <div *ngIf="!addMode">
@@ -62,7 +63,7 @@
 
 <br>
 
-<div class="btn_flutuante" *ngIf="!editUser">
+<div class="btn_flutuante" *ngIf="!editUser && !addMode">
     <button class="btn_voltar" routerLink="" (click)="clearLocal()">
         <i class="fas fa-door-open"></i>
     </button>

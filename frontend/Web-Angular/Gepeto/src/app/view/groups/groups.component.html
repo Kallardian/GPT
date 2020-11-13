@@ -6,7 +6,7 @@
     <h1 style="text-align: center;">Grupos</h1>
     <li *ngFor="let group of groups">
        <div class="col-md-6" style="text-align:center;">
-        <button class="btn_salas" routerLink="/grades" (click)="saveGroupLocal(group.id)"> {{ group.groupTheme }} - {{ group.description }}</button> 
+        <button class="btn_salas" routerLink="/grades" (click)="saveGroupLocal(group.id)"> <strong>{{ group.groupTheme }}</strong><br><br> {{ group.description }}</button> 
         <button class="remove_btn"  (click)="removeGroup(group)"><i class="fas fa-trash"></i></button>
         <button class="edit_btn" (click)="canEdit(group); updateEditForm(group)"> <i class="fas fa-pencil-ruler"></i></button>
     </div>

@@ -23,6 +23,16 @@ class Conn {
     }
   }
 
+  Future<int> getBiggestAttempt(String groupId) async {
+    final response = await http.get("http://192.168.0.14:3001/api/medium-grades/biggest-attempt/$groupId");
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to get attempt');
+    }
+  }
+
   Future<User> getUserById(String ra) async {
     final response = await http.get('http://192.168.0.14:3001/api/users/$ra');
 

@@ -36,30 +36,51 @@
     bottom: 0;
     z-index: 20;
   }
-
-  .card_grades{
-    height:200px;
-    width:300px ;
+ 
+  .card_add_criteria{
+    height:450px;
+    width:450px ;
     margin-left: auto;
     margin-right: auto;
     margin-bottom:auto;
     margin-top: 100px;
-    background:#6495ED	;
+   
     position: relative;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19 );   /*  margem esquerda, margem inferior, margem superior, margem direita */ 
-              -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-              -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-              border-radius: 18px;
+    
   }
 
-  .titulo_nota{
-      color: darkblue;
-      margin-top: auto;
-      margin-bottom: auto;
-      margin-right: auto;
-      margin-left: auto;
+  .criterios_li{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    background: #6495ED	;
+    border:0;
+    border-radius:5px;
+    width:80%;
+    height:50px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19 );   /*  margem esquerda, margem inferior, margem superior, margem direita */ 
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2 ), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 18px;
+    text-align: center;
+  }
 
+  .nota_final{
+    background: lightblue;
+    border:0;
+    border-radius:5px;
+    width:80%;
+    height:50px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
   }

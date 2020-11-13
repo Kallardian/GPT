@@ -2,102 +2,107 @@ import 'package:Gepeto/api/dtos.dart';
 import 'package:Gepeto/screens/criterionClassroom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert' as convert;
+
+import 'package:vibration/vibration.dart';
+
+import '../main.dart';
 
 //Grade Screen
-class GradeFragment extends StatefulWidget {
+
+class GradeFragment extends StatelessWidget {
   final List<MediumCriterion> criteria;
+  final String ra;
 
-  GradeFragment({Key key, this.criteria}) : super(key: key);
-
-  @override
-  _GradeFragmentState createState() => _GradeFragmentState();
-}
-
-class _GradeFragmentState extends State<GradeFragment> {
-  List<ExpansionCriteria> _gradeCriteria;
-  final TextEditingController _controllerGrade = TextEditingController();
-
-  @override
-  void initState() {
-    widget.criteria.forEach((element) {
-      _gradeCriteria.add(ExpansionCriteria(header: element.nameMedium));
-    });
-    super.initState();
-  }
+  GradeFragment({Key key, this.criteria, this.ra}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: ListView(
-          children: <Widget>[
-            ExpansionPanelList(
-              expansionCallback: (int index, bool isExpanded){
-                setState(() {
-                  _gradeCriteria[index].isExpanded = !_gradeCriteria[index].isExpanded;
-                });
-              },
-              children: _gradeCriteria.map((ExpansionCriteria gradeCriteria){
-                return ExpansionPanel(
-                  headerBuilder: (BuildContext context, bool isExpanded){
-                    return Container(
-                      padding: EdgeInsets.only(left: 20),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        gradeCriteria.header.toUpperCase(),
-                        style: TextStyle(
-                          fontFamily: 'ShareTechMono',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.indigo,
-                        ),
-                      ),
-                    );
-                  },
-                  isExpanded: gradeCriteria.isExpanded,
-                  body: Container(
-                    padding: EdgeInsets.only(bottom: 30, left: 40, right: 40),
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          controller: _controllerGrade,
-                          decoration: InputDecoration(
-                              icon: Icon(Icons.assessment),
-                              hintText: 'Notas de 0 a 10.',
-                              labelText: gradeCriteria.body
-                          ),
-                          validator: (String value){
-                            var num = double.parse(value);
-                            return (num < 0 && num > 10) ? 'Notas de 0 a 10!'.toUpperCase() : null;
-                          },
-                          keyboardType: TextInputType.number,
-                          maxLength: 4,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-            Center(
-              child: FlatButton(
-                color: Colors.indigoAccent,
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                child: Text("Enviar"),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => CriterionClassroomScreen()));
-                },
-              ),
-            )
-          ],
-        )
+    return ListView.builder(
+        padding: EdgeInsets.only(top: 40.0, bottom: 40.0),
+        itemCount: criteria.length,
+        itemBuilder: (context, index) {
+          return GradesContainer(criterion: criteria[index], ra: ra,);
+        }
     );
   }
 }
 
-class ExpansionCriteria{
-  ExpansionCriteria({this.isExpanded = false, this.header, this.body});
+class GradesContainer extends StatelessWidget {
+  final TextEditingController _controllerGrade = TextEditingController();
+  final MediumCriterion criterion;
+  final String ra;
 
-  bool isExpanded;
-  final String header;
-  final String body;
+  GradesContainer({this.criterion, this.ra});
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 16 / 7,
+      child: GestureDetector(
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0),
+          decoration: BoxDecoration(
+            color: Colors.indigo,
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),
+          child: Column(
+            children: <Widget>[
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(top: 30),
+                  child: Text(
+                    convert.utf8
+                        .decode(convert.latin1
+                        .encode(criterion.nameMedium)),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'ShareTechMono',
+                      fontSize: 16,
+                    ),
+                  ),
+                )
+              ),
+              Center(
+                child: ListTile(
+                  title: Text("Valor total:"),
+                  subtitle: Text(criterion.totalValue.toString()),
+                ),
+              )
+            ],
+          ),
+        ),
+        onDoubleTap: () {
+          Vibration();
+          showDialog(
+            context: context,
+            child: CupertinoAlertDialog(
+              title: Text(convert.utf8
+                  .decode(convert.latin1
+                  .encode(criterion.nameMedium))),
+              content: TextField(
+                  controller: _controllerGrade,
+                  maxLength: 2,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: ' Nota',
+                  )
+              ),
+              actions: [
+                CupertinoDialogAction(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => MainScreen())
+                      );
+                    },
+                    child: Text("Salvar"))
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 }

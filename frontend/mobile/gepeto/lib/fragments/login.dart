@@ -15,7 +15,13 @@ class LoginFragment extends StatelessWidget {
     return Center(
       child: ListView(
         children: <Widget>[
-          Image.asset("assets/image/logo.png"),
+          Center(
+            child: Container(
+              width: 100,
+              height: 100,
+              child: Image.asset("assets/image/logo.png"),
+            ),
+          ),
           Container(
             margin: EdgeInsets.only(top: 0, bottom: 10),
             height: 100,
